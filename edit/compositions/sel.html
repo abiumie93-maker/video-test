@@ -1,0 +1,51 @@
+<template>
+  <style>
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+#sel-p { top:880px; height:370px; }</style>
+  <div id="root" data-composition-id="sel" data-width="1080" data-height="1920">
+    <div class="paper" id="sel-p">
+      <svg width="660" height="370" viewBox="0 0 660 370" style="position:absolute;left:0;top:0"><path class="ink g thick" pathLength="1" d="M450 50 C 560 40, 630 130, 600 210 C 575 290, 430 300, 360 240 C 300 190, 330 60, 450 50 Z" id="sl-cell"/><path class="ink " pathLength="1" d="M470 150 a34 30 0 1 0 0.1 0" id="sl-nuc"/><path class="ink " pathLength="1" d="M445 120 v10 M495 120 v10 M440 205 q30 26 60 0" id="sl-face"/><path class="ink y thick" pathLength="1" d="M470 34 v-24 M540 50 l18 -18 M400 50 l-18 -18 M600 110 h22" id="sl-spark"/><path class="ink g thick" pathLength="1" d="M40 300 l16 16 l30 -36" id="sl-tick"/></svg>
+      <div class="hand " id="sl-t1" style="left:30px; top:40px; font-size:54px">Sel badan kita</div>
+      <div class="hand " id="sl-t2" style="left:30px; top:108px; font-size:48px">tak bodoh...</div>
+      <div class="hand mk g" id="sl-t3" style="left:30px; top:172px; font-size:74px">BIJAK!</div>
+      <div class="hand " id="sl-t4" style="left:100px; top:286px; font-size:40px">Ramai sembuh dlm beberapa bulan</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#sel-p", {opacity:0, y:70, rotation:-7, scale:.78, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.0, scale:.86, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 0.0);
+    tl.fromTo("#sl-cell", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.7, ease:"power1.inOut"}, 0.15);
+    tl.fromTo("#sl-nuc", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 0.6);
+    tl.fromTo("#sl-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.63, ease:"none"}, 0.25);
+    tl.fromTo("#sl-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.49, ease:"none"}, 1.05);
+    tl.fromTo("#sl-face", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 1.65);
+    tl.fromTo("#sl-t3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 3.15);
+    tl.fromTo("#sl-spark", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power3.out"}, 3.2);
+    tl.fromTo("#sl-tick", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 6.05);
+    tl.fromTo("#sl-t4", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.9, ease:"none"}, 6.15);
+    tl.to("#sel-p", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 7.95);
+
+    window.__timelines["sel"] = tl;
+  </script>
+</template>

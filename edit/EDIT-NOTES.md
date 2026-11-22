@@ -1,7 +1,24 @@
 # Edit: "Darah tinggi? Catat lifestyle dulu" (Hyperframes)
 
 Sumber: `2026-11-11-084705352.mp4` (4:54, 1080×1920). Hasil edit: **4:41.7**.
-Status: **PREVIEW sahaja, final belum dirender.**
+Status: **PREVIEW v2 sahaja, final belum dirender.**
+
+## v2: apa yang berubah
+- **Zoom in/out lancar** pada setiap permulaan ayat (1.0×–1.3×, ease 0.7s), **zoom slam** pantas pada kata kunci
+  (penyakit, FOMO, rehat 3 jam, berhutang, 6 bulan, tak logik, tak bodoh, sakit semula, silap), dan re-frame keras pada setiap jump cut.
+  Bila kad di skrin, kamera zoom ≥1.2× dan angkat frame supaya muka sentiasa di atas kad. Ini juga menolak sebahagian besar subtitle lama ke luar frame.
+- **8 kad infografik gaya lukisan tangan** (kertas + pita, garis dilukis atas skrin, tulisan tangan Caveat/Permanent Marker):
+  | Masa | Lukisan |
+  |---|---|
+  | 0:07–0:15 | Meter tekanan darah naik ke merah, 3 biji ubat, botol supplement "?" |
+  | 0:48–1:00 | Kalendar "10 tahun", Lifestyle → anak panah → Penyakit (dibulatkan) |
+  | 1:32–1:44 | 3 orang dipangkah ("Semua orang salah?"), cermin diri, ✓ Terima salah, ✓ Perbaiki |
+  | 1:45–1:52 | Buku nota rutin dengan kanta pembesar, bulatan merah "Oh! Aku salah kat sini!" |
+  | 3:39–3:45 | Jam pasir (pasir turun), "Bagi badan MASA untuk adapt & repair" |
+  | 3:45–3:53 | Sel badan tersenyum, "BIJAK!", ✓ ramai sembuh |
+  | 3:53–4:01 | Graf kesihatan naik (sihat 3–4 bulan) lalu jatuh "Boleh sakit semula!" |
+  | 4:08–4:23 | Langkah 1-2-3: Catat → Cari silap → Baru bincang supplement / rawatan / lifestyle |
+- Ejaan **"suplimen" → "supplement"** dalam semua grafik dan transcript.
 
 ## Hook (cold open, 0:00–0:06)
 Ayat paling kuat diletak di depan:
@@ -28,15 +45,15 @@ Setiap jump cut ada punch-in (1.0× ↔ 1.08×). Ada juga zoom penekanan pada "r
 | 0:00 | Tajuk hook |
 | 0:17–0:47 | Kad "Langkah 1: Catat rutin harian", 6 item ditanda ✓ ikut apa yang disebut |
 | 1:00–1:09 | Umur 20 → 30, bar "10 tahun lifestyle → penyakit" |
-| 1:09–1:18 | Chip ~~UBAT~~ ~~SUPLIMEN~~ dan "Tahu dulu di mana salah" |
-| 1:22–1:32 | "FOMO?" dengan gelembung "Suplimen ni bagus!"… |
+| 1:09–1:18 | Chip ~~UBAT~~ ~~SUPPLEMENT~~ dan "Tahu dulu di mana salah" |
+| 1:22–1:32 | "FOMO?" dengan gelembung "Supplement ni bagus!"… |
 | 1:52–3:00 | Jam rutin harian: Pagi → 10PG → 1TGH → Petang → 8–9MLM → 12MLM → 2–3PG → **REHAT 3 jam** |
 | 3:02–3:39 | Bar hutang tidur (8 jam lawan 4 jam), "Setahun berhutang = 6 BULAN", cop **TAK LOGIK** |
 | 4:01–4:08 | PENTINGNYA: LIFESTYLE / KONSISTEN / DISIPLIN |
 | 4:23–4:28 | "Setiap badan tak sama" |
 | 4:29–4:41 | Butang SHARE dan "Semoga kembali sihat & sembuh" |
 
-SFX (40 bunyi yang dibundel): whoosh, pop, click, error, notification, impact, riser. Setiap satu ada sebab di skrin, dengan puncak bunyi 1 frame selepas visual.
+SFX (70 bunyi yang dibundel): whoosh, pop, click, error, notification, impact, riser. Setiap satu ada sebab di skrin, dengan puncak bunyi 1 frame selepas visual.
 
 ## Perlu keputusan awak
 1. **Video sumber dah ada subtitle burned-in** (teks kuning/putih di atas) dan beberapa grafik lama (cth. simbol 🚫). Sebab tu saya **tak tambah satu lagi set subtitle**, nanti bertindih. Kalau nak subtitle gaya baru, hantar footage mentah (tanpa teks) dan saya akan bina caption ikut perkataan dari `transcript.json`.
@@ -48,7 +65,7 @@ SFX (40 bunyi yang dibundel): whoosh, pop, click, error, notification, impact, r
 cd edit
 # letak footage (H.264, keyframe setiap 1s) di assets/footage.mp4:
 ffmpeg -i SUMBER.mp4 -c:v libx264 -crf 19 -g 30 -pix_fmt yuv420p -c:a aac assets/footage.mp4
-python3 tools/gen.py .          # jana semula index.html + compositions/ dari EDL
+python3 tools/gen.py .          # jana semula index.html + compositions/ (guna tools/draw.py)
 npx hyperframes preview         # Studio
 npx hyperframes render --quality delivery -o final.mp4   # FINAL (bila dah lulus)
 ```

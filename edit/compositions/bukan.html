@@ -1,6 +1,19 @@
 <template>
   <style>
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
   #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
   .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
           background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
           box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
@@ -13,7 +26,7 @@
   #bk-c1, #bk-c2, #bk-ans { opacity:0; }
   #bk-box { position:absolute; left:120px; width:660px; top:930px; }
   .bk-chip { display:inline-block; position:relative; background:rgba(12,18,38,.86); color:#fff; border-radius:999px;
-             padding:16px 34px; font-family:'Archivo Black',sans-serif; font-size:46px; margin:0 12px 16px 0; }
+             padding:14px 28px; font-family:'Archivo Black',sans-serif; font-size:40px; margin:0 10px 14px 0; }
   .bk-x { position:absolute; left:18px; right:18px; top:50%; height:8px; margin-top:-4px; background:#FF4D4D;
           border-radius:4px; transform-origin:left center; }
   #bk-ans { background:#FFC928; color:#111; font-family:'Archivo Black',sans-serif; font-size:44px; border-radius:22px;
@@ -22,7 +35,7 @@
   <div id="root" data-composition-id="bukan" data-width="1080" data-height="1920">
     <div id="bk-box">
       <div class="bk-chip" id="bk-c1">UBAT<div class="bk-x" id="bk-x1"></div></div>
-      <div class="bk-chip" id="bk-c2">SUPLIMEN<div class="bk-x" id="bk-x2"></div></div>
+      <div class="bk-chip" id="bk-c2">SUPPLEMENT<div class="bk-x" id="bk-x2"></div></div>
       <div id="bk-ans">Tahu dulu di mana salah</div>
     </div>
   </div>

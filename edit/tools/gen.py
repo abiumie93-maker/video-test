@@ -34,26 +34,62 @@ def out(src, seg=None):
     raise ValueError(f"source {src} was cut")
 
 
-# ---- Punch-ins on the camera wrapper: alternate framing on every cut, plus emphasis moments.
-PUNCH = [(0.0, 1.10)]  # hook tight
-for i, s in enumerate(segs[1:]):
-    PUNCH.append((s["out"], 1.0 if i % 2 == 0 else 1.08))
-for src, sc in [(9.0, 1.12), (11.02, 1.0), (45.20, 1.10), (51.76, 1.0), (72.26, 1.12), (78.0, 1.0),
-                (96.44, 1.10), (101.44, 1.0), (184.64, 1.14), (187.52, 1.0), (221.40, 1.08), (224.28, 1.18),
-                (225.13, 1.0), (248.72, 1.06), (273.08, 1.10), (278.52, 1.0)]:
-    PUNCH.append((out(src), sc))
-PUNCH.sort()
+# ---- Camera: hard re-frame on every cut, smooth zoom in/out on sentence starts, fast punch on key words.
+WORDS = json.load(open(os.path.join(PROJ, "transcript.json")))
+CUTS = [s["out"] for s in segs] + [TOTAL]
+LEVELS = [(1.12, 0), (1.0, 0), (1.2, -24), (1.05, 18), (1.15, 22), (1.0, 0), (1.24, -16), (1.08, 0)]
+PUNCH_SRC = [46.0, 87.5, 184.64, 202.56, 213.02, 224.28, 233.6, 247.8, 264.7]  # zoom slam on these words
+ZOOM = []  # (out_t, kind, scale, x)
+def seg_bounds(t):
+    for i in range(len(CUTS) - 1):
+        if CUTS[i] <= t < CUTS[i + 1]:
+            return CUTS[i], CUTS[i + 1]
+    return CUTS[-2], CUTS[-1]
+for i, c in enumerate(CUTS[:-1]):
+    ZOOM.append((c, "set", *([(1.1, 0), (1.0, 0), (1.08, 12), (1.0, -10)][i % 4])))
+punch_out = []
+for src in PUNCH_SRC:
+    try: punch_out.append(out(src))
+    except ValueError: pass
+cands = []
+for n in range(1, len(WORDS)):
+    if WORDS[n - 1]["text"].strip()[-1:] in ".?!":
+        for s in segs:
+            if s["src_in"] + 0.05 <= WORDS[n]["start"] <= s["src_out"] - 0.05:
+                cands.append(round(s["out"] + WORDS[n]["start"] - s["src_in"], 3))
+k, last = 0, -9
+for t in sorted(set(cands)):
+    a, b = seg_bounds(t)
+    if t - a < 0.8 or b - t < 0.9 or t - last < 2.2:
+        continue
+    if any(abs(t - p) < 1.3 for p in punch_out):
+        continue
+    sc_, x_ = LEVELS[k % len(LEVELS)]; k += 1
+    ZOOM.append((t, "ease", sc_, x_)); last = t
+for p in punch_out:
+    a, b = seg_bounds(p)
+    if b - p > 0.4:
+        ZOOM.append((round(p - 0.05, 3), "punch", 1.26, 0))
+ZOOM.sort()
 
 # ---- Scenes (motion graphics). start/end in source seconds.
 SCENES = [
     dict(id="hook",   start=0.0,            end=segs[0]["dur"], kind="hook"),
+    dict(id="soalan", start=out(0.30),      end=out(8.60),      kind="soalan"),
+    dict(id="sendiri", start=out(41.30),    end=out(53.40),     kind="sendiri"),
+    dict(id="cermin", start=out(96.50),     end=out(108.55),    kind="cermin"),
+    dict(id="jumpa",  start=out(109.95),    end=out(117.85),    kind="jumpa"),
+    dict(id="masa",   start=out(226.50),    end=out(232.45),    kind="masa"),
+    dict(id="sel",    start=out(232.55),    end=out(240.80),    kind="sel"),
+    dict(id="graf",   start=out(240.90),    end=out(249.25),    kind="graf"),
+    dict(id="langkah", start=out(257.70),   end=out(272.95),    kind="langkah"),
     dict(id="catat",  start=out(11.02),     end=out(41.15),     kind="catat"),
     dict(id="umur",   start=out(63.25),     end=out(72.20),     kind="umur"),
     dict(id="bukan",  start=out(72.40),     end=out(81.05),     kind="bukan"),
     dict(id="fomo",   start=out(86.60),     end=out(96.40),     kind="fomo"),
     dict(id="rutin",  start=out(117.90),    end=out(187.50),    kind="rutin"),
-    dict(id="hutang", start=out(189.80),    end=out(227.20),    kind="hutang"),
-    dict(id="kunci",  start=out(248.70),    end=out(255.50),    kind="kunci"),
+    dict(id="hutang", start=out(189.80),    end=out(226.40),    kind="hutang"),
+    dict(id="kunci",  start=out(249.30),    end=out(255.50),    kind="kunci"),
     dict(id="badan",  start=out(273.00),    end=out(277.95),    kind="badan"),
     dict(id="cta",    start=out(278.50),    end=out(290.90),    kind="cta"),
 ]
@@ -80,7 +116,20 @@ def sfx(name, at):
 
 
 CSS_BASE = """
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
   #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
   .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
           background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
           box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
@@ -143,6 +192,7 @@ def build(sc):
     <div id="hk-box">
       <div id="hk-l1" class="big"><span class="w">Penyakit</span> <span class="w">hari</span> <span class="w">ini</span></div>
       <div id="hk-l2" class="big y"><span class="w">=&nbsp;Lifestyle</span></div>
+      <svg id="hk-ul" width="620" height="40" viewBox="0 0 620 40" style="display:block;margin:-6px auto 0"><path class="ink y thick" pathLength="1" d="M20 24 C 160 8, 330 34, 600 14"/></svg>
       <div id="hk-l3" class="big"><span class="w">10</span> <span class="w">tahun</span> <span class="w">lepas</span></div>
     </div>"""
         # first line on screen at frame 0 (thumbnail), rest lands on the words
@@ -150,6 +200,7 @@ def build(sc):
               '    tl.fromTo("#hk-scrim", {opacity:.0}, {opacity:1, duration:.3}, 0);\n'
               + word_in("#hk-l2 .w", round(48.25 - 45.10, 2))
               + word_in("#hk-l3 .w", round(50.15 - 45.10, 2), .1)
+              + f'    tl.fromTo("#hk-ul path", {{strokeDashoffset:1}}, {{strokeDashoffset:0, duration:.45, ease:"power2.out"}}, {round(48.9-45.10,2)});\n'
               + f'    tl.fromTo("#hk-l2", {{scale:1.25}}, {{scale:1, duration:.5, ease:"expo.out"}}, {round(48.25-45.10,2)});\n'
               + f'    tl.to("#hk-box, #hk-scrim", {{opacity:0, filter:"blur(8px)", duration:.2, ease:"power2.in"}}, {round(d-0.22,3)});\n')
         sfx("impact-bass-1", round(48.25 - 45.10, 2))
@@ -211,7 +262,7 @@ def build(sc):
   #bk-c1, #bk-c2, #bk-ans { opacity:0; }
   #bk-box { position:absolute; left:120px; width:660px; top:930px; }
   .bk-chip { display:inline-block; position:relative; background:rgba(12,18,38,.86); color:#fff; border-radius:999px;
-             padding:16px 34px; font-family:'Archivo Black',sans-serif; font-size:46px; margin:0 12px 16px 0; }
+             padding:14px 28px; font-family:'Archivo Black',sans-serif; font-size:40px; margin:0 10px 14px 0; }
   .bk-x { position:absolute; left:18px; right:18px; top:50%; height:8px; margin-top:-4px; background:#FF4D4D;
           border-radius:4px; transform-origin:left center; }
   #bk-ans { background:#FFC928; color:#111; font-family:'Archivo Black',sans-serif; font-size:44px; border-radius:22px;
@@ -219,7 +270,7 @@ def build(sc):
 """
         markup = """    <div id="bk-box">
       <div class="bk-chip" id="bk-c1">UBAT<div class="bk-x" id="bk-x1"></div></div>
-      <div class="bk-chip" id="bk-c2">SUPLIMEN<div class="bk-x" id="bk-x2"></div></div>
+      <div class="bk-chip" id="bk-c2">SUPPLEMENT<div class="bk-x" id="bk-x2"></div></div>
       <div id="bk-ans">Tahu dulu di mana salah</div>
     </div>"""
         js = pop_in("#bk-c1", L(sc, 73.11)) + pop_in("#bk-c2", L(sc, 75.3))
@@ -242,8 +293,8 @@ def build(sc):
 """
         markup = """    <div id="fm-box">
       <div id="fm-tag">FOMO?</div>
-      <div><div class="fm-b" id="fm-1">"Suplimen ni bagus!"</div></div>
-      <div><div class="fm-b" id="fm-2">"Suplimen ni terbaik!"</div></div>
+      <div><div class="fm-b" id="fm-1">"Supplement ni bagus!"</div></div>
+      <div><div class="fm-b" id="fm-2">"Supplement ni terbaik!"</div></div>
       <div><div class="fm-b" id="fm-3">"Ubat? Buang, campak!"</div></div>
     </div>"""
         js = ''
@@ -397,8 +448,12 @@ def build(sc):
         sfx("pop", st + L(sc, 281.29) - 0.1)
         sfx("click-soft", st + L(sc, 281.6))
         return css, markup, js
-    raise ValueError(k)
+    return build_draw(sc)
 
+
+exec(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "draw.py")).read())
+for p_ in [z[0] for z in ZOOM if z[1] == "punch"][::2]:
+    sfx("whoosh-short", p_ + 0.05)
 
 os.makedirs(f"{PROJ}/compositions", exist_ok=True)
 hosts = []
@@ -429,7 +484,46 @@ for n, (name, at) in enumerate(SFX):
         lane_end.append(start + DUR[name]); lane = len(lane_end) - 1
     audios.append(f'      <audio id="sfx-{n}" src="assets/sfx/{name}.mp3" data-start="{start}" data-duration="{DUR[name]}" data-volume="{VOL[name]}" data-track-index="{3 + lane}"></audio>')
 
-punch_js = "\n".join(f'      tl.set("#cam", {{scale:{sc}}}, {t});' for t, sc in PUNCH)
+# Camera needs: while a lower card is on screen, keep the face above it (zoom >= 1.2 and lift the frame).
+CARD_SCENES = {"hook","soalan","catat","sendiri","bukan","fomo","cermin","jumpa","hutang","masa","sel","graf","kunci","langkah","umur"}
+WIN = [(sc["start"], sc["end"]) for sc in SCENES if sc["id"] in CARD_SCENES]
+def lifted(t):
+    return any(a_ <= t < b_ for a_, b_ in WIN)
+def frame(s_, x_, t):
+    y_ = 0
+    if lifted(t + 0.01):
+        s_ = round(1.2 + (s_ - 1.0) * 0.5, 3)
+        y_ = -round(1113.6 * (s_ - 1.0) - 3, 1)
+    lim = 540 * (s_ - 1.0)
+    x_ = max(-lim, min(lim, x_))
+    return s_, round(x_, 1), y_
+EV = [(t_, k_, s_, x_) for t_, k_, s_, x_ in ZOOM]
+for a_, b_ in WIN:
+    EV += [(round(a_, 3), "keep", None, None), (round(b_, 3), "keep", None, None)]
+EV.sort(key=lambda e: (e[0], {"set": 0, "keep": 1, "ease": 2, "punch": 3}[e[1]]))
+zl, cur, prev_t = [], (1.0, 0), -1
+times = [e[0] for e in EV]
+for n, (t_, kind, s_, x_) in enumerate(EV):
+    if s_ is not None:
+        cur = (s_, x_)
+    fs, fx, fy = frame(cur[0], cur[1], t_)
+    nxt = next((tt for tt in times[n + 1:] if tt > t_ + 1e-6), TOTAL)
+    if kind == "set" or (kind == "keep" and any(abs(t_ - c) < 0.05 for c in CUTS)):
+        zl.append(f'      tl.set("#cam", {{scale:{fs}, x:{fx}, y:{fy}}}, {t_});')
+        continue
+    dur = .22 if kind == "punch" else (.55 if kind == "keep" else .7)
+    dur = round(min(dur, nxt - t_ - 0.02), 3)
+    if dur < 0.12:
+        zl.append(f'      tl.set("#cam", {{scale:{fs}, x:{fx}, y:{fy}}}, {t_});')
+    else:
+        ease = "expo.out" if kind == "punch" else "power2.inOut"
+        zl.append(f'      tl.to("#cam", {{scale:{fs}, x:{fx}, y:{fy}, duration:{dur}, ease:"{ease}"}}, {t_});')
+import re as _re
+_last = {}
+for line in zl:
+    _last[float(_re.search(r", ([0-9.]+)\);$", line).group(1))] = line
+zl = [_last[k_] for k_ in sorted(_last)]
+punch_js = "\n".join(zl)
 
 index = f"""<!doctype html>
 <html lang="ms">
@@ -463,6 +557,6 @@ index = f"""<!doctype html>
 </html>
 """
 open(f"{PROJ}/index.html", "w").write(index)
-json.dump(dict(total=TOTAL, segments=segs, scenes=SCENES, sfx=SFX, punch=PUNCH),
+json.dump(dict(total=TOTAL, segments=segs, scenes=SCENES, sfx=SFX, zoom=ZOOM),
           open(f"{PROJ}/edit-plan.json", "w"), indent=1)
-print("total", TOTAL, "scenes", len(SCENES), "sfx", len(SFX), "punch", len(PUNCH))
+print("total", TOTAL, "scenes", len(SCENES), "sfx", len(SFX), "zoom", len(ZOOM))

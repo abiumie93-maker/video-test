@@ -1,0 +1,59 @@
+<template>
+  <style>
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+#langkah-p { top:880px; height:410px; }</style>
+  <div id="root" data-composition-id="langkah" data-width="1080" data-height="1920">
+    <div class="paper" id="langkah-p">
+      <svg width="660" height="410" viewBox="0 0 660 410" style="position:absolute;left:0;top:0"><path class="ink r" pathLength="1" d="M60 20 a30 30 0 1 0 0.1 0" id="lk-c1"/><path class="ink r" pathLength="1" d="M60 110 a30 30 0 1 0 0.1 0" id="lk-c2"/><path class="ink r" pathLength="1" d="M60 200 a30 30 0 1 0 0.1 0" id="lk-c3"/><path class="ink y thick" pathLength="1" d="M260 360 C 330 352, 380 366, 420 356" id="lk-u1"/><path class="ink y thick" pathLength="1" d="M440 360 C 480 354, 520 364, 560 356" id="lk-u2"/><path class="ink y thick" pathLength="1" d="M70 360 C 130 352, 190 366, 240 356" id="lk-u0"/></svg>
+      <div class="hand r" id="lk-n1" style="left:50px; top:26px; font-size:44px">1</div> <div class="hand " id="lk-s1" style="left:110px; top:26px; font-size:54px">Catat setiap hari</div>
+      <div class="hand r" id="lk-n2" style="left:48px; top:116px; font-size:44px">2</div> <div class="hand " id="lk-s2" style="left:110px; top:116px; font-size:54px">Cari di mana silap</div>
+      <div class="hand r" id="lk-n3" style="left:48px; top:206px; font-size:44px">3</div> <div class="hand " id="lk-s3" style="left:110px; top:206px; font-size:54px">Baru bincang:</div>
+      <div class="hand b" id="lk-a" style="left:70px; top:300px; font-size:50px">supplement</div>
+      <div class="hand b" id="lk-b" style="left:268px; top:300px; font-size:50px">rawatan</div>
+      <div class="hand b" id="lk-c" style="left:446px; top:300px; font-size:50px">lifestyle</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#langkah-p", {opacity:0, y:70, rotation:-7, scale:.78, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.2, scale:.86, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 0.0);
+    tl.fromTo("#lk-c1", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 1.0);
+    tl.fromTo("#lk-n1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 1.0);
+    tl.fromTo("#lk-s1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.72, ease:"none"}, 1.1);
+    tl.fromTo("#lk-c2", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 5.4);
+    tl.fromTo("#lk-n2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 5.4);
+    tl.fromTo("#lk-s2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.72, ease:"none"}, 5.5);
+    tl.fromTo("#lk-c3", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 7.6);
+    tl.fromTo("#lk-n3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 7.6);
+    tl.fromTo("#lk-s3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.72, ease:"none"}, 7.7);
+    tl.fromTo("#lk-a", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.4, ease:"none"}, 9.9);
+    tl.fromTo("#lk-u0", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 10.2);
+    tl.fromTo("#lk-b", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.4, ease:"none"}, 11.1);
+    tl.fromTo("#lk-u1", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 11.4);
+    tl.fromTo("#lk-c", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.4, ease:"none"}, 12.3);
+    tl.fromTo("#lk-u2", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 12.6);
+    tl.to("#langkah-p", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 14.95);
+
+    window.__timelines["langkah"] = tl;
+  </script>
+</template>

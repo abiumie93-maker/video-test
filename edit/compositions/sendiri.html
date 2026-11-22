@@ -1,0 +1,53 @@
+<template>
+  <style>
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+#sendiri-p { top:880px; height:370px; }</style>
+  <div id="root" data-composition-id="sendiri" data-width="1080" data-height="1920">
+    <div class="paper" id="sendiri-p">
+      <svg width="660" height="370" viewBox="0 0 660 370" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M30 80 h170 v200 h-170 z M30 124 h170 M72 62 v36 M158 62 v36" id="se-cal"/><path class="ink r" pathLength="1" d="M408 112 C 420 60, 600 58, 616 104 C 630 150, 450 168, 412 132 C 396 116, 414 92, 440 86" id="se-ring"/><path class="ink " pathLength="1" d="M300 190 C 350 290, 520 290, 560 180 M540 186 L561 178 L566 200" id="se-arrow"/></svg>
+      <div class="hand b" id="se-ttl" style="left:30px; top:18px; font-size:44px">Pengalaman sendiri:</div>
+      <div class="hand mk r" id="se-10" style="left:64px; top:146px; font-size:96px">10</div>
+      <div class="hand " id="se-thn" style="left:70px; top:238px; font-size:36px">tahun</div>
+      <div class="hand r" id="se-pen" style="left:430px; top:92px; font-size:54px">Penyakit</div>
+      <div class="hand g" id="se-life" style="left:220px; top:140px; font-size:54px">Lifestyle</div>
+      <div class="hand " id="se-lbl" style="left:360px; top:300px; font-size:40px">kekal 10 tahun</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#sendiri-p", {opacity:0, y:70, rotation:-7, scale:.78, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:1.2, scale:.86, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 0.0);
+    tl.fromTo("#se-ttl", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.85, ease:"none"}, 2.26);
+    tl.fromTo("#se-cal", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.6, ease:"power1.inOut"}, 0.3);
+    tl.fromTo("#se-pen", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.36, ease:"none"}, 4.69);
+    tl.fromTo("#se-ring", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 5.55);
+    tl.fromTo("#se-life", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.4, ease:"none"}, 6.95);
+    tl.fromTo("#se-arrow", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.55, ease:"power1.inOut"}, 7.6);
+    tl.fromTo("#se-10", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 8.85);
+    tl.fromTo("#se-thn", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 9.22);
+    tl.fromTo("#se-lbl", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.63, ease:"none"}, 9.5);
+    tl.to("#sendiri-p", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 11.8);
+
+    window.__timelines["sendiri"] = tl;
+  </script>
+</template>

@@ -1,0 +1,54 @@
+<template>
+  <style>
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  #root { position:absolute; inset:0; overflow:visible; }
+  .paper { position:absolute; left:120px; width:660px; box-sizing:border-box; background:#FFF8E7; border-radius:12px;
+           box-shadow:0 18px 44px rgba(0,0,0,.38); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-16px; width:150px; height:34px; margin-left:-75px;
+                   background:rgba(255,201,40,.75); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+         stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.thick { stroke-width:12; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+#jumpa-p { top:880px; height:370px;
+          background-image:repeating-linear-gradient(#FFF8E7 0 58px, #9DB7E5 58px 60px); background-position:0 30px; }
+  #ju-mag { position:absolute; left:0; top:0; }</style>
+  <div id="root" data-composition-id="jumpa" data-width="1080" data-height="1920">
+    <div class="paper" id="jumpa-p">
+      <div class="hand " id="ju-l0" style="left:40px; top:40px; font-size:46px">7 pg - teh tarik + kuih</div>
+      <div class="hand " id="ju-l1" style="left:40px; top:100px; font-size:46px">10 pg - air 3 in 1</div>
+      <div class="hand " id="ju-l2" style="left:40px; top:160px; font-size:46px">1 tgh - fast food</div>
+      <div class="hand " id="ju-l3" style="left:40px; top:220px; font-size:46px">12 mlm - scroll phone</div>
+      <svg width="660" height="370" viewBox="0 0 660 370" style="position:absolute;left:0;top:0"><path class="ink r thick" pathLength="1" d="M22 70 C 20 20, 470 14, 482 58 C 494 104, 60 110, 30 84" id="ju-ring"/></svg>
+      <svg id="ju-mag" width="160" height="160" viewBox="0 0 160 160"><circle cx="62" cy="62" r="46" fill="rgba(160,210,255,.25)" stroke="#1d1d1f" stroke-width="8"/><path d="M96 96 L145 145" stroke="#1d1d1f" stroke-width="14" stroke-linecap="round"/></svg>
+      <div class="hand mk r" id="ju-oh" style="left:60px; top:290px; font-size:50px">Oh! Aku salah kat sini!</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#jumpa-p", {opacity:0, y:70, rotation:-7, scale:.78, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:1.0, scale:.86, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 0.0);
+    tl.fromTo("#ju-l0", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.62, ease:"none"}, 0.25);
+    tl.fromTo("#ju-l1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.49, ease:"none"}, 0.9);
+    tl.fromTo("#ju-l2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.46, ease:"none"}, 1.44);
+    tl.fromTo("#ju-l3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.57, ease:"none"}, 2.05);
+    tl.fromTo("#ju-mag", {opacity:0, x:560, y:220}, {opacity:1, x:420, y:150, duration:.4, ease:"power2.out"}, 3.45);
+    tl.to("#ju-mag", {x:300, y:-30, duration:1.0, ease:"power2.inOut"}, 3.95);
+    tl.fromTo("#ju-ring", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power2.out"}, 5.25);
+    tl.fromTo("#ju-oh", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.9, ease:"none"}, 5.65);
+    tl.to("#jumpa-p", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 7.6);
+
+    window.__timelines["jumpa"] = tl;
+  </script>
+</template>
