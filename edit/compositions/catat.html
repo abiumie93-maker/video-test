@@ -1,0 +1,51 @@
+<template>
+  <style>
+  #root { position:absolute; inset:0; overflow:visible; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+
+  #ct-card { top:800px; padding:22px 30px 18px; }
+  #ct-title { font-family:'Archivo Black',sans-serif; font-size:40px; margin:4px 0 6px; }
+  .ct-row { display:flex; align-items:center; gap:16px; font-weight:700; font-size:30px; padding:5px 0; opacity:0; }
+  .ct-box { width:34px; height:34px; border-radius:8px; border:4px solid #FFC928; flex:none; position:relative; }
+  .ct-tick { position:absolute; left:6px; top:-2px; width:12px; height:22px; border:solid #FFC928;
+             border-width:0 6px 6px 0; transform:rotate(45deg); }
+</style>
+  <div id="root" data-composition-id="catat" data-width="1080" data-height="1920">
+    <div id="ct-card" class="card">
+      <div class="eyebrow">Langkah 1</div>
+      <div id="ct-title">Catat rutin harian</div>
+      <div class="ct-row" id="ct-r0"><div class="ct-box"><div class="ct-tick" id="ct-t0"></div></div>Bangun pukul berapa</div>
+      <div class="ct-row" id="ct-r1"><div class="ct-box"><div class="ct-tick" id="ct-t1"></div></div>Sarapan apa</div>
+      <div class="ct-row" id="ct-r2"><div class="ct-box"><div class="ct-tick" id="ct-t2"></div></div>Bergerak / duduk je?</div>
+      <div class="ct-row" id="ct-r3"><div class="ct-box"><div class="ct-tick" id="ct-t3"></div></div>Makan tengah hari</div>
+      <div class="ct-row" id="ct-r4"><div class="ct-box"><div class="ct-tick" id="ct-t4"></div></div>Balik kerja & makan malam</div>
+      <div class="ct-row" id="ct-r5"><div class="ct-box"><div class="ct-tick" id="ct-t5"></div></div>Tidur pukul berapa</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#ct-card", {opacity:0, y:40, scale:.96}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 0.1);
+    tl.fromTo("#ct-r0", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 8.1);
+    tl.fromTo("#ct-t0", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 8.25);
+    tl.fromTo("#ct-r1", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 10.12);
+    tl.fromTo("#ct-t1", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 10.27);
+    tl.fromTo("#ct-r2", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 13.43);
+    tl.fromTo("#ct-t2", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 13.58);
+    tl.fromTo("#ct-r3", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 14.84);
+    tl.fromTo("#ct-t3", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 14.99);
+    tl.fromTo("#ct-r4", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 19.92);
+    tl.fromTo("#ct-t4", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 20.07);
+    tl.fromTo("#ct-r5", {opacity:0, x:-24}, {opacity:1, x:0, duration:.3, ease:"expo.out"}, 26.69);
+    tl.fromTo("#ct-t5", {opacity:0, scale:0}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 26.84);
+    tl.to("#ct-card", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 29.83);
+
+    window.__timelines["catat"] = tl;
+  </script>
+</template>

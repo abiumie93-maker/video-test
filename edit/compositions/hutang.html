@@ -1,0 +1,60 @@
+<template>
+  <style>
+  #root { position:absolute; inset:0; overflow:visible; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+
+  #hu-card { top:930px; padding:28px 34px; }
+  .hu-lbl { font-weight:800; font-size:30px; display:flex; justify-content:space-between; margin:16px 0 8px; }
+  .hu-bar { position:relative; height:46px; border-radius:12px; background:rgba(255,255,255,.14); overflow:hidden; }
+  .hu-fill { position:absolute; left:0; top:0; bottom:0; border-radius:12px; transform-origin:left center; }
+  #hu-need { width:100%; background:#3DDC84; }
+  #hu-got { width:50%; background:#FFC928; }
+  #hu-debt { position:absolute; left:50%; top:0; bottom:0; width:50%;
+             background:repeating-linear-gradient(135deg,#FF4D4D 0 14px,rgba(255,77,77,.45) 14px 28px); transform-origin:left center; }
+  #hu-big, #hu-q, #hu-stamp, #hu-q1 { opacity:0; }
+  #hu-big { position:absolute; left:120px; width:660px; top:1010px; text-align:center; background:rgba(12,18,38,.86); border-radius:28px; padding:24px 20px; }
+  #hu-y { font-family:'Archivo Black',sans-serif; font-size:46px; color:#fff; }
+  #hu-y2 { font-family:'Archivo Black',sans-serif; font-size:104px; color:#FF4D4D; line-height:1; margin-top:8px; }
+  #hu-q { position:absolute; left:120px; width:660px; top:1000px; text-align:center; }
+  #hu-q1 { display:inline-block; font-family:'Archivo Black',sans-serif; font-size:44px; color:#fff; background:rgba(12,18,38,.86); border-radius:22px; padding:14px 26px; }
+  #hu-stamp { display:inline-block; margin-top:14px; border:10px solid #FF4D4D; color:#FF4D4D; border-radius:18px; padding:8px 30px;
+              font-family:'Archivo Black',sans-serif; font-size:110px; transform:rotate(-6deg); background:rgba(255,255,255,.92); }
+</style>
+  <div id="root" data-composition-id="hutang" data-width="1080" data-height="1920">
+    <div id="hu-card" class="card">
+      <div class="eyebrow">Sel dibaiki masa tidur</div>
+      <div class="hu-lbl"><span>Badan perlukan</span><span>8 jam</span></div>
+      <div class="hu-bar"><div class="hu-fill" id="hu-need"></div></div>
+      <div class="hu-lbl"><span>Korang tidur</span><span>4 jam</span></div>
+      <div class="hu-bar"><div class="hu-fill" id="hu-got"></div><div id="hu-debt"></div></div>
+      <div class="hu-lbl"><span class="r">Hutang repair setiap hari</span><span></span></div>
+    </div>
+    <div id="hu-big"><div id="hu-y">Setahun berhutang =</div><div id="hu-y2">6 BULAN</div></div>
+    <div id="hu-q"><div id="hu-q1">Nak repair dalam 1 bulan?</div><div id="hu-stamp">TAK LOGIK</div></div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#hu-card", {opacity:0, y:40, scale:.96}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 0.1);
+    tl.fromTo("#hu-need", {scaleX:0}, {scaleX:1, duration:.7, ease:"power2.out"}, 6.5);
+    tl.fromTo("#hu-got", {scaleX:0}, {scaleX:1, duration:.6, ease:"power2.out"}, 9.4);
+    tl.fromTo("#hu-debt", {scaleX:0, opacity:0}, {scaleX:1, opacity:1, duration:.5, ease:"power3.out"}, 12.7);
+    tl.to("#hu-card", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 16.0);
+    tl.fromTo("#hu-y", {opacity:0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:.16, ease:"power4.out", stagger:0.08}, 18.6);
+    tl.fromTo("#hu-y2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.6)"}, 23.2);
+    tl.set("#hu-big", {opacity:1}, 18.5);
+    tl.to("#hu-big", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 31.3);
+    tl.set("#hu-q", {opacity:1}, 31.6);
+    tl.fromTo("#hu-q1", {opacity:0, filter:"blur(8px)"}, {opacity:1, filter:"blur(0px)", duration:.16, ease:"power4.out", stagger:0.08}, 31.6);
+    tl.fromTo("#hu-stamp", {opacity:0, scale:2.2}, {opacity:1, scale:1, duration:.28, ease:"power4.in"}, 34.28);
+    tl.to("#hu-q", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 37.1);
+
+    window.__timelines["hutang"] = tl;
+  </script>
+</template>

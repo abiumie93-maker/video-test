@@ -1,0 +1,39 @@
+<template>
+  <style>
+  #root { position:absolute; inset:0; overflow:visible; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+
+  #um-card { top:980px; padding:30px 38px; }
+  #um-row { display:flex; justify-content:space-between; align-items:flex-end; margin-top:8px; }
+  .um-age { font-family:'Archivo Black',sans-serif; font-size:30px; text-align:center; }
+  .um-age b { display:block; font-size:76px; line-height:1; }
+  #um-track { position:relative; height:16px; border-radius:8px; background:rgba(255,255,255,.18); margin:18px 0 10px; }
+  #um-fill { position:absolute; left:0; top:0; bottom:0; width:100%; border-radius:8px;
+             background:linear-gradient(90deg,#FFC928,#FF4D4D); transform-origin:left center; }
+  #um-cap { font-weight:700; font-size:30px; text-align:center; }
+</style>
+  <div id="root" data-composition-id="umur" data-width="1080" data-height="1920">
+    <div id="um-card" class="card">
+      <div class="eyebrow">Pengalaman saya</div>
+      <div id="um-row"><div class="um-age" id="um-a">UMUR<b>20</b></div><div class="um-age r" id="um-b">UMUR<b>30</b></div></div>
+      <div id="um-track"><div id="um-fill"></div></div>
+      <div id="um-cap"><span class="y">10 tahun</span> lifestyle &rarr; <span class="r">penyakit</span></div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#um-card", {opacity:0, y:40, scale:.96}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 0.05);
+    tl.fromTo("#um-fill", {scaleX:0}, {scaleX:1, duration:2.58, ease:"power2.inOut"}, 1.45);
+    tl.fromTo("#um-b", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.6)"}, 4.03);
+    tl.to("#um-card", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 8.65);
+
+    window.__timelines["umur"] = tl;
+  </script>
+</template>

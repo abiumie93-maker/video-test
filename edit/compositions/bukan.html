@@ -1,0 +1,40 @@
+<template>
+  <style>
+  #root { position:absolute; inset:0; overflow:visible; }
+  .card { position:absolute; left:120px; width:660px; box-sizing:border-box;
+          background:rgba(12,18,38,.86); border-radius:28px; padding:28px 34px;
+          box-shadow:0 18px 50px rgba(0,0,0,.35); color:#fff; font-family:'Montserrat',sans-serif; }
+  .eyebrow { font-family:'Montserrat',sans-serif; font-weight:800; font-size:28px; letter-spacing:.14em;
+             color:#FFC928; text-transform:uppercase; }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02; }
+  .y { color:#FFC928; }
+  .r { color:#FF4D4D; }
+
+  #bk-c1, #bk-c2, #bk-ans { opacity:0; }
+  #bk-box { position:absolute; left:120px; width:660px; top:930px; }
+  .bk-chip { display:inline-block; position:relative; background:rgba(12,18,38,.86); color:#fff; border-radius:999px;
+             padding:16px 34px; font-family:'Archivo Black',sans-serif; font-size:46px; margin:0 12px 16px 0; }
+  .bk-x { position:absolute; left:18px; right:18px; top:50%; height:8px; margin-top:-4px; background:#FF4D4D;
+          border-radius:4px; transform-origin:left center; }
+  #bk-ans { background:#FFC928; color:#111; font-family:'Archivo Black',sans-serif; font-size:44px; border-radius:22px;
+            padding:18px 28px; display:inline-block; text-transform:uppercase; }
+</style>
+  <div id="root" data-composition-id="bukan" data-width="1080" data-height="1920">
+    <div id="bk-box">
+      <div class="bk-chip" id="bk-c1">UBAT<div class="bk-x" id="bk-x1"></div></div>
+      <div class="bk-chip" id="bk-c2">SUPLIMEN<div class="bk-x" id="bk-x2"></div></div>
+      <div id="bk-ans">Tahu dulu di mana salah</div>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#bk-c1", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.6)"}, 0.71);
+    tl.fromTo("#bk-c2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.6)"}, 2.9);
+    tl.fromTo("#bk-x1", {scaleX:0}, {scaleX:1, duration:.25, ease:"power3.out"}, 1.9);
+    tl.fromTo("#bk-x2", {scaleX:0}, {scaleX:1, duration:.25, ease:"power3.out"}, 4.2);
+    tl.fromTo("#bk-ans", {opacity:0, y:30}, {opacity:1, y:0, duration:.45, ease:"expo.out"}, 5.2);
+    tl.to("#bk-box", {opacity:0, y:-20, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 8.35);
+
+    window.__timelines["bukan"] = tl;
+  </script>
+</template>
