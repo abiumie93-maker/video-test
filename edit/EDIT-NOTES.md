@@ -1,7 +1,7 @@
 # Edit: "Darah tinggi? Catat lifestyle dulu" (Hyperframes)
 
 Sumber: `2026-11-11-084705352.mp4` (4:54, 1080×1920). Hasil edit: **4:41.7**.
-Status: **PREVIEW v2 sahaja, final belum dirender.**
+Status: **FINAL dirender (v2, kualiti delivery 1080×1920) selepas diluluskan.**
 
 ## v2: apa yang berubah
 - **Zoom in/out lancar** pada setiap permulaan ayat (1.0×–1.3×, ease 0.7s), **zoom slam** pantas pada kata kunci
