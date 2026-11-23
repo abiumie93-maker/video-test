@@ -156,6 +156,72 @@ def glyph(kind, d=30, col=(170, 178, 192)):
         g.rounded_rectangle((D * .05, D * .3, D * .95, D * .7), D * .2, outline=c, width=w); g.line([(D * .5, D * .3), (D * .5, D * .7)], fill=c, width=w)
     return im.resize((d, d), Image.LANCZOS)
 
+# ---------------------------------------------------------------- cartoon stickers (Fluent Emoji 3D, MIT)
+EMO = f"{S}/emoji"
+_emo_raw = {}
+def emoji_raw(name):
+    if name not in _emo_raw:
+        if name == "family":
+            c = Image.new("RGBA", (600, 440), (0, 0, 0, 0))
+            for nm, sz, x, y in (("hijab", 330, 230, 0), ("man", 240, 20, 50), ("boy", 165, 130, 230), ("girl", 165, 290, 240)):
+                c.alpha_composite(Image.open(f"{EMO}/{nm}.png").convert("RGBA").resize((sz, sz), Image.LANCZOS), (x, y))
+            # re-order so kids sit in front
+            _emo_raw[name] = c.crop(c.getbbox())
+        else:
+            im = Image.open(f"{EMO}/{name}.png").convert("RGBA")
+            _emo_raw[name] = im.crop(im.getbbox())
+    return _emo_raw[name]
+
+def emoji_icon(name, size):
+    im = emoji_raw(name); sc = size / max(im.size)
+    return im.resize((max(1, int(im.size[0] * sc)), max(1, int(im.size[1] * sc))), Image.LANCZOS)
+
+_stk = {}
+def sticker_img(name, size, outline=9):
+    k = (name, size)
+    if k in _stk: return _stk[k]
+    ic = emoji_icon(name, size); pad = outline + 22
+    cv = Image.new("RGBA", (ic.size[0] + pad * 2, ic.size[1] + pad * 2), (0, 0, 0, 0))
+    a = Image.new("L", cv.size, 0); a.paste(ic.getchannel("A"), (pad, pad))
+    a = a.point(lambda v: 255 if v > 40 else 0)
+    dil = a.filter(ImageFilter.MaxFilter(outline * 2 + 1)).filter(ImageFilter.GaussianBlur(1.2))
+    sh = Image.new("RGBA", cv.size, (0, 0, 0, 0)); sh.putalpha(dil.filter(ImageFilter.GaussianBlur(9)).point(lambda v: int(v * .45)))
+    cv.alpha_composite(sh, (0, 0)); cv = cv.transform(cv.size, Image.AFFINE, (1, 0, 0, 0, 1, -8)) if False else cv
+    sh2 = Image.new("RGBA", cv.size, (0, 0, 0, 0)); sh2.alpha_composite(sh, (0, 8))
+    out = Image.new("RGBA", cv.size, (0, 0, 0, 0)); out.alpha_composite(sh2)
+    wl = Image.new("RGBA", cv.size, (255, 255, 255, 0)); wl.putalpha(dil)
+    out.alpha_composite(wl); out.alpha_composite(ic, (pad, pad))
+    _stk[k] = out
+    return out
+
+class Sticker:
+    """Cartoon sticker: bouncy pop-in, gentle float + wobble, quick pop-out."""
+    def __init__(self, t0, t1, name, cx, cy, size=230, rot=0.0, phase=0.0, amp=10, sfx=True):
+        self.t0, self.t1, self.name, self.cx, self.cy, self.size = t0, t1, name, cx, cy, size
+        self.rot, self.phase, self.amp, self.sfx = rot, phase, amp, sfx
+    def events(self): return [("pop", self.t0)] if self.sfx else []
+    def frame(self, t):
+        if not (self.t0 <= t < self.t1): return None
+        base = sticker_img(self.name, self.size)
+        k_in = ease_back((t - self.t0) / 0.42)
+        k_out = ease_out((self.t1 - t) / 0.22)
+        sc = max(0.0, min(k_in, 1.25)) * k_out
+        if sc <= 0.02: return None
+        u = t - self.t0
+        rot = self.rot + (1 - min(1, k_in)) * -28 + math.sin(2 * math.pi * 0.35 * u + self.phase) * 4
+        dy = math.sin(2 * math.pi * 0.5 * u + self.phase) * self.amp
+        im = base.resize((max(1, int(base.size[0] * sc)), max(1, int(base.size[1] * sc))), Image.BICUBIC)
+        im = im.rotate(rot, resample=Image.BICUBIC, expand=True)
+        return im, 1.0, 1.0, (int(self.cx - im.size[0] / 2), int(self.cy + dy - im.size[1] / 2))
+
+def put_icon(img, ic, x, y, d):
+    """ic: 'e:name' -> emoji, else line glyph"""
+    if ic.startswith("e:"):
+        e = emoji_icon(ic[2:], d + 10)
+        img.alpha_composite(e, (x + (d - e.size[0]) // 2, y + (d - e.size[1]) // 2))
+    else:
+        img.alpha_composite(glyph(ic, d) if d == 28 else glyph(ic, d, (230, 233, 240)), (x, y))
+
 # ---------------------------------------------------------------- elements
 class Card:
     """Dark glass checklist card (reference: 'Brief aku ke Claude')."""
@@ -167,8 +233,8 @@ class Card:
         self.size = (width, hgt)
         base = Image.new("RGBA", (width, self.head), (0, 0, 0, 0))
         d = ImageDraw.Draw(base)
-        base.alpha_composite(glyph(icon, 30, (230, 233, 240)), (30, 31))
-        d.text((74, 28), title, font=font("Bold", 33), fill=(245, 246, 250))
+        put_icon(base, icon, 28, 29, 34)
+        d.text((76, 28), title, font=font("Bold", 33), fill=(245, 246, 250))
         if label and 74 + font("Bold", 33).getlength(title) + font("Medium", 22).getlength(label) + 50 < width:
             f = font("Medium", 22); d.text((width - 30 - f.getlength(label), 36), label, font=f, fill=(120, 126, 140))
         self.base = base
@@ -176,8 +242,8 @@ class Card:
         for (txt, kind, ic, _t) in items:
             r = rounded((width - 40, self.rowh - 12), 16, (255, 255, 255, 12))
             rd = ImageDraw.Draw(r)
-            r.alpha_composite(glyph(ic, 28), (20, (self.rowh - 12 - 28) // 2))
-            rd.text((64, (self.rowh - 12) // 2 - 17), txt, font=font("Medium", 29), fill=(232, 235, 242))
+            put_icon(r, ic, 18, (self.rowh - 12 - 28) // 2, 28)
+            rd.text((66, (self.rowh - 12) // 2 - 17), txt, font=font("Medium", 29), fill=(232, 235, 242))
             self.rows.append((r, icon_status(kind, 38) if kind else None))
     def events(self):
         ev = [("whoosh", self.t0)]
@@ -265,7 +331,7 @@ class FullCard:
             fs2 = fs
             while text_w(big2, font("Anton", fs2)) > W - 120: fs2 -= 6
             self.big2 = gradient_text(big2, font("Anton", fs2))
-    def events(self): return [("hit", self.t0)] + (self.inner.events() if self.inner else [])
+    def events(self): return [("hit", self.t0)] + (self.inner.events() if self.inner else []) + [e for x in getattr(self, "extras", []) for e in x.events()]
     def frame(self, t):
         if not (self.t0 <= t < self.t1): return None
         im = self.bg.copy()
@@ -286,6 +352,9 @@ class FullCard:
             y += hh - 10
         if self.inner:
             r = self.inner.frame(t)
+            if r: composite_el(im, *r)
+        for st in getattr(self, "extras", []):
+            r = st.frame(t)
             if r: composite_el(im, *r)
         # quick fade in/out (2-3 frames) to soften the cut
         a = min(1, (t - self.t0) / 0.08, (self.t1 - t) / 0.08)
@@ -362,6 +431,9 @@ class EndCard:
             bb = self.bar.copy(); bb.putalpha(Image.fromarray((np.array(bb.getchannel("A")) * kc).astype(np.uint8)))
             im.alpha_composite(bb, ((W - 700) // 2, 1100 + int((1 - kc) * 40)))
         im.alpha_composite(self.disc, ((W - self.disc.size[0]) // 2, 1640))
+        for st in getattr(self, "extras", []):
+            r = st.frame(t)
+            if r: composite_el(im, *r)
         return im, min(1, (t - self.t0) / 0.2), 1.0, (0, 0)
 
 
@@ -453,38 +525,47 @@ t0, t1 = M(1.1, 9.0); E.append(Badge(t0, t1, "Perkongsian pengalaman — bukan n
 # infographic: bacaan bahaya
 t0, t1 = M(15.6, 28.2)
 E.append(Card(t0, t1, "Kalau bacaan korang macam ni...", [
-    ("Tekanan darah terlalu tinggi", "up", "pulse", m(17.1)),
-    ("Gula HbA1c teruk", "up", "drop", m(19.4)),
-    ("Uric acid tinggi", "up", "drop", m(22.55)),
-    ("HDL terlalu rendah", "down", "drop", m(24.23)),
-    ("Triglyceride melambung", "up", "drop", m(26.15))], label="ujian darah", icon="list"))
+    ("Tekanan darah terlalu tinggi", "up", "e:heart", m(17.1)),
+    ("Gula HbA1c teruk", "up", "e:lolly", m(19.4)),
+    ("Uric acid tinggi", "up", "e:blood", m(22.55)),
+    ("HDL terlalu rendah", "down", "e:down", m(24.23)),
+    ("Triglyceride melambung", "up", "e:fries", m(26.15))], label="ujian darah", icon="e:testtube"))
 
 # full card: ikut nasihat doktor
 t0, t1 = M(28.2, 31.6)
 inner = Card(t0 + 0.3, t1 + 5, "Pelan sementara", [
-    ("Makan ubat sekejap", "ok", "pill", t0 + 0.55),
-    ("Ikut nasihat doktor", "ok", "steth", m(29.65) + 0.2)], icon="list", y=1000, width=660)
-E.append(FullCard(t0, t1, "LANGKAH PERTAMA", "IKUT DOKTOR", inner=inner))
+    ("Makan ubat sekejap", "ok", "e:pill", t0 + 0.55),
+    ("Ikut nasihat doktor", "ok", "e:stetho", m(29.65) + 0.2)], icon="list", y=1000, width=660)
+fc = FullCard(t0, t1, "LANGKAH PERTAMA", "IKUT DOKTOR", inner=inner)
+fc.extras = [Sticker(t0 + 0.05, t1, "doctor", 540, 300, 330, phase=0.3, amp=8),
+             Sticker(t0 + 0.35, t1, "pill", 800, 380, 170, rot=-18, phase=1.5),
+             Sticker(t0 + 0.5, t1, "stetho", 280, 390, 160, rot=12, phase=2.4)]
+E.append(fc)
 
 # card: cara yakinkan doktor (journey)
 t0, t1 = M(40.9, 62.5)
 E.append(Card(t0, t1, "Cara yakinkan doktor", [
-    ("6 bulan — result makin baik", "ok", "cal", m(51.97)),
-    ("Tak stop, teruskan lagi", "ok", "pulse", m(54.69)),
-    ("1 tahun — back to normal", "ok", "cal", m(56.17)),
-    ("Baru minta stop ubat", "ok", "pill", m(59.91))], label="pengalaman saya", icon="steth",
+    ("6 bulan — result makin baik", "ok", "e:up", m(51.97)),
+    ("Tak stop, teruskan lagi", "ok", "e:biceps", m(54.69)),
+    ("1 tahun — back to normal", "ok", "e:calendar", m(56.17)),
+    ("Baru minta stop ubat", "ok", "e:pill", m(59.91))], label="pengalaman saya", icon="e:doctor",
     progress=(m(44.3), m(62.0))))
 
 # card: follow-up
 t0, t1 = M(66.6, 86.8)
 E.append(Card(t0, t1, "Appointment follow-up", [
-    ("Repeat ujian darah", "ok", "drop", m(68.05)),
-    ("Dalam keadaan tak makan ubat", "ok", "pill", m(78.15)),
-    ("Result lebih baik dari sebelum", "ok", "pulse", m(82.9))], label="6–12 bulan", icon="cal"))
+    ("Repeat ujian darah", "ok", "e:syringe", m(68.05)),
+    ("Dalam keadaan tak makan ubat", "ok", "e:pill", m(78.15)),
+    ("Result lebih baik dari sebelum", "ok", "e:up", m(82.9))], label="6–12 bulan", icon="e:hospital"))
 
 # full card: harapan sembuh
 t0, t1 = M(113.0, 115.3)
-E.append(FullCard(t0, t1, "UNTUK ORANG MUDA", "HARAPAN", big2="SANGAT BESAR"))
+fc = FullCard(t0, t1, "UNTUK ORANG MUDA", "HARAPAN", big2="SANGAT BESAR")
+fc.extras = [Sticker(t0 + 0.05, t1, "seedling", 540, 310, 300, phase=0.2),
+             Sticker(t0 + 0.3, t1, "sun", 830, 230, 190, rot=10, phase=1.1),
+             Sticker(t0 + 0.45, t1, "sparkles", 250, 260, 160, phase=2.0),
+             Sticker(t0 + 0.6, t1, "biceps", 540, 1130, 260, rot=-6, phase=0.7)]
+E.append(fc)
 
 # compare infographic
 t0, t1 = M(117.1, 124.7)
@@ -494,28 +575,91 @@ E.append(Compare(t0, t1, [
 
 # full card: metabolic syndrome
 t0, t1 = M(137.0, 141.7)
-E.append(FullCard(t0, t1, "SEBAB DIA ADALAH", "METABOLIC", big2="SYNDROME"))
+fc = FullCard(t0, t1, "SEBAB DIA ADALAH", "METABOLIC", big2="SYNDROME")
+fc.extras = [Sticker(t0 + 0.05, t1, "heart", 540, 300, 280, phase=0.1),
+             Sticker(t0 + 0.3, t1, "lolly", 250, 370, 190, rot=15, phase=1.3),
+             Sticker(t0 + 0.45, t1, "blood", 830, 370, 170, rot=-10, phase=2.1),
+             Sticker(t0 + 0.6, t1, "burger", 330, 1130, 210, rot=-8, phase=0.6),
+             Sticker(t0 + 0.75, t1, "bed", 750, 1140, 220, rot=6, phase=1.8)]
+E.append(fc)
 
 # card: tak maintain
 t0, t1 = M(141.75, 156.95)
 E.append(Card(t0, t1, "Bila tak maintain...", [
-    ("Patah balik", "bad", "warn", m(144.0)),
-    ("Rosak balik", "bad", "warn", m(145.27)),
-    ("Darah tinggi datang balik", "bad", "pulse", m(149.57)),
-    ("Kencing manis datang balik", "bad", "drop", m(151.33))], label="metabolic syndrome", icon="warn"))
+    ("Patah balik", "bad", "e:brokenheart", m(144.0)),
+    ("Rosak balik", "bad", "e:warn", m(145.27)),
+    ("Darah tinggi datang balik", "bad", "e:heart", m(149.57)),
+    ("Kencing manis datang balik", "bad", "e:lolly", m(151.33))], label="metabolic syndrome", icon="e:warn"))
 
 # card: ajak family
 t0, t1 = M(177.2, 186.9)
 E.append(Card(t0, t1, "Supaya kekal lama", [
-    ("Ubah lifestyle", "ok", "pulse", m(177.3)),
-    ("Ajak family sekali", "ok", "family", m(180.2)),
-    ("Maintain lebih lama", "ok", "cal", m(183.6))], icon="family"))
+    ("Ubah lifestyle", "ok", "e:runner", m(177.3)),
+    ("Ajak family sekali", "ok", "e:family", m(180.2)),
+    ("Maintain lebih lama", "ok", "e:calendar", m(183.6))], icon="e:redheart"))
 
 # end card (appended after last spoken word)
 END0 = DUR
 END1 = DUR + 2.6
-E.append(EndCard(END0, END1))
+ec = EndCard(END0, END1)
+ec.extras = [Sticker(END0 + 0.1, END1 + 1, "family", 540, 430, 380, phase=0.2, amp=6),
+             Sticker(END0 + 0.35, END1 + 1, "runner", 180, 330, 200, rot=-8, phase=1.2),
+             Sticker(END0 + 0.5, END1 + 1, "salad", 900, 330, 190, rot=8, phase=2.2),
+             Sticker(END0 + 0.65, END1 + 1, "redheart", 900, 560, 120, rot=-10, phase=0.9)]
+E.append(ec)
 TOTAL = END1
+
+# ---- floating cartoon stickers over the footage (sky zone, clear of the face)
+L, Rr, Y = 190, 890, 345
+def st(a, b, name, side, size=230, rot=None, y=Y, dx=0, ph=0.0):
+    cx = (L if side == "L" else Rr) + dx
+    E.append(Sticker(m(a), m(b), name, cx, y, size, rot=(rot if rot is not None else (-9 if side == "L" else 9)), phase=ph))
+st(1.75, 5.6, "thinking", "L", 230, y=440)
+st(2.6, 5.6, "pill", "R", 200, y=440, ph=1.0)
+st(6.21, 7.70, "pill", "R", 200)
+E.append(Sticker(m(6.45), m(7.70), "cross", Rr + 70, Y + 70, 110, rot=0, phase=0.5))
+st(7.71, 9.6, "runner", "L", 240)
+st(7.95, 9.6, "salad", "R", 220, ph=1.4)
+st(10.87, 13.4, "biceps", "R", 230)
+st(19.4, 28.2, "anxious", "L", 220, ph=0.8)
+st(33.0, 34.7, "salad", "L", 210)
+st(33.2, 34.7, "runner", "R", 230, ph=1.1)
+st(41.0, 47.3, "doctor", "R", 250)
+st(41.2, 45.9, "thinking", "L", 200, ph=0.6)
+st(51.97, 56.1, "up", "L", 220)
+st(56.17, 62.5, "party", "L", 230, ph=0.4)
+st(59.91, 64.3, "thumbs", "R", 220, ph=1.6)
+st(66.7, 72.0, "hospital", "L", 220)
+st(68.05, 72.0, "testtube", "R", 210, ph=1.0)
+st(78.2, 82.8, "cross", "L", 150)
+st(78.2, 82.8, "pill", "R", 200, ph=1.3)
+st(82.9, 86.9, "thumbs", "R", 230)
+st(86.9, 90.2, "doctor", "L", 240)
+st(87.4, 90.2, "check", "R", 180, ph=1.1)
+st(92.75, 98.3, "doctor", "R", 240)
+st(92.95, 98.3, "redheart", "L", 170, ph=0.9)
+st(102.27, 104.8, "unamused", "L", 230)
+st(102.6, 104.8, "pill", "R", 200, ph=1.4)
+st(105.99, 108.4, "sparkles", "R", 180)
+st(111.23, 112.8, "party", "L", 230)
+st(111.5, 112.8, "biceps", "R", 220, ph=1.2)
+st(117.4, 121.2, "burger", "L", 220)
+st(118.0, 121.2, "fries", "R", 190, ph=1.0)
+st(121.3, 124.7, "salad", "L", 220)
+st(121.6, 124.7, "runner", "R", 230, ph=1.0)
+st(125.41, 129.1, "check", "R", 180)
+st(130.45, 132.9, "repeat", "L", 190)
+st(130.7, 132.9, "runner", "R", 230, ph=1.0)
+st(133.0, 137.0, "warn", "R", 190)
+st(143.9, 152.8, "anxious", "L", 210, ph=0.4)
+st(158.75, 160.0, "runner", "L", 230)
+st(158.95, 160.0, "salad", "R", 210, ph=1.0)
+st(160.67, 163.3, "biceps", "R", 220)
+st(166.3, 169.4, "repeat", "L", 180)
+st(171.2, 173.0, "sun", "R", 230)
+st(177.3, 180.3, "runner", "L", 220)
+st(180.45, 186.9, "family", "R", 300, dx=-40, y=360)
+st(181.9, 186.9, "redheart", "L", 150, ph=0.8)
 
 FULL = [e for e in E if isinstance(e, (FullCard, EndCard))]
 CARDS = [e for e in E if isinstance(e, (Card, Compare))]

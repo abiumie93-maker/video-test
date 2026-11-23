@@ -13,3 +13,7 @@ Output preview: `preview_720p.mp4`.
   Ducking automatik (sidechain) bila bercakap.
 - Suara: noise reduction, EQ presence, de-esser, compressor; master -14 LUFS.
 - Output final: 1080x1920, 30fps, H.264 High CRF16, AAC 320k.
+
+## Versi 2 Kartun
+- Sticker kartun 3D (Fluent Emoji, MIT) dengan outline putih, pop-in + terapung, di kawasan langit (tak tutup muka).
+- Ikon emoji dalam kad infografik, kad tajuk penuh skrin & end card. Ilustrasi "family" = gabungan ayah, ibu bertudung, anak.
