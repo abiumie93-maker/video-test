@@ -390,11 +390,20 @@ FIX = {"beryar-erya": "beria-ria", "kecil": "kencing", "kecing": "kencing", "gau
 T = json.load(open(f"{S}/src/transcript.json"))
 def kept_src(t):
     return any(sg["a"] <= t < sg["b"] for sg in SEGS)
+def kept_word(s0, e0):
+    """word survives the edit if >= 80 ms of it is inside a kept segment; returns the first kept instant"""
+    if kept_src(s0 + 0.03): return s0
+    for sg in SEGS:
+        ov = min(sg["b"], e0) - max(sg["a"], s0)
+        if ov >= 0.20: return max(sg["a"], s0)
+    return None
 words = []
 for sg in T:
     for w in sg["words"]:
         txt = w["w"].strip()
-        if not kept_src((w["s"] + w["e"]) / 2): continue
+        ks = kept_word(w["s"], w["e"])
+        if ks is None: continue
+        w = dict(w, s=ks)
         if txt.startswith("-") and words:
             words[-1]["w"] += txt; words[-1]["e"] = m(w["e"]); continue
         if txt.strip(",.?!").lower() == "serak" and words and "trigliserida" in words[-1]["w"].lower():
@@ -682,16 +691,20 @@ KEYS = [  # (source time, preset, move)  move: cut | smooth | fast
     (78.0, CLOSE, "smooth"), (80.95, MED, "cut"), (92.89, CLOSE, "smooth"), (105.5, MED, "cut"),
     (111.30, CLOSE, "fast"), (113.70, MED, "smooth"), (143.89, CLOSE, "smooth"), (155.85, XCLOSE, "fast"),
     (170.0, MED, "smooth"), (172.5, WIDE, "smooth"),
-    (174.83, (2.0, 200, 1005), "cut"), (176.03, (2.1, 500, 1230), "cut"), (177.49, (2.0, 810, 1095), "cut"), (178.45, WIDE, "cut"),
+    (176.40, (2.0, 200, 1005), "cut"), (177.10, (2.1, 500, 1230), "cut"), (177.80, (2.0, 810, 1095), "cut"), (178.60, WIDE, "cut"),
     (180.73, MED, "smooth"), (190.69, PROD, "smooth"),
 (207.60, CLOSE, "fast"), (209.93, MED, "smooth"), (223.17, WIDE, "smooth"),
 ]
 CAM = sorted([(m(a), p, mv) for a, p, mv in KEYS], key=lambda x: x[0])
-CUTS = [sg["t"] for sg in SEGS]
+# punch-in alternation only flips on segments long enough to read (short ones keep the previous framing)
+CUTS = []; _par = 0
+for sg in SEGS:
+    if sg["n"] / FPS >= 1.0: _par ^= 1
+    CUTS.append((sg["t"], _par))
 def seg_index(t):
     i = 0
-    for k, c in enumerate(CUTS):
-        if c <= t: i = k
+    for c, par in CUTS:
+        if c <= t: i = par
     return i
 def cam(t):
     prev = (0.0, MED, "cut"); cur = CAM[0] if CAM[0][0] <= t else None
