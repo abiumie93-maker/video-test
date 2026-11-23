@@ -18,16 +18,39 @@ def aud(c):
 def db_series(c, a, b, hop_s=0.01):
     x, sr = aud(c); hop = int(sr * hop_s); seg = x[int(a * sr):int(b * sr)]
     return np.array([20 * np.log10(np.sqrt((seg[i:i + hop] ** 2).mean()) + 1e-9) for i in range(0, max(0, len(seg) - hop), hop)])
-def pauses(c, a, b, thr, minlen=0.25):
+def pauses(c, a, b, thr, minlen=0.38):
     d = db_series(c, a, b); out = []; run = 0
     for k, v in enumerate(list(d) + [0]):
         if v < thr: run += 1
         else:
-            if run * 0.01 >= minlen: out.append((a + (k - run) * 0.01 + 0.07, a + k * 0.01 - 0.07))
+            if run * 0.01 >= minlen: out.append((a + (k - run) * 0.01 + 0.12, a + k * 0.01 - 0.10))   # shorten pauses, never remove them fully
             run = 0
     return out
+_wst = {}
+def word_starts(c):
+    if c not in _wst:
+        T = json.load(open(f"{SRC}/{c}.json")); _wst[c] = sorted(w["s"] for sg in T for w in sg["words"])
+    return _wst[c]
+def refine(c, a, b, thr):
+    """extend the range end while the voice is still sounding (max +0.35 s) and the start back to catch the onset (max 0.15 s)"""
+    d = db_series(c, b, b + 0.35)
+    k = 0
+    while k < len(d) and d[k] > thr: k += 1
+    b2 = b + min(0.35, k * 0.01 + 0.06)
+    nxt_w = [x for x in word_starts(c) if x > b - 0.05]
+    if nxt_w: b2 = min(b2, max(b, nxt_w[0] - 0.03))      # never swallow the onset of the next (dropped) word
+    d0 = db_series(c, max(0, a - 0.15), a)[::-1]
+    j = 0
+    while j < len(d0) and d0[j] > thr: j += 1
+    return max(0, a - min(0.15, j * 0.01)), b2
+RANGES = []
+for i, (c, a, b) in enumerate(C["ranges"]):
+    a2, b2 = refine(c, a, b, C.get("thr", -33))
+    nxt = C["ranges"][i + 1] if i + 1 < len(C["ranges"]) else None
+    if nxt and nxt[0] == c and nxt[1] >= b: b2 = min(b2, max(b, nxt[1] - 0.02))   # never run into the next kept range / dropped words beyond it
+    RANGES.append((c, a2, b2))
 segs = []
-for c, a, b in C["ranges"]:
+for c, a, b in RANGES:
     thr = C.get("thr", -33); cur = a
     for pa, pb in pauses(c, a, b, thr):
         if pa - cur > 0.1: segs.append([c, cur, pa])

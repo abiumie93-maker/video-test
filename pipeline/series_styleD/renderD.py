@@ -108,12 +108,15 @@ def build_lines(ws):
         out.append((kd, l))
     return out
 
-def glow_text(txt, font, color=YEL, glow=0.38, blur=14):
+def glow_text(txt, font, color=YEL, glow=0.38, blur=14, stroke=None):
     asc, desc = font.getmetrics(); tw = int(font.getlength(txt)); pad = 40
     m_ = Image.new("L", (tw + pad * 2, asc + desc + pad * 2), 0); ImageDraw.Draw(m_).text((pad, pad), txt, font=font, fill=255)
+    if stroke is None: stroke = max(3, int(font.size * 0.045))
+    ms = Image.new("L", m_.size, 0); ImageDraw.Draw(ms).text((pad, pad), txt, font=font, fill=255, stroke_width=stroke, stroke_fill=255)
     out = Image.new("RGBA", m_.size, (0, 0, 0, 0))
     g = Image.new("RGBA", m_.size, color + (0,)); g.putalpha(m_.filter(ImageFilter.GaussianBlur(blur)).point(lambda v: int(v * glow))); out.alpha_composite(g)
-    sh = Image.new("RGBA", m_.size, (0, 0, 0, 0)); sh.putalpha(m_.filter(ImageFilter.GaussianBlur(5)).point(lambda v: int(v * .35))); out.alpha_composite(sh, (0, 3))
+    sh = Image.new("RGBA", m_.size, (0, 0, 0, 0)); sh.putalpha(ms.filter(ImageFilter.GaussianBlur(6)).point(lambda v: int(v * .55))); out.alpha_composite(sh, (0, 4))
+    ol = Image.new("RGBA", m_.size, (12, 12, 12, 0)); ol.putalpha(ms); out.alpha_composite(ol)          # solid dark outline -> readable on any background
     body = Image.new("RGBA", m_.size, color + (0,)); body.putalpha(m_); out.alpha_composite(body)
     return out, pad
 
@@ -285,6 +288,61 @@ def serif_hook(t):
         L.alpha_composite(im, (int(W / 2 - im.size[0] / 2), int(y + (1 - e) * 30)))
     return L
 
+# ---------------------------------------------------------------- infographic cards (dark glass + status icons, like the earlier videos)
+def status_icon(kind, d=46):
+    s_ = 4; D = d * s_; im = Image.new("RGBA", (D, D), (0, 0, 0, 0)); g = ImageDraw.Draw(im)
+    col = {"ok": (34, 197, 94), "bad": (239, 68, 68), "up": (239, 68, 68), "info": YEL}[kind]
+    g.ellipse((0, 0, D - 1, D - 1), fill=col + (255,)); c = D / 2; w_ = 5 * s_
+    ink = (20, 20, 20) if kind == "info" else (255, 255, 255)
+    if kind == "ok": g.line([(c - 9 * s_, c), (c - 2.5 * s_, c + 7 * s_), (c + 10 * s_, c - 7 * s_)], fill=ink, width=w_, joint="curve")
+    elif kind == "bad":
+        g.line([(c - 8 * s_, c - 8 * s_), (c + 8 * s_, c + 8 * s_)], fill=ink, width=w_); g.line([(c + 8 * s_, c - 8 * s_), (c - 8 * s_, c + 8 * s_)], fill=ink, width=w_)
+    elif kind == "up":
+        g.polygon([(c, c - 11 * s_), (c - 10 * s_, c + 1 * s_), (c + 10 * s_, c + 1 * s_)], fill=ink); g.rectangle((c - 3.5 * s_, c, c + 3.5 * s_, c + 11 * s_), fill=ink)
+    else:
+        g.ellipse((c - 4 * s_, c - 4 * s_, c + 4 * s_, c + 4 * s_), fill=ink)
+    return im.resize((d, d), Image.LANCZOS)
+FI = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-SemiBold.otf", 36)
+class InfoCard:
+    ROWH, HEAD, WD = 84, 96, 860
+    def __init__(self, title, t0, t1, rows):
+        self.t0, self.t1, self.rows = t0, t1, rows
+        self.head = Image.new("RGBA", (self.WD, self.HEAD), (0, 0, 0, 0)); d = ImageDraw.Draw(self.head)
+        d.rounded_rectangle((32, 34, 42, 66), 4, fill=YEL + (255,))
+        d.text((60, 26), title, font=F("archivo", 38), fill=(250, 250, 250))
+        self.rimgs = []
+        for txt, kind, tr in rows:
+            r = Image.new("RGBA", (self.WD - 44, self.ROWH - 12), (0, 0, 0, 0)); rd = ImageDraw.Draw(r)
+            rd.rounded_rectangle((0, 0, r.size[0] - 1, r.size[1] - 1), 18, fill=(255, 255, 255, 16))
+            rd.text((26, (r.size[1] - 36) // 2 - 4), txt, font=FI, fill=(238, 240, 245))
+            self.rimgs.append((r, status_icon(kind)))
+    def render(self, t):
+        if not (self.t0 <= t < self.t1): return None
+        vis = sum(1 - (1 - min(1, max(0, (t - tr + 0.05) / 0.3))) ** 3 for _, _, tr in self.rows)
+        h = int(self.HEAD + max(vis, 0.4) * self.ROWH + 14)
+        im = Image.new("RGBA", (self.WD, h), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+        d.rounded_rectangle((0, 0, self.WD - 1, h - 1), 32, fill=(18, 20, 26, 232), outline=(255, 255, 255, 30), width=2)
+        im.alpha_composite(self.head)
+        for i, ((txt, kind, tr), (r, ic)) in enumerate(zip(self.rows, self.rimgs)):
+            k = 1 - (1 - min(1, max(0, (t - tr) / 0.28))) ** 3
+            if k <= 0: continue
+            rr = r.copy()
+            kb = min(1, max(0, (t - tr - 0.1) / 0.25))
+            if kb > 0:
+                sz = max(2, int(46 * (0.6 + 0.4 * kb))); rr.alpha_composite(ic.resize((sz, sz)), (rr.size[0] - 26 - sz // 2 - 23, (rr.size[1] - sz) // 2))
+            rr.putalpha(rr.getchannel("A").point(lambda v, k=k: int(v * k)))
+            y = self.HEAD + i * self.ROWH
+            if y + rr.size[1] <= h: im.alpha_composite(rr, (22 + int((1 - k) * 40), y))
+        a_in = 1 - (1 - min(1, (t - self.t0) / 0.3)) ** 3; a_out = min(1, (self.t1 - t) / 0.25)
+        a = min(a_in, a_out)
+        im.putalpha(im.getchannel("A").point(lambda v, a=a: int(v * a)))
+        return im, int((W - self.WD) / 2), int(1190 + (1 - a_in) * 70)
+CARDS = []
+for title, c, a, b, rows in CFG.get("cards", []):
+    t0, t1 = m(c, a), m(c, b - 0.02)
+    rr = [(txt, kind, m(cc, tr)) for txt, kind, cc, tr in rows if m(cc, tr) is not None]
+    if t0 is not None and t1 is not None and rr: CARDS.append(InfoCard(title, t0, t1 + 0.02, rr))
+
 def broll_at(t):
     for b in BROLL:
         if b["t0"] <= t < b["t1"]: return b
@@ -334,6 +392,9 @@ def compose(rgb, t):
         fr.alpha_composite(back); fr.alpha_composite(person); fr.alpha_composite(front)
     sh = serif_hook(t)
     if sh is not None: fr.alpha_composite(sh)
+    for cd_ in CARDS:
+        r_ = cd_.render(t)
+        if r_: fr.alpha_composite(r_[0], (r_[1], r_[2]))
     return fr.convert("RGB")
 
 # ---------------------------------------------------------------- audio
@@ -360,6 +421,9 @@ def build_audio(out):
         if i % 2 == 0: add("swish", sg["t"] - 0.08, 0.7)
     for b in BROLL: add("whoosh", b["t0"] - 0.1)
     for a, b_, wd in GIANT: add("boom", a)
+    for cd_ in CARDS:
+        add("swish", cd_.t0 - 0.05, 0.9)
+        for _, _, tr in cd_.rows: add("tick", tr + 0.1, 1.4)
     for w in WORDS:
         if norm(w["w"]) in ("kuning", "kuning."): add("ding", w["t"] + 0.1)
     with wave.open(f"{WORK}/sfx.wav", "wb") as wf:

@@ -13,3 +13,9 @@ Pipeline: `buildD.py KEY` → `cutD.py p4/work/KEY/cut.json render` → `facesD.
 - Teks: blok bertindan kuning neon #F9FF23 (Anton) + lead-in putih (Archivo Black), perkataan dimunculkan ikut masa sebutan (blur-in + scale),
   keyword besar di BELAKANG kepala (segmentasi orang), perkataan gergasi memenuhi frame, punch-zoom + zoom-blur setiap cut,
   B-roll kad lavender (gambar pengguna) & klip demo BP, SFX pop/tick/swish/whoosh/boom/ding.
+
+## v2 (maklum balas)
+- Potongan tak lagi memotong hujung ayat: hujung setiap range dilanjutkan ikut tenaga suara (maks +0.35 s, tak melepasi perkataan seterusnya), jeda dipendekkan (≥0.38 s → dikekalkan ~0.2 s).
+- Ayat berulang dibuang (senarai range ditulis semula untuk setiap video). Tempoh 1:21–1:39.
+- Semua tulisan ada garisan luar gelap (stroke) supaya jelas walau di belakang kepala.
+- Kad infografik gelap (✓ ✗ ↑ •) muncul ikut sebutan, macam format video sebelum ini.
