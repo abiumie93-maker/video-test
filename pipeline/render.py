@@ -21,16 +21,17 @@ BLUE_TOP, BLUE_BOT, GLOW = (110, 165, 255), (28, 84, 235), (40, 110, 255)
 GREEN, RED, AMBER = (34, 197, 94), (239, 68, 68), (245, 166, 35)
 
 # ---------------------------------------------------------------- timeline mapping
-SEGS = json.load(open(f"{S}/work/segs.json"))
+_SJ = json.load(open(f"{S}/work/segs.json"))
+SEGS, SP = _SJ["segs"], _SJ["speed"]
 def m(t):
     """source time -> edited time"""
     for sg in SEGS:
         if t < sg["a"]:
             return sg["t"]
         if t < sg["b"]:
-            return sg["t"] + (t - sg["a"])
+            return sg["t"] + (t - sg["a"]) / SP
     last = SEGS[-1]
-    return last["t"] + last["b"] - last["a"]
+    return last["t"] + last["n"] / FPS
 DUR = m(1e9)
 
 # ---------------------------------------------------------------- helpers
@@ -444,7 +445,7 @@ emph(92.7, 93.77, "doktor pun", "Manusia")
 emph(101.3, 104.77, "tak ada siapa yang", "Suka makan ubat")
 emph(111.2, 112.75, "korang memang boleh", "Sembuh!")
 emph(129.2, 132.89, "pastikan korang", "Maintain")
-emph(173.4, 175.99, "so it's a", "Lifestyle")
+emph(158.75, 160.0, "sebab it's a", "Lifestyle")
 
 # disclaimer badge at start
 t0, t1 = M(1.1, 9.0); E.append(Badge(t0, t1, "Perkongsian pengalaman — bukan nasihat perubatan", 230))
@@ -492,11 +493,11 @@ E.append(Compare(t0, t1, [
     ("Ubah lifestyle & sembuh", "± 1 tahun", 0.16, (40, 190, 100), m(121.3))], "Masa: tabiat vs sembuh"))
 
 # full card: metabolic syndrome
-t0, t1 = M(137.0, 141.0)
+t0, t1 = M(137.0, 141.7)
 E.append(FullCard(t0, t1, "SEBAB DIA ADALAH", "METABOLIC", big2="SYNDROME"))
 
 # card: tak maintain
-t0, t1 = M(141.05, 156.95)
+t0, t1 = M(141.75, 156.95)
 E.append(Card(t0, t1, "Bila tak maintain...", [
     ("Patah balik", "bad", "warn", m(144.0)),
     ("Rosak balik", "bad", "warn", m(145.27)),
@@ -512,7 +513,7 @@ E.append(Card(t0, t1, "Supaya kekal lama", [
 
 # end card (appended after last spoken word)
 END0 = DUR
-END1 = DUR + 3.0
+END1 = DUR + 2.6
 E.append(EndCard(END0, END1))
 TOTAL = END1
 
@@ -598,13 +599,25 @@ if __name__ == "__main__":
     out = f"{S}/work/final.mp4" if len(sys.argv) <= 2 else f"{S}/work/test.mp4"
     # video: graded footage padded with end-card time; voice cleanup + sfx mix
     vf = f"[0:v]tpad=stop_mode=add:stop_duration={END1 - DUR + 0.2}:color=black,trim=start={a}:end={b},setpts=PTS-STARTPTS[bg];[bg][1:v]overlay=0:0:format=auto,format=yuv420p[v]"
-    af = (f"[0:a]highpass=f=90,afftdn=nf=-25,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=2,apad,atrim=start={a}:end={b},asetpts=PTS-STARTPTS[vo];"
-          f"[2:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,volume=0.22[fx];[vo][fx]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-14:TP=-1.5:LRA=11[a]")
+    MUS = f"{S}/music/inspiration.mp3"
+    voice = ("highpass=f=85,afftdn=nr=10:nf=-30,"
+             "equalizer=f=220:t=q:w=1:g=-2.5,equalizer=f=3200:t=q:w=1.2:g=3,equalizer=f=9000:t=q:w=1:g=1.5,"
+             "deesser=i=0.3,acompressor=threshold=-22dB:ratio=3:attack=4:release=150:makeup=3,"
+             "loudnorm=I=-15:TP=-2:LRA=7")
+    af = (f"[0:a]{voice},apad,atrim=start={a}:end={b},asetpts=PTS-STARTPTS,asplit=2[vo][key];"
+          f"[3:a]aresample=48000,aformat=channel_layouts=stereo,atrim=start={a}:end={b},asetpts=PTS-STARTPTS,"
+          f"volume=0.11,afade=t=in:d=0.6,afade=t=out:st={max(0, (b - a) - 2.2):.2f}:d=2.2[mu];"
+          f"[mu][key]sidechaincompress=threshold=0.02:ratio=5:attack=30:release=450:makeup=1[mud];"
+          f"[2:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,volume=0.2,aformat=channel_layouts=stereo[fx];"
+          f"[vo]aformat=channel_layouts=stereo[vos];"
+          f"[vos][mud][fx]amix=inputs=3:duration=first:normalize=0,loudnorm=I=-14:TP=-1.2:LRA=9,aresample=48000[a]")
     cmd = ["ffmpeg", "-v", "error", "-y", "-i", f"{S}/work/graded.mov",
            "-f", "rawvideo", "-pix_fmt", "rgba", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
-           "-i", sfx, "-filter_complex", vf + ";" + af, "-map", "[v]", "-map", "[a]",
-           "-c:v", "libx264", "-preset", "medium", "-crf", "19", "-profile:v", "high", "-r", str(FPS),
-           "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", "-t", str(b - a), out]
+           "-i", sfx, "-i", MUS, "-filter_complex", vf + ";" + af, "-map", "[v]", "-map", "[a]",
+           "-c:v", "libx264", "-preset", "slow", "-crf", "16", "-profile:v", "high", "-level:v", "4.2",
+           "-maxrate", "28M", "-bufsize", "56M", "-g", "60", "-bf", "2", "-r", str(FPS),
+           "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
+           "-c:a", "aac", "-b:a", "320k", "-ar", "48000", "-movflags", "+faststart", "-t", str(b - a), out]
     p = subprocess.Popen(cmd, stdin=subprocess.PIPE)
     nf = int(round((b - a) * FPS))
     for i in range(nf):
