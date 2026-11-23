@@ -4,7 +4,7 @@ import sys, os, json, math, subprocess, wave
 import numpy as np, cv2
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 ROOT = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, ROOT)
-from cutout import Cutter, stylise
+from cutout import Cutter, stylise, grade
 P = sys.argv[1]; W, H, FPS = 1080, 1920, 30
 FD = f"{ROOT}/fontsE"
 _fc = {}
@@ -300,7 +300,7 @@ s.add(tA(52.73), sticky(["bau manis-", "manis"], 48, 300), 800, 500, 3, tick_at=
 # S8 ranking
 s = scene(tA(59.91), tAe(63.57) + 0.3, "R")
 s.add(tA(60.71), headline("#1", 170), 170, 190, -4)
-s.add(tA(61.0), still_polaroid(f"{P}/work/coconut.png", 340, 320, "Coconut Oil"), 470, 420, 3)
+s.add(tA(61.0), still_polaroid(f"{P}/work/coconut.png", 320, 300, "Coconut Oil"), 470, 360, 3)
 s.add(tA(62.13), headline("#2", 120, bg=PAPER), 820, 260, 3)
 s.add(tA(62.4), sticky(["Peach", "& Mango"], 46, 270), 860, 560, -3)
 # S9 produk Malaysia
@@ -315,6 +315,31 @@ s.add(tB(26.35), marker_text("DAPATKAN TERUS", 80), 540, 170, -3, write=True, sf
 s.add(tB(27.39), headline("BEG KUNING", 128), 470, 350, 2)
 s.add(tB(27.39) + 0.05, bag_icon(150), 930, 340, 8, sfx="pop")
 
+# ---------------------------------------------------------------- speaker zoom keys (edit time, zoom, move)
+ZK = sorted([
+    (tA(3.0), 1.0, "cut"), (tA(4.99), 1.18, "fast"), (tA(8.87), 1.0, "smooth"), (tA(11.45), 1.2, "fast"),
+    (tA(12.41), 1.0, "cut"), (tA(17.59), 1.18, "fast"), (tA(19.44), 1.26, "smooth"),
+    (tA(23.61), 1.0, "cut"), (tA(25.09), 1.22, "fast"), (tA(26.55), 1.05, "smooth"),
+    (tA(34.71), 1.0, "cut"), (tA(36.45), 1.15, "fast"), (tA(38.87), 1.3, "fast"),
+    (tB(0.35), 1.0, "cut"), (tB(1.77), 1.16, "fast"), (tB(4.41), 1.0, "smooth"),
+    (tB(7.97), 1.1, "smooth"), (tB(10.73), 1.22, "fast"),
+    (tA(46.63), 1.0, "cut"), (tA(48.33), 1.16, "fast"), (tA(52.73), 1.0, "smooth"), (tA(54.3), 1.2, "fast"),
+    (tA(59.91), 1.0, "cut"), (tA(60.71), 1.12, "fast"), (tA(62.13), 1.0, "smooth"),
+    (tB(16.63), 1.0, "cut"), (tB(19.43), 1.15, "fast"), (tB(24.21), 1.25, "fast"),
+    (tB(25.81), 1.0, "cut"), (tB(27.39), 1.2, "fast"),
+], key=lambda k: k[0])
+def zoom_at(t):
+    z = 1.0; prev = 1.0
+    for i, (tk, zk, mv) in enumerate(ZK):
+        if tk > t: break
+        prev = ZK[i - 1][1] if i > 0 else 1.0
+        dur = {"cut": 0.0, "fast": 0.22, "smooth": 0.55}[mv]
+        u = 1.0 if dur == 0 else min(1, (t - tk) / dur)
+        e = (1 - (1 - u) ** 3) if mv == "fast" else u * u * (3 - 2 * u)
+        z = prev + (zk - prev) * e
+    return z
+FACE_Y = 330   # zoom anchor near the top of the head: zooming grows the face downward, never over the board elements
+
 for _i in range(len(SC) - 1):            # scenes never overlap
     SC[_i].t1 = min(SC[_i].t1, SC[_i + 1].t0)
     for _e in SC[_i].els: _e.t1 = SC[_i].t1
@@ -323,7 +348,7 @@ CUT = Cutter(f"{ROOT}/models/selfie_segmenter.tflite")
 SPK_DY = 620
 def speaker_layer(rgb):
     mk = clean_mask(CUT.mask(rgb))
-    sty = stylise(rgb)
+    sty = grade(rgb, warm=0.05, sat=1.14, contrast=1.10, lift=6)
     h2, w2 = H // 2, W // 2
     ms2 = cv2.resize(mk, (w2, h2), interpolation=cv2.INTER_AREA)
     hard = (ms2 > 0.5).astype(np.uint8) * 255
@@ -335,6 +360,14 @@ def speaker_layer(rgb):
     return Image.fromarray(out, "RGBA")
 def clean_mask(mk):
     hard = (mk > 0.5).astype(np.uint8)
+    # fill small interior holes (segmentation misses on bottles/labels); keep big real gaps (e.g. between arm and body)
+    inv = (1 - hard).astype(np.uint8)
+    nh, labh, sth, _ = cv2.connectedComponentsWithStats(inv, 8)
+    Hh, Ww = hard.shape
+    for k in range(1, nh):
+        x, y, w, h, a = sth[k]
+        if a < 0.03 * Hh * Ww and x > 0 and y > 0 and x + w < Ww and y + h < Hh:
+            hole = labh == k; mk = np.where(hole, 1.0, mk); hard[hole] = 1
     n, lab, stats, _ = cv2.connectedComponentsWithStats(hard, 8)
     if n <= 2: return mk
     big = stats[1:, cv2.CC_STAT_AREA].max()
@@ -383,9 +416,9 @@ def compose(t, spk_rgb):
         k_in = eb(u_in / 0.28); k_out = eo(u_out / 0.2) if u_out < 0.2 else 1.0
         idx = SC.index(s); xoff = (-40 if idx % 2 else 40); zs = 1.0 if idx % 2 else 1.05
         dy = SPK_DY + (1 - min(k_in, 1.0)) * 500 + (1 - k_out) * 700 - (min(k_in, 1.06) - 1) * 300
-        sc = zs * (1 + 0.025 * min(1, u_in / max(0.1, s.t1 - s.t0)))
-        spr = sp.resize((int(W * sc), int(H * sc)), Image.BILINEAR) if sc != 1 else sp
-        x0 = int((W - spr.size[0]) / 2 + xoff); y0 = int(dy)
+        sc = zs * (1 + 0.025 * min(1, u_in / max(0.1, s.t1 - s.t0))) * zoom_at(t)
+        spr = sp.resize((int(W * sc), int(H * sc)), Image.BILINEAR) if abs(sc - 1) > 1e-3 else sp
+        x0 = int(W / 2 + xoff - (W / 2) * sc); y0 = int(dy + FACE_Y - FACE_Y * sc)
         sh = shadow_of(spr)
         fr.alpha_composite(sh.crop((0, 0, min(sh.size[0], W - max(0, x0 + 12)), max(1, H - y0 - 16))) if False else sh, (max(0, x0 + 12), min(H - 1, y0 + 16))) if y0 + 16 < H and x0 + 12 >= 0 else None
         paste(fr, spr, x0 + spr.size[0] / 2, y0 + spr.size[1] / 2, 1.0, 0, min(1, u_in / 0.06))
@@ -413,7 +446,13 @@ def build_audio(out):
         L = int(0.3 * sr); x = r.normal(0, 1, L); y = np.convolve(x, np.ones(18) / 18, "same"); return 0.5 * y * np.sin(np.pi * np.arange(L) / L) ** 2
     def ding():
         t = np.arange(int(0.7 * sr)) / sr; return 0.3 * (np.sin(2 * np.pi * 1318 * t) + 0.6 * np.sin(2 * np.pi * 1976 * t)) * np.exp(-t * 5)
-    lib = {"slap": slap(), "pop": pop(), "write": write(), "tick": tick(), "whoosh": whoosh(), "ding": ding()}
+    def sweep(up):
+        L = int((0.28 if up else 0.4) * sr); x = r.normal(0, 1, L); y = np.zeros(L); lp = bp = 0.0
+        for i in range(L):
+            f = (400 + 2600 * i / L) if up else (2600 - 2200 * i / L); c = min(0.99, 2 * math.sin(math.pi * f / sr))
+            hp = x[i] - lp - 0.3 * bp; bp += c * hp; lp += c * bp; y[i] = bp
+        return 0.55 * y / (np.abs(y).max() + 1e-9) * np.sin(np.pi * np.arange(L) / L) ** 1.5
+    lib = {"zin": sweep(True), "zout": 0.7 * sweep(False), "slap": slap(), "pop": pop(), "write": write(), "tick": tick(), "whoosh": whoosh(), "ding": ding()}
     def add(k, t):
         s = lib[k]; i = int(t * sr)
         if 0 <= i < n - len(s): fx[i:i + len(s)] += s
@@ -422,6 +461,9 @@ def build_audio(out):
         for e in s.els:
             add(e.sfx, e.t0)
             if e.tick_at is not None: add("tick", e.tick_at + 0.1)
+    for i, (tk, zk, mv) in enumerate(ZK):
+        if mv == "cut" or i == 0: continue
+        add("zin" if zk > ZK[i - 1][1] else "zout", tk - 0.04)
     add("ding", DUR + 0.05)
     with wave.open(f"{P}/work/sfxE.wav", "wb") as wf:
         wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(sr); wf.writeframes((np.clip(fx, -1, 1) * 32767).astype(np.int16).tobytes())

@@ -38,3 +38,19 @@ def sticker(rgb_styled, m, outline=14):
     af = (a.astype(np.float32) / 255)[..., None]
     out[..., :3] = (rgb_styled * af + 255 * (1 - af)).astype(np.uint8)
     return out
+
+def grade(rgb, warm=0.04, sat=1.12, contrast=1.10, lift=6):
+    """clean, warm, punchy colour grade for indoor phone footage"""
+    x = rgb.astype(np.float32) / 255.0
+    # gentle S-curve contrast around mid-grey + slight lift
+    x = np.clip((x - 0.5) * contrast + 0.5, 0, 1)
+    x = x + (lift / 255.0) * (1 - x)
+    # saturation (luma-preserving)
+    l = (0.299 * x[..., 0] + 0.587 * x[..., 1] + 0.114 * x[..., 2])[..., None]
+    x = np.clip(l + (x - l) * sat, 0, 1)
+    # warm highlights / slightly cool shadows (teal-orange, subtle)
+    hi = np.clip((l - 0.45) / 0.55, 0, 1); sh = np.clip((0.45 - l) / 0.45, 0, 1)
+    x[..., 0] += warm * hi[..., 0]; x[..., 2] -= warm * 0.8 * hi[..., 0]
+    x[..., 2] += 0.02 * sh[..., 0]; x[..., 0] -= 0.01 * sh[..., 0]
+    # soft skin protect: avoid over-red skin
+    return (np.clip(x, 0, 1) * 255).astype(np.uint8)
