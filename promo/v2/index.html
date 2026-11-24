@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#F3F3F0; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  body, .jk { font-family:'Plus Jakarta Sans', sans-serif; }
+  .wd { display:inline-block; opacity:0; }
+  #pill { position:absolute; left:0; right:0; margin:0 auto; width:fit-content; top:64px; padding:14px 34px 16px; border-radius:26px;
+          background:rgba(40,40,44,.72); backdrop-filter:blur(14px); color:#fff; text-align:center; opacity:0; z-index:50;
+          box-shadow:0 8px 26px rgba(0,0,0,.25); font-family:'Plus Jakarta Sans'; white-space:nowrap; }
+  #pill .s { font-size:24px; font-weight:600; opacity:.8; } #pill .b { font-size:40px; font-weight:800; letter-spacing:.01em; }
+  .neon { font-family:'Plus Jakarta Sans'; font-weight:800; color:#C8FF2E; letter-spacing:-.03em; line-height:.9;
+          text-shadow:0 0 22px rgba(200,255,46,.85), 0 0 60px rgba(200,255,46,.55), 0 0 120px rgba(200,255,46,.35); }
+  .wt { font-family:'Plus Jakarta Sans'; font-weight:800; color:#fff; line-height:1; text-shadow:0 4px 22px rgba(0,0,0,.45); }
+  .spill { position:absolute; left:0; right:0; margin:0 auto; width:fit-content; padding:12px 26px; border-radius:999px; background:#fff; color:#12131A;
+           font-weight:700; font-size:34px; white-space:nowrap; box-shadow:0 8px 22px rgba(0,0,0,.25); opacity:0; }
+  .spill b { color:#2347FF; font-weight:800; }
+  .glass { position:absolute; background:rgba(255,255,255,.62); border:2px solid rgba(255,255,255,.85); border-radius:34px;
+           box-shadow:0 24px 60px rgba(40,50,90,.18); backdrop-filter:blur(16px); opacity:0; }
+  .dglass { position:absolute; background:rgba(255,255,255,.16); border:2px solid rgba(255,255,255,.4); border-radius:999px;
+            backdrop-filter:blur(12px); color:#fff; font-weight:800; padding:14px 30px; font-size:38px; opacity:0; white-space:nowrap;
+            box-shadow:0 10px 30px rgba(0,0,0,.25); }
+  .canvas { position:absolute; inset:0; opacity:0; overflow:hidden; background:#F3F3F0; }
+  .canvas::before { content:""; position:absolute; inset:0;
+     background:radial-gradient(circle at 22% 38%, rgba(165,180,255,.55), rgba(165,180,255,0) 34%),
+                radial-gradient(circle at 80% 78%, rgba(214,255,120,.6), rgba(214,255,120,0) 32%); }
+  .canvas::after { content:""; position:absolute; inset:0; opacity:.55;
+     background-image:radial-gradient(rgba(30,30,40,.22) 1.6px, transparent 1.8px); background-size:26px 26px; }
+  .badge { position:absolute; left:64px; top:230px; display:flex; align-items:center; gap:18px; z-index:2; font-weight:700;
+           font-size:34px; color:#12131A; }
+  .badge i { font-style:normal; width:56px; height:56px; border-radius:16px; background:#fff; color:#2347FF; display:grid; place-items:center;
+             font-weight:800; font-size:34px; box-shadow:0 6px 18px rgba(40,50,90,.15); }
+  .cap { position:absolute; left:0; right:0; text-align:center; font-weight:800; font-size:66px; color:#12131A; line-height:1.08; z-index:3; }
+  .cap b { color:#2347FF; } .cap .rd { color:#E5383B; }
+  .tile { position:absolute; width:190px; height:190px; border-radius:40px; background:#fff; display:grid; place-items:center; z-index:2;
+          box-shadow:0 14px 40px rgba(40,50,90,.18); font-weight:800; font-size:44px; color:#2347FF; opacity:0; text-align:center; line-height:1.05; }
+  .op { position:absolute; font-weight:800; font-size:70px; color:#12131A; opacity:0; z-index:2; }
+  .ok { position:absolute; padding:10px 22px; border-radius:999px; background:#C8FF2E; color:#12131A; font-weight:800; font-size:30px; opacity:0;
+        box-shadow:0 6px 18px rgba(120,160,0,.35); white-space:nowrap; z-index:4; }
+  .rtag { position:absolute; padding:16px 30px; border-radius:999px; background:rgba(229,56,59,.88); color:#fff; font-weight:800; font-size:40px;
+          opacity:0; white-space:nowrap; box-shadow:0 10px 30px rgba(0,0,0,.35); border:2px solid rgba(255,255,255,.5); }
+
+
+  #hk-num { position:absolute; left:84px; top:250px; font-size:300px; opacity:1; }
+  #hk-r { position:absolute; left:300px; top:300px; opacity:1; }
+  #hk-r .wt { font-size:92px; }
+  #car-wrap { position:absolute; left:0; right:0; top:1150px; height:640px; perspective:1500px; opacity:0; }
+  #car { position:absolute; left:50%; top:40px; width:0; height:0; transform-style:preserve-3d; }
+  .cc { position:absolute; left:-140px; top:0; width:280px; height:420px; border-radius:34px; overflow:hidden; backface-visibility:hidden;
+        box-shadow:0 20px 50px rgba(0,0,0,.45); border:4px solid rgba(255,255,255,.9); background:#fff; }
+  .cc img { width:100%; height:100%; object-fit:cover; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="68.02" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="3.61" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="0.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="3.61" data-duration="14.96" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="3.81" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="18.57" data-duration="4.09" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="18.77" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="22.66" data-duration="8.68" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="40.97" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="31.34" data-duration="5.99" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="49.65" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="37.33" data-duration="2.36" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="55.64" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <img id="s7" class="clip " data-start="39.69" data-duration="7.83" data-track-index="0" src="assets/img/oldmattress-bg.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; filter:blur(34px) brightness(.55); transform:scale(1.2)" />
+        <video id="s8" class="clip " data-start="47.52" data-duration="3.5" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="69.45" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="51.02" data-duration="1.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="72.1" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="52.62" data-duration="1.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="76.7" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="54.22" data-duration="1.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="81.55" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s12" class="clip " data-start="55.82" data-duration="1.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="87.25" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s13" class="clip " data-start="57.42" data-duration="1.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="92.15" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s14" class="clip " data-start="59.02" data-duration="3.4" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="103.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s15" class="clip " data-start="62.42" data-duration="5.6" data-track-index="0" src="assets/footage/20261029_232831.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; filter:blur(30px) brightness(.7); transform:scale(1.15)"></video>
+
+      </div>
+      <div id="pill"><div class="s">Nak bilik cantik macam hotel?</div><div class="b">1 SET ALOOMA</div></div>
+      <div id="hk-num" class="neon">6</div>
+      <div id="hk-r"><div class="wt" id="hk-r1">ITEM</div><div class="wt" id="hk-r2">1 SET <span style="color:#C8FF2E">SAHAJA</span></div></div>
+      <div id="car-wrap"><div id="car"><div class="cc" style="transform:rotateY(0.0deg) translateZ(420px)"><img src="assets/img/lapik.jpg"/></div><div class="cc" style="transform:rotateY(45.0deg) translateZ(420px)"><img src="assets/img/comforter.jpg"/></div><div class="cc" style="transform:rotateY(90.0deg) translateZ(420px)"><img src="assets/img/lapikbantal.jpg"/></div><div class="cc" style="transform:rotateY(135.0deg) translateZ(420px)"><img src="assets/img/pillow.jpg"/></div><div class="cc" style="transform:rotateY(180.0deg) translateZ(420px)"><img src="assets/img/tuala.jpg"/></div><div class="cc" style="transform:rotateY(225.0deg) translateZ(420px)"><img src="assets/img/pinkpack.jpg"/></div><div class="cc" style="transform:rotateY(270.0deg) translateZ(420px)"><img src="assets/img/bed.jpg"/></div><div class="cc" style="transform:rotateY(315.0deg) translateZ(420px)"><img src="assets/img/clean.jpg"/></div></div></div>
+      <div id="hk-sp" class="spill" style="top:1060px">guys, <b>tengok ni!</b></div>
+      <div id="it0" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:96px; opacity:0">LAPIK TILAM</div>
+      <div id="it1" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:96px; opacity:0">COMFORTER</div>
+      <div id="it2" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:96px; opacity:0">LAPIK BANTAL</div>
+      <div id="it3" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:96px; opacity:0">BANTAL</div>
+      <div id="it4" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:96px; opacity:0">TUALA</div>
+      <div id="it2b" class="spill" style="top:1420px"><b>waterproof</b> &#10003;</div>
+      <div id="al" class="spill" style="top:1440px">jenama? <b>ALOOMA</b> &#10003;</div>
+      <div id="tuala2" class="spill" style="top:1420px">yang saya <b>pakai semalam</b></div>
+      <div id="br-s" class="wt" style="position:absolute; left:0; right:0; top:760px; text-align:center; font-size:40px; font-weight:600; opacity:0">brand dia dipanggil</div>
+      <div id="br-n" class="neon" style="position:absolute; left:0; right:0; top:840px; text-align:center; font-size:210px; opacity:0">ALOOMA</div>
+      <div id="br-chips" style="position:absolute; left:0; right:0; top:1110px; text-align:center">
+        <span class="dglass" style="position:relative; margin:0 8px" id="bc1">lapik</span><span class="dglass" style="position:relative; margin:0 8px" id="bc2">cadar</span><span class="dglass" style="position:relative; margin:0 8px" id="bc3">comforter</span></div>
+      <div id="cw" class="canvas">
+        <div class="badge"><i>W</i>Waterproof</div>
+        <div id="wc1" class="glass" style="left:70px; top:480px; width:450px; height:640px; z-index:2">
+          <img src="assets/img/lapik.jpg" style="position:absolute; left:20px; top:20px; width:406px; height:420px; object-fit:cover; border-radius:22px"/>
+          <svg width="70" height="90" viewBox="0 0 70 90" style="position:absolute; left:30px; top:470px"><path d="M35 6 C 20 32, 8 48, 8 62 a27 27 0 0 0 54 0 C 62 48, 50 32, 35 6 Z" fill="#2347FF"/></svg>
+          <div style="position:absolute; left:110px; top:478px; font-weight:800; font-size:44px; color:#12131A">Waterproof</div>
+          <div style="position:absolute; left:110px; top:536px; font-weight:600; font-size:28px; color:#667">kalis air, tilam selamat</div>
+        </div>
+        <div id="wc2" class="glass" style="left:560px; top:480px; width:450px; height:640px; z-index:2">
+          <img src="assets/img/lapik.jpg" style="position:absolute; left:20px; top:20px; width:406px; height:420px; object-fit:cover; border-radius:22px; filter:grayscale(1) brightness(1.05)"/>
+          <svg width="70" height="90" viewBox="0 0 70 90" style="position:absolute; left:30px; top:470px"><path d="M35 6 C 20 32, 8 48, 8 62 a27 27 0 0 0 54 0 C 62 48, 50 32, 35 6 Z" fill="none" stroke="#99A" stroke-width="6"/><path d="M6 84 L64 10" stroke="#E5383B" stroke-width="7"/></svg>
+          <div style="position:absolute; left:110px; top:478px; font-weight:800; font-size:40px; color:#12131A">Non-waterproof</div>
+          <div style="position:absolute; left:110px; top:536px; font-weight:600; font-size:28px; color:#667">biasa</div>
+        </div>
+        <div id="wok" class="ok" style="left:300px; top:500px">&#10003; cadangan</div>
+        <div id="wcap1" class="cap" style="top:1290px">Alooma ada <b>DUA</b> jenis</div>
+        <div id="wcap2" class="cap" style="top:1290px; opacity:0">ambil yang<br><b>WATERPROOF</b></div>
+      </div>
+      <div id="ct" class="canvas">
+        <div class="badge"><i>B</i>Bukti</div>
+        <div id="t1" class="tile" style="left:90px; top:470px">Lapik</div>
+        <div id="op1" class="op" style="left:310px; top:520px">+</div>
+        <div id="t2" class="tile" style="left:380px; top:470px; font-size:40px">2&ndash;3<br>bulan</div>
+        <div id="op2" class="op" style="left:600px; top:520px">=</div>
+        <div id="t3" class="tile" style="left:680px; top:470px; background:#2347FF; color:#fff; font-size:90px">&#10003;</div>
+        <div id="tc" class="glass" style="left:240px; top:730px; width:600px; height:520px; padding:20px">
+          <img src="assets/img/clean.jpg" style="width:560px; height:480px; object-fit:cover; border-radius:24px"/></div>
+        <div id="tok" class="ok" style="left:610px; top:705px">&#10003; masih bersih</div>
+        <div id="tcap" class="cap" style="top:1330px">tilam masih <b>CANTIK</b><br>&amp; masih <b>BERSIH</b></div>
+      </div>
+      <div id="wj" class="wt" style="position:absolute; left:0; right:0; top:1280px; text-align:center; font-size:110px; opacity:0">WAJIB <span style="color:#C8FF2E">PAKAI</span></div>
+      <div id="wj2" class="spill" style="top:1430px">supaya korang <b>jaga tilam</b></div>
+      <div id="oc" class="glass" style="left:150px; top:330px; width:780px; height:870px; padding:22px; background:rgba(255,255,255,.22); border-color:rgba(255,255,255,.55)">
+        <img src="assets/img/oldmattress.jpg" style="width:736px; height:826px; object-fit:cover; border-radius:26px"/></div>
+      <div id="ocap" class="wt" style="position:absolute; left:0; right:0; top:1300px; text-align:center; font-size:72px; opacity:0">tilam beli <span style="color:#FF5A5F">MAHAL</span>&hellip;</div>
+      <div id="rt1" class="rtag" style="left:70px; top:520px">&#10007; tompok</div>
+      <div id="rt2" class="rtag" style="left:700px; top:760px">&#10007; kotor</div>
+      <div id="rt3" class="rtag" style="left:110px; top:1050px">&#10007; peta dunia</div>
+      <div id="gp" style="position:absolute; left:0; right:0; top:1250px; text-align:center">
+        <div class="wt" style="font-size:60px"><span class="wd">pasang</span></div>
+        <div class="wt" style="font-size:104px; color:#C8FF2E"><span class="wd">LAPIK</span> <span class="wd">+</span> <span class="wd">CADAR</span></div></div>
+      <div id="go" class="neon" style="position:absolute; left:0; right:0; top:820px; text-align:center; font-size:170px; opacity:0">LET'S GO!</div>
+      <div id="ml0" class="spill" style="top:1450px; font-size:44px">pasang cadar</div>
+      <div id="ml1" class="spill" style="top:1450px; font-size:44px">kemas &amp; muat</div>
+      <div id="ml2" class="spill" style="top:1450px; font-size:44px">comforter</div>
+      <div id="ml3" class="spill" style="top:1450px; font-size:44px">sarung bantal</div>
+      <div id="ml4" class="spill" style="top:1450px; font-size:44px">siap bantal</div>
+      <div id="sp" class="neon" style="position:absolute; left:0; right:0; top:1180px; text-align:center; font-size:220px; opacity:0">SIAP!</div>
+      <div id="tg1" class="dglass" style="left:90px; top:520px">LEMBUT +</div>
+      <div id="tg2" class="dglass" style="left:650px; top:690px">CANTIK +</div>
+      <div id="tg3" class="dglass" style="left:180px; top:860px">PREMIUM +</div>
+      <div id="ec" class="glass" style="left:170px; top:300px; width:740px; height:870px; padding:22px; background:rgba(255,255,255,.85)">
+        <img src="assets/img/bed.jpg" style="width:696px; height:640px; object-fit:cover; border-radius:24px"/>
+        <div style="font-weight:800; font-size:58px; color:#12131A; margin-top:22px; text-align:center">Set <span style="color:#FF5C9A">Alooma</span> Premium</div>
+        <div style="font-weight:600; font-size:30px; color:#556; margin-top:10px; text-align:center">Lapik &bull; Cadar &bull; Comforter &bull; Bantal &bull; Tuala</div>
+      </div>
+      <div id="ebtn" style="position:absolute; left:0; right:0; margin:0 auto; width:fit-content; top:1330px; padding:30px 56px; border-radius:999px; background:#2347FF;
+           color:#fff; font-weight:800; font-size:48px; white-space:nowrap; box-shadow:0 0 0 6px rgba(35,71,255,.25), 0 16px 40px rgba(35,71,255,.55); opacity:0">TEKAN BEG KUNING SEKARANG</div>
+      <div id="esub" class="wt" style="position:absolute; left:0; right:0; top:1470px; text-align:center; font-size:36px; font-weight:600; opacity:0">klik beg kuning &darr;</div>
+      <div id="ecom" class="spill" style="top:1560px">komen <b>1 hingga 5</b>, korang rasa?</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 0.95);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 3.61);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 4.53);
+      tl.to("#cam", {scale:1.0, x:-0.0, y:0, duration:0.7, ease:"power2.inOut"}, 6.25);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 10.76);
+      tl.to("#cam", {scale:1.16, x:-16, y:0, duration:0.7, ease:"power2.inOut"}, 12.88);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 17.5);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 18.57);
+      tl.to("#cam", {scale:1.05, x:14, y:0, duration:0.7, ease:"power2.inOut"}, 21.52);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 22.66);
+      tl.to("#cam", {scale:1.14, x:12, y:0, duration:0.7, ease:"power2.inOut"}, 24.62);
+      tl.to("#cam", {scale:1.0, x:-0.0, y:0, duration:0.7, ease:"power2.inOut"}, 27.69);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 31.34);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 34.89);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 37.33);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 37.71);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 39.69);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:1.7, ease:"sine.inOut"}, 39.71);
+      tl.to("#cam", {scale:1.0, x:-0.0, y:0, duration:0.7, ease:"power2.inOut"}, 41.43);
+      tl.to("#cam", {scale:1.16, x:-16, y:0, duration:0.7, ease:"power2.inOut"}, 44.25);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 47.52);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:2.89, ease:"sine.inOut"}, 47.540000000000006);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 50.45);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 51.02);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 51.040000000000006);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 52.62);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 52.64000000000001);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 54.22);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 54.24000000000001);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 55.82);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 55.84000000000001);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 57.42);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 57.44000000000001);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 59.02);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:3.36, ease:"sine.inOut"}, 59.040000000000006);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 62.42);
+      tl.set("#car-wrap", {opacity:1}, 0);
+      tl.fromTo("#car", {rotationY:0}, {rotationY:-200, duration:3.81, ease:"power1.inOut"}, 0);
+      tl.from("#hk-num", {scale:.3, opacity:0, duration:.5, ease:"back.out(1.6)", immediateRender:false}, 0.0);
+      tl.from("#hk-r1, #hk-r2", {x:60, opacity:0, duration:.4, stagger:.12, ease:"expo.out", immediateRender:false}, 0.15);
+      tl.fromTo("#hk-sp", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 2.47);
+      tl.to("#hk-num, #hk-r", {scale:.25, x:200, y:-260, opacity:0, duration:.4, ease:"power3.in", transformOrigin:"50% 0%"}, 3.31);
+      tl.to("#car-wrap", {opacity:0, y:200, duration:.35, ease:"power2.in"}, 3.31);
+      tl.to("#hk-sp", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 3.36);
+      tl.fromTo("#pill", {opacity:0, scale:.8}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 3.56);
+      tl.fromTo("#it0", {opacity:0, scale:1.25, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 3.65);
+      tl.to("#it0", {opacity:0, filter:"blur(8px)", duration:0.15, ease:"power2.in"}, 5.2);
+      tl.fromTo("#it1", {opacity:0, scale:1.25, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 5.32);
+      tl.to("#it1", {opacity:0, filter:"blur(8px)", duration:0.15, ease:"power2.in"}, 7.84);
+      tl.fromTo("#it2", {opacity:0, scale:1.25, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 7.96);
+      tl.to("#it2", {opacity:0, filter:"blur(8px)", duration:0.15, ease:"power2.in"}, 11.38);
+      tl.fromTo("#it3", {opacity:0, scale:1.25, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 11.5);
+      tl.to("#it3", {opacity:0, filter:"blur(8px)", duration:0.15, ease:"power2.in"}, 14.22);
+      tl.fromTo("#it4", {opacity:0, scale:1.25, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 14.34);
+      tl.to("#it4", {opacity:0, filter:"blur(8px)", duration:0.15, ease:"power2.in"}, 16.58);
+      tl.fromTo("#it2b", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 9.67);
+      tl.to("#it2b", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 11.4);
+      tl.fromTo("#al", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 4.58);
+      tl.to("#al", {opacity:0, duration:.15}, 5.48);
+      tl.fromTo("#al", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)", immediateRender:false}, 7.27);
+      tl.to("#al", {opacity:0, duration:.15}, 8.17);
+      tl.fromTo("#al", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)", immediateRender:false}, 13.65);
+      tl.to("#al", {opacity:0, duration:.15}, 14.55);
+      tl.fromTo("#al", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)", immediateRender:false}, 17.55);
+      tl.to("#al", {opacity:0, duration:.15}, 18.45);
+      tl.fromTo("#tuala2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 15.91);
+      tl.to("#tuala2", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 17.45);
+      tl.fromTo("#s3", {filter:"blur(0px) brightness(1)"}, {filter:"blur(36px) brightness(.7)", duration:.45, ease:"power2.out"}, 18.57);
+      tl.to("#br-s", {opacity:1, duration:0.3}, 18.87);
+      tl.fromTo("#br-n", {opacity:0, scale:.6, filter:"blur(20px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.5, ease:"expo.out"}, 21.52);
+      tl.fromTo("#bc1", {opacity:0, y:30}, {opacity:1, y:0, duration:.3, ease:"back.out(1.6)"}, 21.87);
+      tl.fromTo("#bc2", {opacity:0, y:30}, {opacity:1, y:0, duration:.3, ease:"back.out(1.6)"}, 22.02);
+      tl.fromTo("#bc3", {opacity:0, y:30}, {opacity:1, y:0, duration:.3, ease:"back.out(1.6)"}, 22.17);
+      tl.fromTo("#cw", {opacity:0}, {opacity:1, duration:.3}, 22.56);
+      tl.to("#br-s, #br-n, #br-chips", {opacity:0, duration:.2}, 22.66);
+      tl.from("#cw .badge", {x:-40, opacity:0, duration:.35, ease:"expo.out", immediateRender:false}, 22.81);
+      tl.fromTo("#wcap1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 22.96);
+      tl.set("#wcap1", {opacity:0}, 22.66);
+      tl.fromTo("#wc1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 25.48);
+      tl.fromTo("#wc2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 26.47);
+      tl.to("#wcap1", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 27.59);
+      tl.fromTo("#wcap2", {opacity:0, y:24, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.08}, 29.99);
+      tl.to("#wc2", {opacity:.35, scale:.94, duration:.35}, 30.39);
+      tl.to("#wc1", {scale:1.06, duration:.35, ease:"back.out(2)"}, 30.39);
+      tl.fromTo("#wok", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 30.54);
+      tl.fromTo("#ct", {opacity:0}, {opacity:1, duration:.3}, 31.24);
+      tl.to("#cw", {opacity:0, duration:.2}, 31.54);
+      tl.fromTo("#t1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 31.69);
+      tl.to("#op1", {opacity:1, duration:0.2}, 32.98);
+      tl.fromTo("#t2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 33.69);
+      tl.to("#op2", {opacity:1, duration:0.2}, 34.26);
+      tl.fromTo("#t3", {opacity:0, scale:.4}, {opacity:1, scale:1, duration:.4, ease:"back.out(2)"}, 34.89);
+      tl.fromTo("#tc", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 35.48);
+      tl.set("#tcap", {opacity:0}, 0);
+      tl.fromTo("#tcap", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 35.78);
+      tl.fromTo("#tok", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 36.85);
+      tl.to("#ct", {opacity:0, duration:.25}, 37.28);
+      tl.fromTo("#wj", {opacity:0, scale:1.4, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 37.71);
+      tl.fromTo("#wj2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 39.09);
+      tl.to("#wj, #wj2", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 39.54);
+      tl.fromTo("#oc", {opacity:0, y:80, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 39.74);
+      tl.fromTo("#ocap", {opacity:0, y:24, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.08}, 43.31);
+      tl.fromTo("#rt1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 45.45);
+      tl.fromTo("#rt2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 45.9);
+      tl.fromTo("#rt3", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 47.12);
+      tl.to("#oc", {x:"+=10", duration:.05, yoyo:true, repeat:5}, 47.22);
+      tl.to("#oc, #ocap, #rt1, #rt2, #rt3", {opacity:0, scale:.9, duration:.25, ease:"power2.in"}, 47.32);
+      tl.fromTo("#gp .wd", {opacity:0, y:24, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.12}, 47.66);
+      tl.to("#gp", {opacity:0, duration:.2}, 50.05);
+      tl.fromTo("#go", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 50.15);
+      tl.to("#go", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 50.87);
+      tl.fromTo("#ml0", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 51.14);
+      tl.to("#ml0", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 52.47);
+      tl.fromTo("#ml1", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 52.74);
+      tl.to("#ml1", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 54.07);
+      tl.fromTo("#ml2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 54.34);
+      tl.to("#ml2", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 55.67);
+      tl.fromTo("#ml3", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 55.94);
+      tl.to("#ml3", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 57.27);
+      tl.fromTo("#ml4", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 57.54);
+      tl.to("#ml4", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 58.87);
+      tl.fromTo("#sp", {opacity:0, scale:2}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 59.120000000000005);
+      tl.fromTo("#tg1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 59.62);
+      tl.to("#tg1", {y:-18, duration:1.4, yoyo:true, repeat:1, ease:"sine.inOut"}, 60.12);
+      tl.fromTo("#tg2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 60.07);
+      tl.to("#tg2", {y:-18, duration:1.4, yoyo:true, repeat:1, ease:"sine.inOut"}, 60.57);
+      tl.fromTo("#tg3", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 60.52);
+      tl.to("#tg3", {y:-18, duration:1.4, yoyo:true, repeat:1, ease:"sine.inOut"}, 61.02);
+      tl.to("#sp, #tg1, #tg2, #tg3", {opacity:0, duration:.25}, 62.22);
+      tl.fromTo("#ec", {opacity:0, y:90, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 62.52);
+      tl.fromTo("#ebtn", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 63.22);
+      tl.to("#ebtn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 64.12);
+      tl.to("#ebtn", {scale:1.05, duration:.4, yoyo:true, repeat:4, ease:"sine.inOut"}, 64.42);
+      tl.to("#esub", {opacity:1, duration:0.3}, 63.62);
+      tl.fromTo("#ecom", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 64.82);
+      tl.to("#root", {opacity:0, duration:.4}, 67.62);
+      tl.set({}, {}, 68.02);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

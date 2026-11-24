@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  .scrim { position:absolute; left:0; right:0; bottom:0; height:1000px; opacity:0;
+           background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.72)); }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02;
+         text-shadow:0 6px 24px rgba(0,0,0,.45); }
+  .y { color:#FFC928; } .rd { color:#FF4D4D; } .gr { color:#3DDC84; }
+  .wd { display:inline-block; opacity:0; }
+  .card { position:absolute; left:120px; width:840px; background:rgba(12,18,38,.88); border-radius:28px;
+          padding:30px 38px; box-shadow:0 18px 50px rgba(0,0,0,.4); color:#fff; font-family:'Montserrat',sans-serif; opacity:0; }
+  .eyebrow { font-weight:800; font-size:30px; letter-spacing:.14em; color:#FFC928; text-transform:uppercase; }
+  .row { display:flex; align-items:center; gap:22px; font-weight:800; font-size:44px; margin-top:16px; opacity:.35; }
+  .box { width:48px; height:48px; border-radius:12px; border:4px solid rgba(255,255,255,.55); position:relative; flex:none; }
+  .box svg { position:absolute; left:-4px; top:-8px; }
+  .chip { display:inline-block; padding:14px 26px; border-radius:999px; font-weight:800; font-size:38px;
+          background:rgba(255,255,255,.12); border:3px solid rgba(255,255,255,.3); margin:14px 12px 0 0; position:relative; opacity:0; }
+  .stamp { position:absolute; font-family:'Archivo Black',sans-serif; text-transform:uppercase; padding:14px 30px;
+           border:8px solid #FFC928; color:#FFC928; border-radius:18px; background:rgba(12,18,38,.75); opacity:0; }
+  .paper { position:absolute; left:120px; width:840px; background:#FFF8E7; border-radius:14px; opacity:0;
+           box-shadow:0 18px 44px rgba(0,0,0,.4); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-18px; width:170px; height:38px; margin-left:-85px;
+                   background:rgba(255,201,40,.8); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.b { stroke:#1F5FD1; }
+  .ink.p { stroke:#F48FB1; } .ink.thick { stroke-width:12; } .ink.w { stroke:#fff; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .lbl { position:absolute; left:0; right:0; text-align:center; font-size:124px; opacity:0; }
+
+#pw .ink { stroke-width:7; } #wf-t4 { transform:rotate(-8deg); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="85.03" data-width="1080" data-height="1920">
+      <div id="cam">
+        <img id="s1" class="clip " data-start="0" data-duration="6.0" data-track-index="0" src="assets/img/oldmattress-bg.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; filter:blur(26px) brightness(.45); transform:scale(1.15)" />
+        <img id="s2" class="clip " data-start="0" data-duration="6.0" data-track-index="0" src="assets/img/oldmattress.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; width:1080px; height:1168px; top:150px; object-fit:cover" />
+        <video id="s3" class="clip " data-start="6.0" data-duration="3.5" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="109.95" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="9.5" data-duration="3.61" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="0.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="13.11" data-duration="14.96" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="3.81" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="28.07" data-duration="5.46" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="23.12" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="33.53" data-duration="9.04" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="30.01" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="42.57" data-duration="18.86" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="40.97" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="61.43" data-duration="2.0" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="69.45" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="63.43" data-duration="1.7" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="72.1" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="65.13" data-duration="1.8" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="76.7" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s12" class="clip " data-start="66.93" data-duration="2.0" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="81.55" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s13" class="clip " data-start="68.93" data-duration="1.9" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="87.25" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s14" class="clip " data-start="70.83" data-duration="1.8" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="92.15" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s15" class="clip " data-start="72.63" data-duration="2.2" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="103.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s16" class="clip " data-start="74.83" data-duration="2.7" data-track-index="0" src="assets/footage/20261029_232802.mp4" muted playsinline data-media-start="0.4" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s17" class="clip " data-start="77.53" data-duration="1.7" data-track-index="0" src="assets/footage/20261028_210240.mp4" muted playsinline data-media-start="0.4" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s18" class="clip " data-start="79.23" data-duration="5.8" data-track-index="0" src="assets/footage/20261029_232831.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <svg id="hk-rings" width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0">
+          <path class="ink r thick" pathLength="1" d="M180 1010 C 90 1000, 80 1150, 200 1170 C 330 1185, 360 1040, 250 1000"/>
+          <path class="ink r thick" pathLength="1" d="M820 760 C 720 730, 690 880, 800 905 C 930 925, 960 790, 860 755"/>
+          <path class="ink r thick" pathLength="1" d="M560 1180 C 450 1160, 440 1300, 560 1320 C 690 1335, 720 1200, 610 1175"/>
+        </svg>
+      </div>
+      <div id="hk-scrim" class="scrim"></div>
+      <div id="hk-box" class="ov" style="left:70px; right:70px; top:1395px; text-align:center; opacity:1">
+        <div id="hk-l1" class="big" style="font-size:66px"><span class="wd">Tilam</span> <span class="wd">beli</span> <span class="wd y">mahal...</span></div>
+        <div id="hk-l2" class="big" style="font-size:60px; margin-top:14px"><span class="wd">tiba-tiba</span> <span class="wd">jadi</span></div>
+        <div id="hk-l3" class="big rd" style="font-size:132px; margin-top:4px"><span class="wd">PETA DUNIA?!</span></div>
+        <svg width="760" height="46" viewBox="0 0 760 46" style="display:block;margin:-4px auto 0"><path id="hk-ul" class="ink y thick" pathLength="1" d="M20 28 C 200 8, 420 40, 740 16"/></svg>
+      </div>
+      <div id="hk2" class="ov" style="left:70px; right:70px; top:1300px; text-align:center">
+        <div class="big" style="font-size:54px"><span class="wd">Penyelesaian</span> <span class="wd">dia?</span></div>
+        <div class="big y" style="font-size:118px; margin-top:6px"><span class="wd">SET</span> <span class="wd">ALOOMA</span></div>
+        <div class="big" style="font-size:58px; margin-top:8px"><span class="wd">Lapik</span> <span class="wd">+</span> <span class="wd">Cadar</span> <span class="wd">+</span> <span class="wd">Comforter</span></div>
+      </div>
+      <div id="ca" class="card" style="top:1040px">
+        <div class="eyebrow">Unboxing &bull; Review jujur</div>
+        <div class="big" style="font-size:78px; margin-top:8px">SET <span class="y">ALOOMA</span> PREMIUM</div>
+      </div>
+      <div id="cb" class="card" style="top:900px">
+        <div class="eyebrow">Dalam 1 set ada&hellip;</div>
+        <div class="row" id="it0"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Lapik tilam</div></div><div class="row" id="it1"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Comforter</div></div><div class="row" id="it2"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Lapik bantal waterproof</div></div><div class="row" id="it3"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Bantal</div></div><div class="row" id="it4"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Tuala</div></div>
+      </div>
+      <div id="stamp-al" class="stamp" style="left:560px; top:820px; font-size:64px; transform:rotate(-8deg)">ALOOMA!</div>
+      <div id="pw" class="paper" style="top:880px; height:470px">
+        <svg width="840" height="470" viewBox="0 0 840 470" style="position:absolute;left:0;top:0"><circle cx="130" cy="120" r="44" class="ink" pathLength="1" /><path class="ink " pathLength="1" d="M86 112 C 80 60, 180 60, 174 112 M150 70 C 160 40, 196 50, 186 80" id="wf-hair"/><path class="ink " pathLength="1" d="M130 164 L130 290 M130 200 L80 250 M130 200 L185 240 M130 290 L92 370 M130 290 L168 370" id="wf-body"/><path class="ink " pathLength="1" d="M240 40 h520 a24 24 0 0 1 24 24 v110 a24 24 0 0 1 -24 24 h-430 l-60 50 l10 -50 h-40 a24 24 0 0 1 -24 -24 v-110 a24 24 0 0 1 24 -24 z" id="wf-bub"/><path class="ink " pathLength="1" d="M300 270 h150 v150 h-150 z" id="sw-w"/><path class="ink r thick" pathLength="1" d="M290 260 L460 430 M460 260 L290 430" id="sw-x"/><path class="ink p thick" pathLength="1" d="M560 270 h150 v150 h-150 z" id="sw-p"/><path class="ink g thick" pathLength="1" d="M585 345 L622 385 L695 290" id="sw-ok"/><path class="ink " pathLength="1" d="M470 345 C 500 310, 520 310, 545 340 M530 322 l18 18 l-24 6" id="sw-ar"/></svg>
+        <div class="hand " id="wf-t1" style="left:280px; top:62px; font-size:62px">Putih tak cantik,</div>
+        <div class="hand r" id="wf-t2" style="left:280px; top:126px; font-size:62px">abang!</div>
+        <div class="hand b" id="wf-t3" style="left:84px; top:380px; font-size:50px">Isteri</div>
+        <div class="hand mk g" id="wf-t4" style="left:730px; top:300px; font-size:70px">PINK!</div>
+      </div>
+      <div id="cd" class="card" style="top:980px; text-align:center">
+        <div class="eyebrow">Kali ni dapat</div>
+        <div class="big" style="font-size:96px; margin-top:6px">1 SET <span style="color:#FF8FC0">PINK</span></div>
+        <div style="display:flex; gap:16px; justify-content:center; margin-top:16px">
+          <span class="chip" id="cd1">Cadar</span><span class="chip" id="cd2">Sarung bantal</span><span class="chip" id="cd3">Comforter</span></div>
+      </div>
+      <div id="cw" class="card" style="top:930px">
+        <div class="eyebrow" id="cw-e1">Lapik Alooma ada 2 jenis</div>
+        <div><span class="chip" id="wp" style="font-size:44px">WATERPROOF</span><span class="chip" id="nwp" style="font-size:44px">NON-WATERPROOF</span></div>
+        <svg id="nwp-x" width="840" height="120" viewBox="0 0 840 120" style="position:absolute;left:0;top:96px"><path class="ink r thick" pathLength="1" d="M440 70 L790 66"/></svg>
+        <div id="cw-rec" style="opacity:0; margin-top:22px; font-weight:800; font-size:46px">Cadangan saya: <span class="y">ambil WATERPROOF</span></div>
+      </div>
+      <div id="stamp-wp" class="stamp" style="left:600px; top:850px; font-size:56px; border-color:#3DDC84; color:#3DDC84; transform:rotate(-6deg)">PILIH INI!</div>
+      <div id="pb" class="paper" style="top:900px; height:470px">
+        <svg width="840" height="470" viewBox="0 0 840 470" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M60 60 h220 v200 h-220 z M60 110 h220 M110 40 v40 M230 40 v40" id="cal"/><path class="ink " pathLength="1" d="M310 160 C 360 130, 400 130, 440 160 M420 140 l22 20 l-28 10" id="cal-ar"/><path class="ink " pathLength="1" d="M480 120 L780 120 L800 250 L460 250 Z M460 250 v26 h340 v-26" id="mat"/><path class="ink y thick" pathLength="1" d="M560 170 l0 26 M547 183 l26 0 M690 150 l0 30 M675 165 l30 0 M720 215 l0 20 M710 225 l20 0" id="spark"/></svg>
+        <div class="hand mk r" id="cal-t" style="left:104px; top:132px; font-size:92px">2-3</div>
+        <div class="hand " id="cal-t2" style="left:110px; top:214px; font-size:44px">bulan</div>
+        <div class="hand g" id="pb-t1" style="left:70px; top:300px; font-size:66px">Masih CANTIK</div>
+        <div class="hand g" id="pb-t2" style="left:450px; top:300px; font-size:66px">Masih BERSIH</div>
+        <div class="hand b" id="pb-t3" style="left:220px; top:385px; font-size:52px">&#10003; lepas 2-3 bulan pakai</div>
+      </div>
+      <div id="cj" class="card" style="top:980px; text-align:center">
+        <div class="big" style="font-size:110px"><span class="wd y">WAJIB</span> <span class="wd">PAKAI!</span></div>
+        <div style="font-weight:800; font-size:46px; margin-top:12px; opacity:0" id="cj-2">Supaya korang <span class="y">jaga tilam</span> korang</div>
+        <svg width="120" height="140" viewBox="0 0 120 140" style="position:absolute; right:40px; top:-70px"><path id="shield" class="ink y thick" pathLength="1" d="M60 10 L105 28 C 105 80, 90 112, 60 130 C 30 112, 15 80, 15 28 Z M40 70 L56 86 L84 52"/></svg>
+      </div>
+      <div id="lb0" class="lbl big" style="top:1420px">PASANG<br><span class=y>CADAR</span></div>
+      <div id="lb2" class="lbl big" style="top:1420px">KEMAS &<br><span class=y>MUAT</span></div>
+      <div id="lb3" class="lbl big" style="top:1420px">COMFORTER</div>
+      <div id="lb4" class="lbl big" style="top:1420px">SARUNG<br><span class=y>BANTAL</span></div>
+      <div id="rv" class="lbl big" style="top:1380px; font-size:190px"><span class="y">SIAP!</span></div>
+      <svg id="rv-sp" width="1080" height="400" viewBox="0 0 1080 400" style="position:absolute;left:0;top:1300px">
+        <path class="ink y thick" pathLength="1" d="M180 90 v60 M150 120 h60 M900 70 v70 M865 105 h70 M820 330 v40 M800 350 h40 M250 320 v40 M230 340 h40"/></svg>
+      <div id="rm" class="ov" style="left:60px; right:60px; top:1330px; text-align:center">
+        <div class="big" style="font-size:62px"><span class="wd">Bilik</span> <span class="wd">terus</span> <span class="wd">nampak</span></div>
+        <div class="big y" style="font-size:150px"><span class="wd">MEWAH</span></div>
+        <div class="big" style="font-size:54px"><span class="wd">macam</span> <span class="wd">hotel</span></div>
+      </div>
+      <div id="cta" class="card" style="top:880px; text-align:center; padding:40px 40px 46px">
+        <div class="eyebrow">Set Alooma Premium</div>
+        <div class="big" style="font-size:70px; margin-top:10px">Nak bilik cantik<br>macam ni?</div>
+        <div id="cta-btn" style="opacity:0; display:inline-flex; align-items:center; gap:22px; margin-top:28px; padding:26px 46px; border-radius:999px;
+             background:#FFC928; color:#0C1226; font-family:'Archivo Black'; font-size:50px; white-space:nowrap; box-shadow:0 10px 0 #C99A00">
+          <svg width="74" height="70" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#0C1226"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#0C1226" stroke-width="7"/></svg>
+          TEKAN BEG KUNING</div>
+        <div id="cta-2" style="opacity:0; font-weight:800; font-size:40px; margin-top:26px">Komen <span class="y">1 hingga 5</span>, korang rasa cantik tak?</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.85, ease:"sine.inOut"}, 0.02);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 1.89);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 5.65);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 6.0);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 8.93);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 9.5);
+      tl.to("#cam", {scale:1.22, x:-10, y:-217.5, duration:0.5, ease:"power2.inOut"}, 9.75);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.7, ease:"power2.inOut"}, 10.45);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.18, ease:"power2.inOut"}, 12.85);
+      tl.set("#cam", {scale:1.27, x:0, y:-267.6}, 13.05);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 13.11);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 14.03);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 15.75);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 20.26);
+      tl.to("#cam", {scale:1.3, x:-20, y:-297.7, duration:0.7, ease:"power2.inOut"}, 22.38);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 27.0);
+      tl.set("#cam", {scale:1.28, x:0, y:0}, 28.0);
+      tl.set("#cam", {scale:1.2, x:0, y:-197.4}, 28.07);
+      tl.to("#cam", {scale:1.23, x:16, y:-227.5, duration:0.7, ease:"power2.inOut"}, 30.44);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 32.21);
+      tl.set("#cam", {scale:1.24, x:12, y:-237.5}, 33.53);
+      tl.to("#cam", {scale:1.28, x:18, y:-277.6, duration:0.7, ease:"power2.inOut"}, 35.07);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 37.36);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.23, ease:"power2.inOut"}, 38.02);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.5, ease:"power2.inOut"}, 38.27);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 39.31);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 42.52);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 42.57);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 42.6);
+      tl.to("#cam", {scale:1.31, x:-14, y:-307.7, duration:0.7, ease:"power2.inOut"}, 44.53);
+      tl.to("#cam", {scale:1.24, x:0, y:-237.5, duration:0.7, ease:"power2.inOut"}, 47.6);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 50.25);
+      tl.set("#cam", {scale:1.34, x:0, y:-337.8}, 51.18);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.38, ease:"power2.inOut"}, 51.2);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.7, ease:"power2.inOut"}, 51.6);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 54.8);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 56.71);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.12, ease:"power2.inOut"}, 57.06);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.4, ease:"power2.inOut"}, 57.2);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 57.62);
+      tl.set("#cam", {scale:1.28, x:0, y:0}, 61.4);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 61.43);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.96, ease:"sine.inOut"}, 61.45);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 63.43);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.66, ease:"sine.inOut"}, 63.45);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 65.13);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.76, ease:"sine.inOut"}, 65.14999999999999);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 66.93);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.96, ease:"sine.inOut"}, 66.94999999999999);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 68.93);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.86, ease:"sine.inOut"}, 68.94999999999999);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 70.83);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.76, ease:"sine.inOut"}, 70.85);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 72.63);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.16, ease:"sine.inOut"}, 72.64999999999999);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 74.83);
+      tl.to("#cam", {scale:1.15, x:0, y:0, duration:2.66, ease:"sine.inOut"}, 74.85);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 77.53);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:1.66, ease:"sine.inOut"}, 77.55);
+      tl.set("#cam", {scale:1.2, x:0, y:-197.4}, 79.23);
+      tl.to("#cam", {scale:1.25, x:0, y:-247.6, duration:5.76, ease:"sine.inOut"}, 79.25);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 85.03);
+      tl.set("#hk-scrim", {opacity:1}, 0);
+      tl.set("#hk-l1 .wd", {opacity:1}, 0);
+      tl.fromTo("#hk-rings path:nth-child(1)", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 3.93);
+      tl.fromTo("#hk-rings path:nth-child(2)", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 4.21);
+      tl.fromTo("#hk-rings path:nth-child(3)", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 4.49);
+      tl.fromTo("#hk-l2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.09}, 2.73);
+      tl.fromTo("#hk-l3 .wd", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 5.65);
+      tl.fromTo("#hk-ul", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 5.9);
+      tl.to("#hk-box", {opacity:0, y:-30, duration:.2}, 5.88);
+      tl.to("#hk-rings", {opacity:0, duration:.15}, 5.9);
+      tl.fromTo("#hk2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.1}, 6.15);
+      tl.to("#hk2", {opacity:1, duration:.01}, 6.1);
+      tl.to("#hk2, #hk-scrim", {opacity:0, duration:.25}, 9.25);
+      tl.fromTo("#ca", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 9.8);
+      tl.to("#ca", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 12.85);
+      tl.fromTo("#cb", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 12.95);
+      tl.to("#it0", {opacity:1, duration:.2}, 13.15);
+      tl.fromTo("#it0 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 13.3);
+      tl.to("#it1", {opacity:1, duration:.2}, 14.82);
+      tl.fromTo("#it1 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 14.97);
+      tl.to("#it2", {opacity:1, duration:.2}, 17.46);
+      tl.fromTo("#it2 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 17.61);
+      tl.to("#it3", {opacity:1, duration:.2}, 21.0);
+      tl.fromTo("#it3 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 21.15);
+      tl.to("#it4", {opacity:1, duration:.2}, 23.84);
+      tl.fromTo("#it4 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 23.99);
+      tl.fromTo("#stamp-al", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)"}, 14.08);
+      tl.to("#stamp-al", {opacity:0, duration:.18}, 14.83);
+      tl.fromTo("#stamp-al", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 16.77);
+      tl.to("#stamp-al", {opacity:0, duration:.18}, 17.52);
+      tl.fromTo("#stamp-al", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 20.31);
+      tl.to("#stamp-al", {opacity:0, duration:.18}, 21.06);
+      tl.fromTo("#stamp-al", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 23.15);
+      tl.to("#stamp-al", {opacity:0, duration:.18}, 23.9);
+      tl.fromTo("#stamp-al", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 27.05);
+      tl.to("#stamp-al", {opacity:0, duration:.18}, 27.8);
+      tl.to("#cb", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 27.9);
+      tl.fromTo("#pw", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 28.1);
+      tl.fromTo("#pw circle", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 28.25);
+      tl.fromTo("#wf-hair", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 28.45);
+      tl.fromTo("#wf-body", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 28.65);
+      tl.fromTo("#wf-bub", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 30.58);
+      tl.fromTo("#wf-t3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 30.68);
+      tl.fromTo("#wf-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.72, ease:"none"}, 31.78);
+      tl.fromTo("#sw-w", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 31.42);
+      tl.fromTo("#sw-x", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 32.26);
+      tl.fromTo("#wf-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 32.82);
+      tl.fromTo("#sw-ar", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 34.01);
+      tl.fromTo("#sw-p", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 34.6);
+      tl.fromTo("#sw-ok", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 36.55);
+      tl.fromTo("#wf-t4", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 36.65);
+      tl.to("#pw", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 37.97);
+      tl.fromTo("#cd", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 38.32);
+      tl.fromTo("#cd1", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 40.25);
+      tl.fromTo("#cd2", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 40.45);
+      tl.fromTo("#cd3", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 40.65);
+      tl.to("#cd", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 42.42);
+      tl.fromTo("#cw", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 42.65);
+      tl.fromTo("#wp", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 45.49);
+      tl.fromTo("#nwp", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 46.48);
+      tl.to("#cw-rec", {opacity:1, duration:0.3}, 47.6);
+      tl.to("#nwp", {opacity:.35, duration:.3}, 50.3);
+      tl.fromTo("#nwp-x path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 50.3);
+      tl.to("#wp", {background:"#3DDC84", borderColor:"#3DDC84", color:"#0C1226", scale:1.08, duration:.25}, 50.4);
+      tl.fromTo("#stamp-wp", {opacity:0, scale:1.8}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 50.5);
+      tl.to("#cw", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 51.15);
+      tl.to("#stamp-wp", {opacity:0, duration:0.25, ease:"power2.in"}, 51.1);
+      tl.fromTo("#pb", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 51.23);
+      tl.fromTo("#cal", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 51.6);
+      tl.fromTo("#cal-t", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 53.6);
+      tl.fromTo("#cal-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 54.17);
+      tl.fromTo("#cal-ar", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 54.8);
+      tl.fromTo("#mat", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 55.0);
+      tl.fromTo("#pb-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.54, ease:"none"}, 55.69);
+      tl.fromTo("#spark", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 55.79);
+      tl.fromTo("#pb-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.54, ease:"none"}, 56.76);
+      tl.to("#pb", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 57.15);
+      tl.fromTo("#cj", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 57.11);
+      tl.fromTo("#cj .wd", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 57.67);
+      tl.to("#cj-2", {opacity:1, duration:0.3}, 59.0);
+      tl.fromTo("#shield", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 59.94);
+      tl.to("#cj", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 61.35);
+      tl.fromTo("#lb0", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 61.53);
+      tl.to("#lb0", {opacity:0, duration:.2}, 63.23);
+      tl.fromTo("#lb2", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 65.23);
+      tl.to("#lb2", {opacity:0, duration:.2}, 66.73);
+      tl.fromTo("#lb3", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 67.03);
+      tl.to("#lb3", {opacity:0, duration:.2}, 68.73);
+      tl.fromTo("#lb4", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 69.03);
+      tl.to("#lb4", {opacity:0, duration:.2}, 70.63);
+      tl.fromTo("#rv", {opacity:0, scale:2.2}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 72.78);
+      tl.fromTo("#rv-sp path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 73.03);
+      tl.to("#rv, #rv-sp", {opacity:0, duration:.25}, 74.58);
+      tl.set("#rm", {opacity:1}, 74.83);
+      tl.fromTo("#rm .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.12}, 75.03);
+      tl.to("#rm", {opacity:0, duration:.25}, 78.98);
+      tl.fromTo("#cta", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 79.33);
+      tl.fromTo("#cta-btn", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 79.93);
+      tl.to("#cta-btn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 80.83);
+      tl.to("#cta-btn", {scale:1.06, duration:.35, yoyo:true, repeat:5, ease:"sine.inOut"}, 81.23);
+      tl.to("#cta-2", {opacity:1, duration:0.3}, 81.53);
+      tl.to("#root", {opacity:0, duration:.4}, 84.63);
+      tl.set({}, {}, 85.03);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

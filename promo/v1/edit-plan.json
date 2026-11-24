@@ -1,0 +1,832 @@
+{
+ "total": 85.03,
+ "vo": [
+  {
+   "name": "hook",
+   "src_in": 59.83,
+   "src_out": 65.83,
+   "out": 0.0,
+   "dur": 6.0
+  },
+  {
+   "name": "hook2",
+   "src_in": 65.83,
+   "src_out": 69.33,
+   "out": 6.0,
+   "dur": 3.5
+  },
+  {
+   "name": "a",
+   "src_in": 0.2,
+   "src_out": 3.81,
+   "out": 9.5,
+   "dur": 3.61
+  },
+  {
+   "name": "b",
+   "src_in": 3.81,
+   "src_out": 18.77,
+   "out": 13.11,
+   "dur": 14.96
+  },
+  {
+   "name": "c",
+   "src_in": 23.12,
+   "src_out": 28.58,
+   "out": 28.07,
+   "dur": 5.46
+  },
+  {
+   "name": "d",
+   "src_in": 30.01,
+   "src_out": 39.05,
+   "out": 33.53,
+   "dur": 9.04
+  },
+  {
+   "name": "e",
+   "src_in": 40.97,
+   "src_out": 59.83,
+   "out": 42.57,
+   "dur": 18.86
+  }
+ ],
+ "shots": [
+  {
+   "id": "s1",
+   "start": 0,
+   "dur": 6.0,
+   "src": "assets/img/oldmattress-bg.jpg",
+   "ms": 0.0,
+   "kind": "img",
+   "cls": "",
+   "style": "filter:blur(26px) brightness(.45); transform:scale(1.15)"
+  },
+  {
+   "id": "s2",
+   "start": 0,
+   "dur": 6.0,
+   "src": "assets/img/oldmattress.jpg",
+   "ms": 0.0,
+   "kind": "img",
+   "cls": "",
+   "style": "width:1080px; height:1168px; top:150px; object-fit:cover"
+  },
+  {
+   "id": "s3",
+   "start": 6.0,
+   "dur": 3.5,
+   "src": "assets/footage/main.mp4",
+   "ms": 109.95,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s4",
+   "start": 9.5,
+   "dur": 3.61,
+   "src": "assets/footage/main.mp4",
+   "ms": 0.2,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s5",
+   "start": 13.11,
+   "dur": 14.96,
+   "src": "assets/footage/main.mp4",
+   "ms": 3.81,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s6",
+   "start": 28.07,
+   "dur": 5.46,
+   "src": "assets/footage/main.mp4",
+   "ms": 23.12,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s7",
+   "start": 33.53,
+   "dur": 9.04,
+   "src": "assets/footage/main.mp4",
+   "ms": 30.01,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s8",
+   "start": 42.57,
+   "dur": 18.86,
+   "src": "assets/footage/main.mp4",
+   "ms": 40.97,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s9",
+   "start": 61.43,
+   "dur": 2.0,
+   "src": "assets/footage/main.mp4",
+   "ms": 69.45,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s10",
+   "start": 63.43,
+   "dur": 1.7,
+   "src": "assets/footage/main.mp4",
+   "ms": 72.1,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s11",
+   "start": 65.13,
+   "dur": 1.8,
+   "src": "assets/footage/main.mp4",
+   "ms": 76.7,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s12",
+   "start": 66.93,
+   "dur": 2.0,
+   "src": "assets/footage/main.mp4",
+   "ms": 81.55,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s13",
+   "start": 68.93,
+   "dur": 1.9,
+   "src": "assets/footage/main.mp4",
+   "ms": 87.25,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s14",
+   "start": 70.83,
+   "dur": 1.8,
+   "src": "assets/footage/main.mp4",
+   "ms": 92.15,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s15",
+   "start": 72.63,
+   "dur": 2.2,
+   "src": "assets/footage/main.mp4",
+   "ms": 103.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s16",
+   "start": 74.83,
+   "dur": 2.7,
+   "src": "assets/footage/20261029_232802.mp4",
+   "ms": 0.4,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s17",
+   "start": 77.53,
+   "dur": 1.7,
+   "src": "assets/footage/20261028_210240.mp4",
+   "ms": 0.4,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s18",
+   "start": 79.23,
+   "dur": 5.8,
+   "src": "assets/footage/20261029_232831.mp4",
+   "ms": 0.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  }
+ ],
+ "sfx": [
+  [
+   "whoosh-short",
+   1.94,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   8.98,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   20.31,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   32.26,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   50.3,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   57.67,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   0.05,
+   0.45
+  ],
+  [
+   "error",
+   4.03,
+   0.5
+  ],
+  [
+   "impact-bass-1",
+   5.75,
+   0.5
+  ],
+  [
+   "whoosh",
+   6.0,
+   0.55
+  ],
+  [
+   "impact-bass-1",
+   8.98,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   9.85,
+   0.35
+  ],
+  [
+   "whoosh-short",
+   13.0,
+   0.35
+  ],
+  [
+   "pop",
+   13.4,
+   0.45
+  ],
+  [
+   "pop",
+   15.07,
+   0.45
+  ],
+  [
+   "pop",
+   17.71,
+   0.45
+  ],
+  [
+   "pop",
+   21.25,
+   0.45
+  ],
+  [
+   "pop",
+   24.09,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   14.1,
+   0.3
+  ],
+  [
+   "impact-bass-1",
+   16.79,
+   0.3
+  ],
+  [
+   "impact-bass-1",
+   20.33,
+   0.3
+  ],
+  [
+   "impact-bass-1",
+   23.17,
+   0.3
+  ],
+  [
+   "impact-bass-1",
+   27.07,
+   0.3
+  ],
+  [
+   "whoosh-short",
+   28.15,
+   0.35
+  ],
+  [
+   "pop",
+   31.88,
+   0.3
+  ],
+  [
+   "error",
+   32.26,
+   0.45
+  ],
+  [
+   "pop",
+   36.75,
+   0.6
+  ],
+  [
+   "whoosh-short",
+   38.37,
+   0.35
+  ],
+  [
+   "pop",
+   40.35,
+   0.6
+  ],
+  [
+   "whoosh-short",
+   42.7,
+   0.35
+  ],
+  [
+   "pop",
+   45.59,
+   0.6
+  ],
+  [
+   "pop",
+   46.58,
+   0.6
+  ],
+  [
+   "error",
+   50.35,
+   0.35
+  ],
+  [
+   "impact-bass-1",
+   50.5,
+   0.35
+  ],
+  [
+   "whoosh-short",
+   51.28,
+   0.35
+  ],
+  [
+   "pop",
+   53.7,
+   0.6
+  ],
+  [
+   "pop",
+   55.84,
+   0.4
+  ],
+  [
+   "pop",
+   56.86,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   57.16,
+   0.35
+  ],
+  [
+   "impact-bass-1",
+   57.77,
+   0.5
+  ],
+  [
+   "pop",
+   60.14,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   61.43,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   63.43,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   65.13,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   66.93,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   68.93,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   70.83,
+   0.4
+  ],
+  [
+   "riser",
+   72.63,
+   0.28
+  ],
+  [
+   "impact-bass-1",
+   72.83,
+   0.5
+  ],
+  [
+   "whoosh",
+   74.83,
+   0.4
+  ],
+  [
+   "pop",
+   75.43,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   79.38,
+   0.35
+  ],
+  [
+   "pop",
+   80.03,
+   0.6
+  ],
+  [
+   "click-soft",
+   80.83,
+   0.6
+  ],
+  [
+   "notification",
+   81.53,
+   0.35
+  ]
+ ],
+ "music": [
+  [
+   0,
+   0.16
+  ],
+  [
+   61.03,
+   0.16
+  ],
+  [
+   61.63,
+   0.62
+  ],
+  [
+   83.43,
+   0.62
+  ],
+  [
+   85.03,
+   0
+  ]
+ ],
+ "zoom": [
+  [
+   0,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   6.0,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   9.5,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   13.11,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   28.07,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   33.53,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   42.57,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   61.43,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   63.43,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   65.13,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   66.93,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   68.93,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   70.83,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   72.63,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   74.83,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   77.53,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   79.23,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   10.45,
+   "ease",
+   1.14,
+   0
+  ],
+  [
+   15.75,
+   "ease",
+   1.0,
+   0
+  ],
+  [
+   22.38,
+   "ease",
+   1.2,
+   -20
+  ],
+  [
+   30.44,
+   "ease",
+   1.06,
+   16
+  ],
+  [
+   35.07,
+   "ease",
+   1.16,
+   18
+  ],
+  [
+   39.31,
+   "ease",
+   1.0,
+   0
+  ],
+  [
+   44.53,
+   "ease",
+   1.22,
+   -14
+  ],
+  [
+   47.6,
+   "ease",
+   1.08,
+   0
+  ],
+  [
+   51.6,
+   "ease",
+   1.14,
+   0
+  ],
+  [
+   54.8,
+   "ease",
+   1.0,
+   0
+  ],
+  [
+   1.89,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   5.65,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   8.93,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   14.03,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   20.26,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   27.0,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   32.21,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   37.36,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   50.25,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   56.71,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   57.62,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   0.02,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   61.45,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   63.45,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   65.14999999999999,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   66.94999999999999,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   68.94999999999999,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   70.85,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   72.64999999999999,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   74.85,
+   "slow",
+   1.15,
+   0
+  ],
+  [
+   77.55,
+   "slow",
+   1.12,
+   0
+  ],
+  [
+   79.25,
+   "slow",
+   1.1,
+   0
+  ]
+ ],
+ "music_file": "assets/music/inspiration.mp3"
+}

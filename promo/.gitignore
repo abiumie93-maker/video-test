@@ -1,0 +1,8 @@
+assets/footage/
+assets/main_audio.wav
+renders/
+.hyperframes/
+node_modules/
+v*/mix*.wav
+v*/mix_filter.txt
+v*/.hyperframes/
