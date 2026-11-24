@@ -6,3 +6,4 @@ node_modules/
 v*/mix*.wav
 v*/mix_filter.txt
 v*/.hyperframes/
+__pycache__/
