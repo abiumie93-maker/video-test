@@ -4,11 +4,11 @@ Sumber: folder Drive (1 video utama 1:58 + 6 klip bilik). Footage tak di-commit 
 
 | Video | Gaya | Tempoh | Generator |
 |---|---|---|---|
-| Video 1 | House style (zoom in/out, zoom slam, kad gelap + kad lukisan tangan) | 1:25 | `tools/gen1.py` -> `v1/` |
-| Video 2 | Gaya video reference (pill atas, neon + karusel kad, blur -> neon, kanvas putih, tag kaca, butang CTA) | 1:08 | `tools/gen2.py` -> `v2/` |
+| **Versi 1** | House style (zoom in/out, zoom slam, kad gelap + kad lukisan tangan) | 1:25 | `tools/gen1.py` -> `v1/` |
+| **Versi 2** | Gaya video reference (pill atas, neon + karusel kad, blur -> neon, kanvas putih, tag kaca, butang CTA) | 1:08 | `tools/gen2.py` -> `v2/` |
 
-Hook Video 1: "Sayang lah, tilam korang beli mahal. Tiba-tiba banyak tompok-tompok, peta-peta dunia" (sumber 0:59.8) atas gambar tilam lama.
-Hook Video 2: "6 ITEM, 1 SET SAHAJA" + karusel kad produk atas "Guys, mari sini... tengoklah ini".
+Hook Versi 1: "Sayang lah, tilam korang beli mahal. Tiba-tiba banyak tompok-tompok, peta-peta dunia" (sumber 0:59.8) atas gambar tilam lama.
+Hook Versi 2: "6 ITEM, 1 SET SAHAJA" + karusel kad produk atas "Guys, mari sini... tengoklah ini".
 
 Bunyi: suara asal (0:00-1:09 sumber) dipotong ikut titik senyap; muzik latar CC0 (FreePD, `assets/music/CREDITS.txt`)
 rendah bawah suara, naik masa montaj; SFX (Pixabay). Mix -15 LUFS, true peak <= -1.5 dBTP.
