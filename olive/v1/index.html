@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  .scrim { position:absolute; left:0; right:0; bottom:0; height:1000px; opacity:0;
+           background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.72)); }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02;
+         text-shadow:0 6px 24px rgba(0,0,0,.45); }
+  .y { color:#FFC928; } .rd { color:#FF4D4D; } .gr { color:#3DDC84; }
+  .wd { display:inline-block; opacity:0; }
+  .card { position:absolute; left:120px; width:840px; background:rgba(12,18,38,.88); border-radius:28px;
+          padding:30px 38px; box-shadow:0 18px 50px rgba(0,0,0,.4); color:#fff; font-family:'Montserrat',sans-serif; opacity:0; }
+  .eyebrow { font-weight:800; font-size:30px; letter-spacing:.14em; color:#FFC928; text-transform:uppercase; }
+  .row { display:flex; align-items:center; gap:22px; font-weight:800; font-size:44px; margin-top:16px; opacity:.35; }
+  .box { width:48px; height:48px; border-radius:12px; border:4px solid rgba(255,255,255,.55); position:relative; flex:none; }
+  .box svg { position:absolute; left:-4px; top:-8px; }
+  .chip { display:inline-block; padding:14px 26px; border-radius:999px; font-weight:800; font-size:38px;
+          background:rgba(255,255,255,.12); border:3px solid rgba(255,255,255,.3); margin:14px 12px 0 0; position:relative; opacity:0; }
+  .stamp { position:absolute; font-family:'Archivo Black',sans-serif; text-transform:uppercase; padding:14px 30px;
+           border:8px solid #FFC928; color:#FFC928; border-radius:18px; background:rgba(12,18,38,.75); opacity:0; }
+  .paper { position:absolute; left:120px; width:840px; background:#FFF8E7; border-radius:14px; opacity:0;
+           box-shadow:0 18px 44px rgba(0,0,0,.4); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-18px; width:170px; height:38px; margin-left:-85px;
+                   background:rgba(255,201,40,.8); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.b { stroke:#1F5FD1; }
+  .ink.p { stroke:#F48FB1; } .ink.thick { stroke-width:12; } .ink.w { stroke:#fff; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .lbl { position:absolute; left:0; right:0; text-align:center; font-size:124px; opacity:0; }
+
+
+  .bar { height:26px; border-radius:13px; background:rgba(255,255,255,.12); margin-top:10px; overflow:hidden; }
+  .bar i { display:block; height:100%; width:0; border-radius:13px; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="89.81" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="3.25" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="103.86" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="3.25" data-duration="12.55" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="11.38" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="15.8" data-duration="14.39" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="23.93" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="30.19" data-duration="5.16" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="43.44" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="42.35" data-duration="11.37" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="56.63" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="53.72" data-duration="9.52" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="76.32" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="63.24" data-duration="6.28" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="86.19" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="69.52" data-duration="11.01" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="107.11" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="80.53" data-duration="6.68" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="118.12" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="35.35" data-duration="1.4" data-track-index="0" src="assets/footage/1012_073631.mp4" muted playsinline data-media-start="0.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="36.75" data-duration="1.4" data-track-index="0" src="assets/footage/1021_224438.mp4" muted playsinline data-media-start="0.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s12" class="clip " data-start="38.15" data-duration="1.4" data-track-index="0" src="assets/footage/1012_073717.mp4" muted playsinline data-media-start="1.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s13" class="clip " data-start="39.55" data-duration="1.4" data-track-index="0" src="assets/footage/1012_073637.mp4" muted playsinline data-media-start="1.4" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s14" class="clip " data-start="40.95" data-duration="1.4" data-track-index="0" src="assets/footage/1021_224913.mp4" muted playsinline data-media-start="1.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s15" class="clip " data-start="87.21" data-duration="2.6" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="122.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+
+      </div>
+      <div id="hk-scrim" class="scrim"></div>
+      <div id="hk-box" class="ov" style="left:60px; right:60px; top:1260px; text-align:center; opacity:1">
+        <div id="hk-l1" class="big" style="font-size:96px"><span class="wd">OLIVE OIL</span></div>
+        <div id="hk-l2" class="big y" style="font-size:84px; margin-top:6px"><span class="wd">untuk budak-budak?!</span></div>
+        <svg width="760" height="46" viewBox="0 0 760 46" style="display:block;margin:-2px auto 0"><path id="hk-ul" class="ink y thick" pathLength="1" d="M40 28 C 220 8, 440 40, 720 16"/></svg>
+      </div>
+      <div id="st-rv" class="stamp" style="left:300px; top:1060px; font-size:66px; transform:rotate(-7deg)">PIA BAGI REVIEW!</div>
+      <div id="c0" class="ov" style="left:60px; right:60px; top:1330px; text-align:center">
+        <div class="big" style="font-size:70px"><span class="wd">Olive oil untuk</span></div>
+        <div class="big y" style="font-size:120px"><span class="wd">KANAK-KANAK!</span></div></div>
+      <div id="c1" class="card" style="top:930px">
+        <div class="eyebrow">Olive oil Sihat&eacute; ada 2 jenis</div>
+        <div class="row" id="j0" style="font-size:44px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>EARLY HARVEST <span style="font-weight:600; opacity:.8">&mdash; dewasa</span></div></div>
+        <div class="row" id="j1" style="font-size:44px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div><span class="y">FOR KIDS</span> <span style="font-weight:600; opacity:.8">&mdash; kanak-kanak</span></div></div>
+      </div>
+      <div id="st-sh" class="stamp" style="left:600px; top:770px; font-size:70px; transform:rotate(-8deg)">SIHAT&Eacute;!</div>
+      <div id="c2" class="card" style="top:900px">
+        <div class="eyebrow">Beza dia: kandungan ACIDITY</div>
+        <div id="a0" style="opacity:.3; margin-top:18px">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:44px"><span>For Kids</span><span class="y">&le; 0.6%</span></div>
+          <div class="bar"><i id="a0b" style="background:#FFC928"></i></div>
+          <div style="font-weight:700; font-size:32px; opacity:.85; margin-top:6px">masih bagus &#10003;</div></div>
+        <div id="a1" style="opacity:.3; margin-top:18px">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:44px"><span>Early Harvest</span><span class="gr">&lt; 0.3%</span></div>
+          <div class="bar"><i id="a1b" style="background:#3DDC84"></i></div>
+          <div style="font-weight:700; font-size:32px; opacity:.85; margin-top:6px">sangat-sangat bagus &#10003;&#10003;</div></div>
+      </div>
+      <div id="st-sb" class="stamp" style="left:520px; top:820px; font-size:60px; border-color:#3DDC84; color:#3DDC84; transform:rotate(-7deg)">SANGAT BAGUS!</div>
+      <div id="p3" class="paper" style="top:860px; height:470px">
+        <svg width="840" height="470" viewBox="0 0 840 470" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M150 120 h60 v40 c40 20 50 50 50 90 v170 h-160 v-170 c0 -40 10 -70 50 -90 z M150 105 h60" id="b-big"/><path class="ink y thick" pathLength="1" d="M120 300 h120" id="b-big-l"/><path class="ink g" pathLength="1" d="M520 210 h44 v30 c30 16 38 38 38 64 v116 h-120 v-116 c0 -26 8 -48 38 -64 z M520 198 h44" id="b-small"/><path class="ink r" pathLength="1" d="M530 350 a12 12 0 1 0 0.1 0 M560 350 a12 12 0 1 0 0.1 0 M528 380 c10 10 30 10 40 0" id="b-face"/></svg>
+        <div class="hand mk" id="p3-t1" style="left:290px; top:230px; font-size:70px">DEWASA</div>
+        <div class="hand mk g" id="p3-t2" style="left:470px; top:90px; font-size:66px">KANAK-KANAK</div>
+        <div class="hand r" id="p3-t3" style="left:650px; top:330px; font-size:56px">comel!</div>
+      </div>
+      <div id="lb0" class="lbl big" style="top:1440px; font-size:104px">EARLY HARVEST<br><span class=y>UNTUK DEWASA</span></div>
+      <div id="lb1" class="lbl big" style="top:1440px; font-size:110px">FOR KIDS<br><span class=y>UNTUK BUDAK-BUDAK</span></div>
+      <div id="lb2" class="lbl big" style="top:1440px; font-size:110px">USDA<br><span class=y>ORGANIC</span></div>
+      <div id="lb3" class="lbl big" style="top:1440px; font-size:110px">2x<br><span class=y>LAB TEST</span></div>
+      <div id="lb4" class="lbl big" style="top:1440px; font-size:110px">COLD<br><span class=y>PRESS</span></div>
+      <div id="p4" class="paper" style="top:880px; height:470px">
+        <svg width="840" height="470" viewBox="0 0 840 470" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M120 150 C 100 120, 140 90, 170 110 C 200 130, 190 170, 160 175" id="nose"/><path class="ink b" pathLength="1" d="M200 120 C 240 110, 260 140, 300 125 M200 150 C 240 140, 260 170, 300 155" id="smell"/><path class="ink r thick" pathLength="1" d="M540 120 C 600 100, 680 140, 700 230 C 710 280, 690 310, 670 300 C 650 230, 600 170, 540 150 Z M540 120 C 520 100, 525 80, 545 70" id="chili"/><path class="ink g thick" pathLength="1" d="M760 150 v120 M735 245 l25 30 l25 -30" id="down"/></svg>
+        <div class="hand b" id="p4-t1" style="left:60px; top:210px; font-size:54px">Bau lebih kurang SAMA</div>
+        <div class="hand mk r" id="p4-t2" style="left:330px; top:318px; font-size:58px">KURANG PEDAS</div>
+        <div class="hand g" id="p4-t3" style="left:80px; top:395px; font-size:56px">&#10003; sesuai untuk budak-budak</div>
+      </div>
+      <div id="c5" class="card" style="top:930px">
+        <div class="eyebrow">Ayah rasa dulu&hellip;</div>
+        <div class="row" id="r0" style="font-size:56px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>KURANG PEDAS</div></div><div class="row" id="r1" style="font-size:56px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>SANGAT LIGHT</div></div><div class="row" id="r2" style="font-size:56px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>RASA SEDAP!</div></div>
+      </div>
+      <div id="c6" class="card" style="top:1000px; text-align:center">
+        <div class="eyebrow">Giliran Pia pula!</div>
+        <div class="big" style="font-size:92px; margin-top:6px; opacity:0" id="c6-b">Kan, <span class="y">SEDAP</span> kan?</div>
+      </div>
+      <div id="c7" class="card" style="top:930px">
+        <div class="eyebrow" id="c7-e">Pia suka yang mana?</div>
+        <div class="row" id="k0" style="font-size:44px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Budak-budak &rarr; <span class="y">FOR KIDS</span></div></div>
+        <div class="row" id="k1" style="font-size:44px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>Dewasa &rarr; <span class="gr">EARLY HARVEST</span></div></div>
+      </div>
+      <div id="cta" class="card" style="top:880px; text-align:center; padding:40px 40px 46px">
+        <div class="eyebrow">Sihat&eacute; Olive Oil &bull; For Kids &amp; Early Harvest</div>
+        <div class="big" style="font-size:72px; margin-top:10px">Dapatkan<br><span class="y">DUA-DUA</span> jenis</div>
+        <div id="cta-btn" style="opacity:0; display:inline-flex; align-items:center; gap:22px; margin-top:28px; padding:26px 46px; border-radius:999px;
+             background:#FFC928; color:#0C1226; font-family:'Archivo Black'; font-size:54px; white-space:nowrap; box-shadow:0 10px 0 #C99A00">
+          <svg width="74" height="70" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#0C1226"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#0C1226" stroke-width="7"/></svg>
+          TEKAN BEG KUNING</div>
+        <div id="cta-2" style="opacity:0; font-weight:800; font-size:40px; margin-top:26px">Komen <span class="y">1 hingga 5</span>, korang nak cuba yang mana?</div>
+      </div>
+      <div id="st-k" class="stamp" style="left:200px; top:700px; font-size:120px; transform:rotate(-6deg)">KUNING!</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 0.78);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 2.91);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 3.25);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 4.22);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.5, ease:"power2.inOut"}, 6.42);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 8.44);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 12.51);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 15.26);
+      tl.set("#cam", {scale:1.28, x:0, y:0}, 15.75);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 15.8);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 21.91);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 26.62);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 28.79);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 30.19);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 33.94);
+      tl.set("#cam", {scale:1.2, x:0, y:-197.4}, 35.35);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.26, ease:"sine.inOut"}, 35.370000000000005);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:0.5, ease:"power2.inOut"}, 35.65);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 36.75);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 36.77);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 38.15);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 38.17);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 39.55);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 39.57);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 40.95);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 40.97);
+      tl.set("#cam", {scale:1.24, x:12, y:-237.5}, 42.35);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 48.73);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 53.72);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 60.28);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 62.76);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 63.24);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 68.68);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 69.52);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.17, ease:"power2.inOut"}, 70.42);
+      tl.to("#cam", {scale:1.3, x:-20, y:-297.7, duration:0.7, ease:"power2.inOut"}, 70.61);
+      tl.to("#cam", {scale:1.23, x:16, y:-227.5, duration:0.7, ease:"power2.inOut"}, 73.61);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 77.17);
+      tl.to("#cam", {scale:1.28, x:18, y:-277.6, duration:0.7, ease:"power2.inOut"}, 78.93);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 80.53);
+      tl.to("#cam", {scale:1.24, x:12, y:-237.5, duration:0.5, ease:"power2.inOut"}, 81.15);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 84.21);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 87.21);
+      tl.to("#cam", {scale:1.25, x:0, y:-247.6, duration:2.56, ease:"sine.inOut"}, 87.22999999999999);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 89.81);
+      tl.set("#hk-scrim", {opacity:1}, 0);
+      tl.set("#hk-l1 .wd, #hk-l2 .wd", {opacity:1}, 0);
+      tl.fromTo("#hk-ul", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 0.25);
+      tl.fromTo("#st-rv", {opacity:0, scale:1.9, rotation:-14}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 2.86);
+      tl.to("#hk-box, #st-rv, #hk-scrim", {opacity:0, duration:.2}, 3.15);
+      tl.set("#c0", {opacity:1}, 3.3);
+      tl.fromTo("#c0 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.3}, 3.35);
+      tl.to("#c0", {opacity:0, duration:.2}, 6.27);
+      tl.fromTo("#c1", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 6.47);
+      tl.fromTo("#st-sh", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)"}, 8.49);
+      tl.to("#st-sh", {opacity:0, duration:.15}, 9.19);
+      tl.fromTo("#st-sh", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 11.71);
+      tl.to("#st-sh", {opacity:0, duration:.15}, 12.41);
+      tl.fromTo("#st-sh", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)", immediateRender:false}, 12.94);
+      tl.to("#st-sh", {opacity:0, duration:.15}, 13.64);
+      tl.to("#j0", {opacity:1, duration:.2}, 10.79);
+      tl.fromTo("#j0 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 10.89);
+      tl.to("#j1", {opacity:1, duration:.2}, 15.31);
+      tl.fromTo("#j1 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 15.41);
+      tl.to("#c1", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 15.6);
+      tl.fromTo("#c2", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 15.85);
+      tl.to("#a0", {opacity:1, duration:.25}, 21.86);
+      tl.to("#a0b", {width:"60%", duration:.6, ease:"power2.out"}, 21.96);
+      tl.to("#a1", {opacity:1, duration:.25}, 26.57);
+      tl.to("#a1b", {width:"30%", duration:.6, ease:"power2.out"}, 26.67);
+      tl.fromTo("#st-sb", {opacity:0, scale:1.8}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 28.84);
+      tl.to("#c2", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 29.99);
+      tl.to("#st-sb", {opacity:0, duration:0.25, ease:"power2.in"}, 29.99);
+      tl.fromTo("#p3", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 30.24);
+      tl.fromTo("#b-big", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 31.68);
+      tl.fromTo("#b-big-l", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 31.98);
+      tl.fromTo("#p3-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 31.98);
+      tl.fromTo("#b-small", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 33.69);
+      tl.fromTo("#b-face", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 34.09);
+      tl.fromTo("#p3-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.49, ease:"none"}, 33.99);
+      tl.fromTo("#p3-t3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 35.05);
+      tl.to("#p3", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 35.55);
+      tl.fromTo("#lb0", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 35.8);
+      tl.to("#lb0", {opacity:0, duration:.18}, 36.57);
+      tl.fromTo("#lb1", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 36.83);
+      tl.to("#lb1", {opacity:0, duration:.18}, 37.97);
+      tl.fromTo("#lb2", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 38.23);
+      tl.to("#lb2", {opacity:0, duration:.18}, 39.37);
+      tl.fromTo("#lb3", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 39.63);
+      tl.to("#lb3", {opacity:0, duration:.18}, 40.77);
+      tl.fromTo("#lb4", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 41.03);
+      tl.to("#lb4", {opacity:0, duration:.18}, 42.17);
+      tl.fromTo("#p4", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 42.4);
+      tl.fromTo("#nose", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 42.85);
+      tl.fromTo("#smell", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 43.15);
+      tl.fromTo("#p4-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.9, ease:"none"}, 43.79);
+      tl.fromTo("#chili", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 46.91);
+      tl.fromTo("#down", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 48.78);
+      tl.fromTo("#p4-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.54, ease:"none"}, 48.78);
+      tl.fromTo("#p4-t3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.9, ease:"none"}, 50.33);
+      tl.to("#p4", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 53.47);
+      tl.fromTo("#c5", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 53.82);
+      tl.to("#r0", {opacity:1, duration:.2}, 56.7);
+      tl.fromTo("#r0 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 56.8);
+      tl.to("#r1", {opacity:1, duration:.2}, 60.33);
+      tl.fromTo("#r1 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 60.43);
+      tl.to("#r2", {opacity:1, duration:.2}, 62.510000000000005);
+      tl.fromTo("#r2 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 62.61);
+      tl.to("#c5", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 63.04);
+      tl.fromTo("#c6", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 63.34);
+      tl.fromTo("#c6-b", {opacity:0, scale:1.4}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 68.7);
+      tl.to("#c6", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 69.32);
+      tl.fromTo("#c7", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 70.47);
+      tl.to("#k0", {opacity:1, duration:.2}, 77.02);
+      tl.fromTo("#k0 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 77.22);
+      tl.to("#k1", {opacity:1, duration:.2}, 79.78999999999999);
+      tl.fromTo("#k1 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 79.99);
+      tl.to("#c7", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 80.33);
+      tl.fromTo("#cta", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 81.2);
+      tl.fromTo("#st-k", {opacity:0, scale:2.2, rotation:-14}, {opacity:1, scale:1, rotation:-6, duration:.3, ease:"back.out(2)"}, 84.21000000000001);
+      tl.fromTo("#cta-btn", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 84.66);
+      tl.to("#cta-btn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 85.56);
+      tl.to("#cta-btn", {scale:1.06, duration:.35, yoyo:true, repeat:5, ease:"sine.inOut"}, 85.86);
+      tl.to("#st-k", {opacity:0, duration:0.25, ease:"power2.in"}, 85.86);
+      tl.to("#cta-2", {opacity:1, duration:0.3}, 86.26);
+      tl.to("#root", {opacity:0, duration:.4}, 89.41);
+      tl.set({}, {}, 89.81);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
