@@ -10,6 +10,11 @@ Contoh kedua: `insole/` (promo tapak kasut, suara dari BEBERAPA klip). `insole/t
 `insole/tools/gen1.py` / `gen2.py` memuatkan rupa + helper terus dari `promo/tools/gen1.py` / `gen2.py` (satu sumber).
 Guna `insole/tools/` sebagai titik mula untuk projek baru.
 
+**Promo atau kenangan?** Jangan anggap setiap video ialah promosi. Kalau pengguna tak sebut produk dan footage nampak
+macam momen keluarga (cth. `pizza/`: anak masak untuk kenangan), buat **video kenangan**: tiada CTA/beg kuning/"komen 1-5",
+penutup = kad kertas lukisan tangan (tajuk, nama, tarikh dari nama fail, ucapan sayang) atas shot orang itu sendiri.
+Kalau ragu, tanya dulu sebelum render.
+
 Cakap dengan pengguna dalam Bahasa Melayu santai ("awak/korang"). Dalam teks skrin, eja **"supplement"**, bukan "suplimen".
 
 ## Aliran kerja (kedua-dua versi)

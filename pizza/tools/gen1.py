@@ -1,4 +1,4 @@
-"""VERSI 1 (house style) - "Pizza buatan Pia" (air fryer oven). Reuses promo/tools/gen1.py look + helpers.
+"""VERSI 1 (house style) - "Pizza buatan Pia", video kenangan keluarga (bukan promosi). Reuses promo/tools/gen1.py look + helpers.
 Run: python3 tools/gen1.py  -> v1/index.html + v1/edit-plan.json"""
 import os, sys, json
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -16,7 +16,7 @@ s4 = E.say("s4", 38.60, 43.65, clip=A_)       # "Aduh, sedapnya. Wah. Marvelous!
 T_MON = E.hold(5.4)
 s5 = E.say("s5", 1.47, 8.83, clip=C_)         # "Belum siap ni. Ini nak buat apa pula lepas ni? Masuk dalam air fryer ni... Oven ni? Wah, okey."
 rev = E.say("rev", 12.61, 15.30, clip=A_)     # "MashaAllah, sedapnya pizza."
-T_CTA = E.hold(5.0)
+T_CTA = E.hold(5.6)
 TOTAL = round(E.t, 3)
 o = E.o
 def w(seg, text, near): return E.w(text, near, seg["name"])
@@ -33,8 +33,7 @@ for clip, ms, du, l1, l2 in MON:
     E.shot(t, du, FT + clip + ".mp4", ms); mon.append((t, du, l1, l2)); t += du
 E.synced(s5)
 E.shot(rev["out"], rev["dur"], "assets/img/pizza_siap2.jpg", kind="img")
-E.shot(T_CTA, 2.8, FT + C_ + ".mp4", 6.0)
-E.shot(T_CTA + 2.8, TOTAL - T_CTA - 2.8, "assets/img/pizza_siap3.jpg", kind="img")
+E.shot(T_CTA, TOTAL - T_CTA, FT + A_ + ".mp4", 37.6)          # Pia tasting the sauce, smiling (music only)
 
 # ---------------- camera
 for i, c_ in enumerate(E.cuts()):
@@ -181,13 +180,13 @@ for i, (st_, du, l1, l2) in enumerate(mon):
 # ---------------- s5: into the AIR FRYER OVEN
 E.html.append('''      <div id="c5" class="card" style="top:980px">
         <div class="eyebrow" id="c5-e">Lepas tu masuk dalam&hellip;</div>
-        <div class="big" style="font-size:96px; margin-top:6px; opacity:0" id="c5-b">AIR FRYER <span class="y">OVEN</span></div>
-        <div><span class="chip" id="c5-1">Ada mode PIZZA</span><span class="chip" id="c5-2">Senang je!</span></div>
+        <div class="big" style="font-size:96px; margin-top:6px; opacity:0" id="c5-b">AIR <span class="y">FRYER!</span></div>
+        <div><span class="chip" id="c5-1">Tunggu masak&hellip;</span></div>
       </div>''')
 card_in("#c5", w(s5, "Masuk", 4.3) - .2); lift(w(s5, "Masuk", 4.3) - .25, rev["out"])
 A(f'tl.fromTo("#c5-b", {{opacity:0, scale:1.3}}, {{opacity:1, scale:1, duration:.3, ease:"expo.out"}}, {w(s5, "Air", 5.4) - .05});')
 E.fx("impact-bass-1", w(s5, "fryer", 5.7), .4)
-pop("#c5-1", w(s5, "Oven", 7.0)); pop("#c5-2", w(s5, "okey", 8.4) - .2)
+pop("#c5-1", w(s5, "okey", 8.4) - .2)
 card_out("#c5", rev["out"] - .2)
 
 # ---------------- reveal SIAP! + "MashaAllah sedapnya pizza"
@@ -202,25 +201,28 @@ draw("#rv-sp path", rev["out"] + .35, .4); E.fx("impact-bass-1", rev["out"] + .1
 A(f'tl.set("#rv2", {{opacity:1}}, {rev["out"]});'); words_in("#rv2 .wd", w(rev, "MashaAllah", 12.6) + .1, .35)
 A(f'tl.to("#rv, #rv-sp, #rv2", {{opacity:0, duration:.25}}, {T_CTA - .2});')
 
-# ---------------- CTA
-E.html.append('''      <div id="cta" class="card" style="top:880px; text-align:center; padding:40px 40px 46px">
-        <div class="eyebrow">Air fryer oven ni ada di beg kuning</div>
-        <div class="big" style="font-size:66px; margin-top:10px">Nak buat pizza<br>macam ni kat rumah?</div>
-        <div id="cta-btn" style="opacity:0; display:inline-flex; align-items:center; gap:22px; margin-top:28px; padding:26px 46px; border-radius:999px;
-             background:#FFC928; color:#0C1226; font-family:'Archivo Black'; font-size:52px; white-space:nowrap; box-shadow:0 10px 0 #C99A00">
-          <svg width="74" height="70" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#0C1226"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#0C1226" stroke-width="7"/></svg>
-          TEKAN BEG KUNING</div>
-        <div id="cta-2" style="opacity:0; font-weight:800; font-size:40px; margin-top:26px">Komen <span class="y">1 hingga 5</span>, sedap tak pizza Pia?</div>
+# ---------------- ENDING: memory card (family keepsake, no selling)
+svg = "".join([
+    P("M600 250 C 520 195, 505 140, 545 122 C 575 110, 600 135, 600 150 C 600 135, 625 110, 655 122 C 695 140, 680 195, 600 250 Z", "r thick", 'id="en-heart"'),
+    P("M80 300 C 250 284, 450 310, 700 292", "y thick", 'id="en-ul"'),
+])
+E.html.append(f'''      <div id="en" class="paper" style="top:930px; height:470px">
+        <svg width="840" height="470" viewBox="0 0 840 470" style="position:absolute;left:0;top:0">{svg}</svg>
+        {hand("en-t0", "Kenangan manis", 70, 50, 56, "b")}
+        {hand("en-t1", "Pizza buatan", 70, 130, 82)}
+        {hand("en-t2", "PIA", 70, 205, 110, "mk r")}
+        {hand("en-t3", "24 November 2026", 80, 330, 52)}
+        {hand("en-t4", "Ayah sayang Pia", 300, 395, 58, "r")}
       </div>''')
-card_in("#cta", T_CTA + .1); lift(T_CTA, TOTAL)
-pop("#cta-btn", T_CTA + .7)
-A(f'tl.to("#cta-btn", {{scale:.93, duration:.09, yoyo:true, repeat:1}}, {T_CTA + 1.6});'); E.fx("click-soft", T_CTA + 1.6)
-A(f'tl.to("#cta-btn", {{scale:1.06, duration:.35, yoyo:true, repeat:4, ease:"sine.inOut"}}, {T_CTA + 2.0});')
-show("#cta-2", T_CTA + 2.2); E.fx("notification", T_CTA + 2.3, .35)
-A(f'tl.to("#root", {{opacity:0, duration:.4}}, {round(TOTAL - .4, 3)});')
+paper_in("#en", T_CTA + .15); lift(T_CTA, TOTAL)
+write("#en-t0", T_CTA + .55, 14); write("#en-t1", T_CTA + 1.0, 12); write("#en-t2", T_CTA + 1.5, 3)
+E.fx("pop", T_CTA + 1.6, .4)
+draw("#en-heart", T_CTA + 1.9, .6); draw("#en-ul", T_CTA + 2.2, .5)
+write("#en-t3", T_CTA + 2.6, 16); write("#en-t4", T_CTA + 3.3, 15); E.fx("pop", T_CTA + 3.5, .35)
+A(f'tl.to("#root", {{opacity:0, duration:.6}}, {round(TOTAL - .6, 3)});')
 
 E.music = [(0, .15), (T_MON - .3, .15), (T_MON + .2, .6), (s5["out"] - .2, .6), (s5["out"] + .3, .15),
-           (rev["out"], .15), (rev["out"] + .3, .35), (T_CTA, .5), (TOTAL - .3, 0), (TOTAL, 0)]
+           (rev["out"], .15), (rev["out"] + .3, .35), (T_CTA, .55), (TOTAL - 1.2, .5), (TOTAL, 0)]
 write_project(E, os.path.join(ROOT, "v1"), TOTAL)
 p = json.load(open(os.path.join(ROOT, "v1/edit-plan.json"))); p["music_file"] = "assets/music/inspiration.mp3"
 json.dump(p, open(os.path.join(ROOT, "v1/edit-plan.json"), "w"), indent=1)
