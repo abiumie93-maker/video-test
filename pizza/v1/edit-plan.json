@@ -1,0 +1,660 @@
+{
+ "total": 55.71,
+ "vo": [
+  {
+   "name": "hook",
+   "src_in": 18.59,
+   "src_out": 26.42,
+   "out": 0.0,
+   "dur": 7.83,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  },
+  {
+   "name": "s1",
+   "src_in": 0.0,
+   "src_out": 12.61,
+   "out": 7.83,
+   "dur": 12.61,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  },
+  {
+   "name": "s2",
+   "src_in": 15.71,
+   "src_out": 18.53,
+   "out": 20.44,
+   "dur": 2.82,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  },
+  {
+   "name": "s3",
+   "src_in": 29.25,
+   "src_out": 36.2,
+   "out": 23.26,
+   "dur": 6.95,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  },
+  {
+   "name": "s4",
+   "src_in": 38.6,
+   "src_out": 43.65,
+   "out": 30.21,
+   "dur": 5.05,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  },
+  {
+   "name": "s5",
+   "src_in": 1.47,
+   "src_out": 8.83,
+   "out": 40.66,
+   "dur": 7.36,
+   "clip": "102643",
+   "audio": "assets/a_102643.wav",
+   "video": "assets/footage/102643.mp4"
+  },
+  {
+   "name": "rev",
+   "src_in": 12.61,
+   "src_out": 15.3,
+   "out": 48.02,
+   "dur": 2.69,
+   "clip": "101515",
+   "audio": "assets/a_101515.wav",
+   "video": "assets/footage/101515.mp4"
+  }
+ ],
+ "shots": [
+  {
+   "id": "s1",
+   "start": 0,
+   "dur": 4.01,
+   "src": "assets/img/pizza_siap.jpg",
+   "ms": 0.0,
+   "kind": "img",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s2",
+   "start": 4.01,
+   "dur": 3.82,
+   "src": "assets/footage/101515.mp4",
+   "ms": 22.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s3",
+   "start": 7.83,
+   "dur": 12.61,
+   "src": "assets/footage/101515.mp4",
+   "ms": 0.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s4",
+   "start": 20.44,
+   "dur": 2.82,
+   "src": "assets/footage/101515.mp4",
+   "ms": 15.71,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s5",
+   "start": 23.26,
+   "dur": 6.95,
+   "src": "assets/footage/101515.mp4",
+   "ms": 29.25,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s6",
+   "start": 30.21,
+   "dur": 5.05,
+   "src": "assets/footage/101515.mp4",
+   "ms": 38.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s7",
+   "start": 35.26,
+   "dur": 1.9,
+   "src": "assets/footage/101558.mp4",
+   "ms": 0.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s8",
+   "start": 37.16,
+   "dur": 1.6,
+   "src": "assets/footage/101558.mp4",
+   "ms": 15.5,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s9",
+   "start": 38.76,
+   "dur": 1.9,
+   "src": "assets/footage/102643.mp4",
+   "ms": 2.3,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s10",
+   "start": 40.66,
+   "dur": 7.36,
+   "src": "assets/footage/102643.mp4",
+   "ms": 1.47,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s11",
+   "start": 48.02,
+   "dur": 2.69,
+   "src": "assets/img/pizza_siap2.jpg",
+   "ms": 0.0,
+   "kind": "img",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s12",
+   "start": 50.71,
+   "dur": 2.8,
+   "src": "assets/footage/102643.mp4",
+   "ms": 6.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s13",
+   "start": 53.51,
+   "dur": 2.2,
+   "src": "assets/img/pizza_siap3.jpg",
+   "ms": 0.0,
+   "kind": "img",
+   "cls": "",
+   "style": ""
+  }
+ ],
+ "sfx": [
+  [
+   "whoosh-short",
+   2.55,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   7.51,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   12.79,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   22.09,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   34.84,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   48.99,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   0.05,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   4.35,
+   0.5
+  ],
+  [
+   "error",
+   4.3,
+   0.4
+  ],
+  [
+   "pop",
+   7.66,
+   0.6
+  ],
+  [
+   "whoosh",
+   7.83,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   8.03,
+   0.35
+  ],
+  [
+   "pop",
+   10.6,
+   0.6
+  ],
+  [
+   "whoosh-short",
+   11.89,
+   0.35
+  ],
+  [
+   "pop",
+   12.89,
+   0.6
+  ],
+  [
+   "pop",
+   16.11,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   17.77,
+   0.35
+  ],
+  [
+   "pop",
+   18.46,
+   0.6
+  ],
+  [
+   "whoosh-short",
+   20.54,
+   0.35
+  ],
+  [
+   "pop",
+   22.14,
+   0.5
+  ],
+  [
+   "whoosh-short",
+   23.36,
+   0.35
+  ],
+  [
+   "pop",
+   26.56,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   29.18,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   30.31,
+   0.35
+  ],
+  [
+   "impact-bass-1",
+   34.81,
+   0.5
+  ],
+  [
+   "whoosh-short",
+   35.26,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   37.16,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   38.76,
+   0.4
+  ],
+  [
+   "whoosh-short",
+   43.35,
+   0.35
+  ],
+  [
+   "impact-bass-1",
+   44.85,
+   0.4
+  ],
+  [
+   "pop",
+   46.29,
+   0.6
+  ],
+  [
+   "pop",
+   47.5,
+   0.6
+  ],
+  [
+   "riser",
+   48.12,
+   0.28
+  ],
+  [
+   "impact-bass-1",
+   48.14,
+   0.5
+  ],
+  [
+   "whoosh-short",
+   50.86,
+   0.35
+  ],
+  [
+   "pop",
+   51.51,
+   0.6
+  ],
+  [
+   "click-soft",
+   52.31,
+   0.6
+  ],
+  [
+   "notification",
+   53.01,
+   0.35
+  ]
+ ],
+ "music": [
+  [
+   0,
+   0.15
+  ],
+  [
+   34.96,
+   0.15
+  ],
+  [
+   35.46,
+   0.6
+  ],
+  [
+   40.459999999999994,
+   0.6
+  ],
+  [
+   40.959999999999994,
+   0.15
+  ],
+  [
+   48.02,
+   0.15
+  ],
+  [
+   48.32,
+   0.35
+  ],
+  [
+   50.71,
+   0.5
+  ],
+  [
+   55.410000000000004,
+   0
+  ],
+  [
+   55.71,
+   0
+  ]
+ ],
+ "zoom": [
+  [
+   0,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   4.01,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   7.83,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   20.44,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   23.26,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   30.21,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   35.26,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   37.16,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   38.76,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   40.66,
+   "set",
+   1.08,
+   12
+  ],
+  [
+   48.02,
+   "set",
+   1.04,
+   -10
+  ],
+  [
+   50.71,
+   "set",
+   1.1,
+   0
+  ],
+  [
+   53.51,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   13.9,
+   "ease",
+   1.14,
+   0
+  ],
+  [
+   19.49,
+   "ease",
+   1.0,
+   0
+  ],
+  [
+   25.05,
+   "ease",
+   1.2,
+   -20
+  ],
+  [
+   32.17,
+   "ease",
+   1.06,
+   16
+  ],
+  [
+   41.79,
+   "ease",
+   1.16,
+   18
+  ],
+  [
+   46.19,
+   "ease",
+   1.0,
+   0
+  ],
+  [
+   2.5,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   4.6,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   7.46,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   10.45,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   12.74,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   18.21,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   22.04,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   29.35,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   34.79,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   44.8,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   48.94,
+   "punch",
+   1.28,
+   0
+  ],
+  [
+   0.02,
+   "slow",
+   1.15,
+   0
+  ],
+  [
+   35.28,
+   "slow",
+   1.14,
+   0
+  ],
+  [
+   37.18,
+   "slow",
+   1.14,
+   0
+  ],
+  [
+   38.78,
+   "slow",
+   1.14,
+   0
+  ],
+  [
+   48.040000000000006,
+   "slow",
+   1.16,
+   0
+  ],
+  [
+   50.730000000000004,
+   "slow",
+   1.12,
+   0
+  ]
+ ],
+ "music_file": "assets/music/inspiration.mp3"
+}

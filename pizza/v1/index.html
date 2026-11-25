@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  .scrim { position:absolute; left:0; right:0; bottom:0; height:1000px; opacity:0;
+           background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.72)); }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02;
+         text-shadow:0 6px 24px rgba(0,0,0,.45); }
+  .y { color:#FFC928; } .rd { color:#FF4D4D; } .gr { color:#3DDC84; }
+  .wd { display:inline-block; opacity:0; }
+  .card { position:absolute; left:120px; width:840px; background:rgba(12,18,38,.88); border-radius:28px;
+          padding:30px 38px; box-shadow:0 18px 50px rgba(0,0,0,.4); color:#fff; font-family:'Montserrat',sans-serif; opacity:0; }
+  .eyebrow { font-weight:800; font-size:30px; letter-spacing:.14em; color:#FFC928; text-transform:uppercase; }
+  .row { display:flex; align-items:center; gap:22px; font-weight:800; font-size:44px; margin-top:16px; opacity:.35; }
+  .box { width:48px; height:48px; border-radius:12px; border:4px solid rgba(255,255,255,.55); position:relative; flex:none; }
+  .box svg { position:absolute; left:-4px; top:-8px; }
+  .chip { display:inline-block; padding:14px 26px; border-radius:999px; font-weight:800; font-size:38px;
+          background:rgba(255,255,255,.12); border:3px solid rgba(255,255,255,.3); margin:14px 12px 0 0; position:relative; opacity:0; }
+  .stamp { position:absolute; font-family:'Archivo Black',sans-serif; text-transform:uppercase; padding:14px 30px;
+           border:8px solid #FFC928; color:#FFC928; border-radius:18px; background:rgba(12,18,38,.75); opacity:0; }
+  .paper { position:absolute; left:120px; width:840px; background:#FFF8E7; border-radius:14px; opacity:0;
+           box-shadow:0 18px 44px rgba(0,0,0,.4); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-18px; width:170px; height:38px; margin-left:-85px;
+                   background:rgba(255,201,40,.8); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.b { stroke:#1F5FD1; }
+  .ink.p { stroke:#F48FB1; } .ink.thick { stroke-width:12; } .ink.w { stroke:#fff; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .lbl { position:absolute; left:0; right:0; text-align:center; font-size:124px; opacity:0; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="55.71" data-width="1080" data-height="1920">
+      <div id="cam">
+        <img id="s1" class="clip " data-start="0" data-duration="4.01" data-track-index="0" src="assets/img/pizza_siap.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; " />
+        <video id="s2" class="clip " data-start="4.01" data-duration="3.82" data-track-index="0" src="assets/footage/101515.mp4" muted playsinline data-media-start="22.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="7.83" data-duration="12.61" data-track-index="0" src="assets/footage/101515.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="20.44" data-duration="2.82" data-track-index="0" src="assets/footage/101515.mp4" muted playsinline data-media-start="15.71" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="23.26" data-duration="6.95" data-track-index="0" src="assets/footage/101515.mp4" muted playsinline data-media-start="29.25" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="30.21" data-duration="5.05" data-track-index="0" src="assets/footage/101515.mp4" muted playsinline data-media-start="38.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="35.26" data-duration="1.9" data-track-index="0" src="assets/footage/101558.mp4" muted playsinline data-media-start="0.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="37.16" data-duration="1.6" data-track-index="0" src="assets/footage/101558.mp4" muted playsinline data-media-start="15.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="38.76" data-duration="1.9" data-track-index="0" src="assets/footage/102643.mp4" muted playsinline data-media-start="2.3" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="40.66" data-duration="7.36" data-track-index="0" src="assets/footage/102643.mp4" muted playsinline data-media-start="1.47" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <img id="s11" class="clip " data-start="48.02" data-duration="2.69" data-track-index="0" src="assets/img/pizza_siap2.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; " />
+        <video id="s12" class="clip " data-start="50.71" data-duration="2.8" data-track-index="0" src="assets/footage/102643.mp4" muted playsinline data-media-start="6.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <img id="s13" class="clip " data-start="53.51" data-duration="2.2" data-track-index="0" src="assets/img/pizza_siap3.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; " />
+
+      </div>
+      <div id="hk-scrim" class="scrim"></div>
+      <div id="hk-box" class="ov" style="left:60px; right:60px; top:1250px; text-align:center; opacity:1">
+        <div id="hk-l1" class="big" style="font-size:70px"><span class="wd">Kalau</span> <span class="wd">sedap,</span></div>
+        <div id="hk-l2" class="big y" style="font-size:86px; margin-top:6px"><span class="wd">boleh</span> <span class="wd">jual</span> <span class="wd">tak?</span></div>
+        <div id="hk-l3" class="big rd" style="font-size:150px; margin-top:8px"><span class="wd">TAK BOLEH!</span></div>
+      </div>
+      <div id="hk2" class="ov" style="left:60px; right:60px; top:1330px; text-align:center">
+        <div class="big" style="font-size:64px"><span class="wd">Sebab</span> <span class="wd">yang</span> <span class="wd">buat</span></div>
+        <div class="big y" style="font-size:180px; margin-top:4px"><span class="wd">PIA!</span></div>
+        <svg width="200" height="170" viewBox="0 0 200 170" style="position:absolute; right:150px; top:110px"><path id="hk-heart" class="ink r thick" pathLength="1" d="M100 150 C 20 90, 10 40, 50 25 C 80 15, 100 40, 100 55 C 100 40, 120 15, 150 25 C 190 40, 180 90, 100 150 Z"/></svg>
+      </div>
+      <div id="c1" class="card" style="top:960px">
+        <div class="eyebrow">Chef cilik hari ni</div>
+        <div class="big" style="font-size:120px; margin-top:4px"><span class="y">PIA</span></div>
+        <span class="chip" id="c1-ch" style="position:absolute; right:40px; top:70px; font-size:42px">Menu: PIZZA</span>
+      </div>
+      <div id="p1" class="paper" style="top:880px; height:420px">
+        <svg width="840" height="420" viewBox="0 0 840 420" style="position:absolute;left:0;top:0"><circle cx="140" cy="110" r="40" class="ink" pathLength="1" /><path class="ink b" pathLength="1" d="M92 120 C 90 60, 190 60, 188 120 L 200 200 L 80 200 Z" id="ib-hij"/><path class="ink " pathLength="1" d="M140 200 L140 300 M140 230 L95 270 M140 230 L190 260 M140 300 L105 370 M140 300 L175 370" id="ib-body"/><circle cx="300" cy="230" r="28" class="ink p" pathLength="1" /><path class="ink p" pathLength="1" d="M300 258 L300 320 M300 278 L270 300 M300 278 L332 296 M300 320 L280 370 M300 320 L320 370" id="pi-body"/><path class="ink r" pathLength="1" d="M400 260 C 470 200, 560 200, 640 260 C 600 330, 470 330, 400 260 Z M520 230 v40 M470 245 l14 30 M570 245 l-14 30" id="pz"/></svg>
+        <div class="hand mk b" id="p1-t1" style="left:420px; top:60px; font-size:84px">Ibu ajar!</div>
+        <div class="hand r" id="p1-t2" style="left:262px; top:375px; font-size:40px">Pia</div>
+        <div class="hand g" id="p1-t3" style="left:450px; top:340px; font-size:54px">Ibu pun buat!</div>
+      </div>
+      <div id="p2" class="paper" style="top:900px; height:380px">
+        <svg width="840" height="380" viewBox="0 0 840 380" style="position:absolute;left:0;top:0"><path class="ink r thick" pathLength="1" d="M260 330 C 140 250, 120 160, 180 130 C 230 110, 260 150, 260 170 C 260 150, 290 110, 340 130 C 400 160, 380 250, 260 330 Z" id="ay-heart"/></svg>
+        <div class="hand " id="p2-t1" style="left:430px; top:90px; font-size:70px">Untuk</div>
+        <div class="hand mk r" id="p2-t2" style="left:430px; top:170px; font-size:120px">AYAH!</div>
+      </div>
+      <div id="c2" class="card" style="top:1000px; text-align:center">
+        <div class="big" style="font-size:96px"><span class="wd">Pia</span> <span class="wd">buat</span> <span class="wd y">SEDAP</span> <span class="wd">tau!</span></div>
+      </div>
+      <div id="p3" class="paper" style="top:900px; height:330px">
+        <div class="hand " id="p3-t1" style="left:60px; top:70px; font-size:74px">Belum rasa lagi&hellip;</div>
+        <div class="hand mk g" id="p3-t2" style="left:160px; top:170px; font-size:112px">dah SEDAP!</div>
+      </div>
+      <div id="st-bos" class="stamp" style="left:140px; top:1000px; font-size:66px; transform:rotate(-6deg); text-align:center; line-height:1.05">AYAH JADI<br>BOS HARI NI!</div>
+      <div id="c4" class="card" style="top:1000px; text-align:center">
+        <div class="eyebrow">Pia rasa sos dulu&hellip;</div>
+        <div class="big" style="font-size:92px; margin-top:6px"><span class="wd">Aduh,</span> <span class="wd y">sedapnya!</span></div>
+      </div>
+      <div id="st-mv" class="stamp" style="left:300px; top:880px; font-size:84px; transform:rotate(-8deg)">MARVELOUS!</div>
+      <div id="lb0" class="lbl big" style="top:1420px">TAMBAH<br><span class=y>PEPPERONI</span></div>
+      <div id="lb1" class="lbl big" style="top:1420px">SUSUN<br><span class=y>CANTIK-CANTIK</span></div>
+      <div id="lb2" class="lbl big" style="top:1420px">KEJU &<br><span class=y>TOMATO</span></div>
+      <div id="c5" class="card" style="top:980px">
+        <div class="eyebrow" id="c5-e">Lepas tu masuk dalam&hellip;</div>
+        <div class="big" style="font-size:96px; margin-top:6px; opacity:0" id="c5-b">AIR FRYER <span class="y">OVEN</span></div>
+        <div><span class="chip" id="c5-1">Ada mode PIZZA</span><span class="chip" id="c5-2">Senang je!</span></div>
+      </div>
+      <div id="rv" class="lbl big" style="top:1300px; font-size:200px"><span class="y">SIAP!</span></div>
+      <svg id="rv-sp" width="1080" height="400" viewBox="0 0 1080 400" style="position:absolute;left:0;top:1230px">
+        <path class="ink y thick" pathLength="1" d="M160 90 v60 M130 120 h60 M920 70 v70 M885 105 h70 M820 330 v40 M800 350 h40 M250 320 v40 M230 340 h40"/></svg>
+      <div id="rv2" class="ov" style="left:60px; right:60px; top:1560px; text-align:center">
+        <div class="big" style="font-size:64px"><span class="wd">MashaAllah,</span> <span class="wd y">sedapnya!</span></div></div>
+      <div id="cta" class="card" style="top:880px; text-align:center; padding:40px 40px 46px">
+        <div class="eyebrow">Air fryer oven ni ada di beg kuning</div>
+        <div class="big" style="font-size:66px; margin-top:10px">Nak buat pizza<br>macam ni kat rumah?</div>
+        <div id="cta-btn" style="opacity:0; display:inline-flex; align-items:center; gap:22px; margin-top:28px; padding:26px 46px; border-radius:999px;
+             background:#FFC928; color:#0C1226; font-family:'Archivo Black'; font-size:52px; white-space:nowrap; box-shadow:0 10px 0 #C99A00">
+          <svg width="74" height="70" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#0C1226"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#0C1226" stroke-width="7"/></svg>
+          TEKAN BEG KUNING</div>
+        <div id="cta-2" style="opacity:0; font-weight:800; font-size:40px; margin-top:26px">Komen <span class="y">1 hingga 5</span>, sedap tak pizza Pia?</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0);
+      tl.to("#cam", {scale:1.15, x:0, y:0, duration:2.46, ease:"sine.inOut"}, 0.02);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 2.5);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 4.01);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 4.6);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 7.46);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 7.83);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 10.45);
+      tl.set("#cam", {scale:1.34, x:0, y:-337.8}, 11.79);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.5, ease:"power2.inOut"}, 11.84);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 12.74);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.7, ease:"power2.inOut"}, 13.9);
+      tl.set("#cam", {scale:1.27, x:0, y:-267.6}, 17.67);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.42, ease:"power2.inOut"}, 17.77);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 18.21);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 19.49);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 20.39);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 20.44);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 22.04);
+      tl.set("#cam", {scale:1.2, x:0, y:-197.4}, 23.26);
+      tl.to("#cam", {scale:1.3, x:-20, y:-297.7, duration:0.7, ease:"power2.inOut"}, 25.05);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 29.35);
+      tl.set("#cam", {scale:1.24, x:12, y:-237.5}, 30.21);
+      tl.to("#cam", {scale:1.23, x:16, y:-227.5, duration:0.7, ease:"power2.inOut"}, 32.17);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 34.79);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 35.26);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.86, ease:"sine.inOut"}, 35.28);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 37.16);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.56, ease:"sine.inOut"}, 37.18);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 38.76);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.86, ease:"sine.inOut"}, 38.78);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 40.66);
+      tl.to("#cam", {scale:1.16, x:18, y:0, duration:0.7, ease:"power2.inOut"}, 41.79);
+      tl.to("#cam", {scale:1.28, x:18, y:-277.6, duration:0.5, ease:"power2.inOut"}, 43.25);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 44.8);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.7, ease:"power2.inOut"}, 46.19);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 48.02);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.88, ease:"sine.inOut"}, 48.040000000000006);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 48.94);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 50.71);
+      tl.to("#cam", {scale:1.26, x:0, y:-257.6, duration:2.76, ease:"sine.inOut"}, 50.730000000000004);
+      tl.set("#cam", {scale:1.2, x:0, y:-197.4}, 53.51);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 55.71);
+      tl.set("#hk-scrim", {opacity:1}, 0);
+      tl.set("#hk-l1 .wd, #hk-l2 .wd", {opacity:1}, 0);
+      tl.fromTo("#hk-l3 .wd", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 4.25);
+      tl.to("#hk-box", {opacity:0, y:-30, duration:.2}, 6.58);
+      tl.set("#hk2", {opacity:1}, 6.680000000000001);
+      tl.fromTo("#hk2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.1}, 6.73);
+      tl.fromTo("#hk-heart", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 7.61);
+      tl.to("#hk2, #hk-scrim", {opacity:0, duration:.25}, 7.63);
+      tl.fromTo("#c1", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 7.98);
+      tl.fromTo("#c1-ch", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 10.5);
+      tl.to("#c1", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 11.64);
+      tl.fromTo("#p1", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 11.84);
+      tl.fromTo("#p1 circle:nth-of-type(1)", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 12.14);
+      tl.fromTo("#ib-hij", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 12.29);
+      tl.fromTo("#ib-body", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 12.49);
+      tl.fromTo("#p1 circle:nth-of-type(2)", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 12.64);
+      tl.fromTo("#pi-body", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 12.79);
+      tl.fromTo("#p1-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 12.94);
+      tl.fromTo("#p1-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.4, ease:"none"}, 12.79);
+      tl.fromTo("#pz", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 15.51);
+      tl.fromTo("#p1-t3", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.58, ease:"none"}, 16.01);
+      tl.to("#p1", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 17.57);
+      tl.fromTo("#p2", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 17.72);
+      tl.fromTo("#p2-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 17.87);
+      tl.fromTo("#p2-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 18.26);
+      tl.fromTo("#ay-heart", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.6, ease:"power1.inOut"}, 18.36);
+      tl.to("#p2", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 20.14);
+      tl.fromTo("#c2", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 20.49);
+      tl.fromTo("#c2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.12}, 21.07);
+      tl.to("#c2", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 23.06);
+      tl.fromTo("#p3", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 23.31);
+      tl.fromTo("#p3-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.72, ease:"none"}, 25.12);
+      tl.fromTo("#p3-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.45, ease:"none"}, 26.46);
+      tl.to("#p3", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 28.49);
+      tl.fromTo("#st-bos", {opacity:0, scale:1.9, rotation:-14}, {opacity:1, scale:1, rotation:-6, duration:.32, ease:"back.out(2)"}, 29.15);
+      tl.to("#st-bos", {opacity:0, duration:0.25, ease:"power2.in"}, 30.06);
+      tl.fromTo("#c4", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 30.26);
+      tl.fromTo("#c4 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.2}, 30.35);
+      tl.fromTo("#st-mv", {opacity:0, scale:2, rotation:-16}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)"}, 34.790000000000006);
+      tl.to("#c4", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 35.06);
+      tl.to("#st-mv", {opacity:0, duration:0.25, ease:"power2.in"}, 35.86);
+      tl.fromTo("#lb0", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 36.11);
+      tl.to("#lb0", {opacity:0, duration:.2}, 36.96);
+      tl.fromTo("#lb1", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 37.26);
+      tl.to("#lb1", {opacity:0, duration:.2}, 38.56);
+      tl.fromTo("#lb2", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 38.86);
+      tl.to("#lb2", {opacity:0, duration:.2}, 40.46);
+      tl.fromTo("#c5", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 43.3);
+      tl.fromTo("#c5-b", {opacity:0, scale:1.3}, {opacity:1, scale:1, duration:.3, ease:"expo.out"}, 44.5);
+      tl.fromTo("#c5-1", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 46.19);
+      tl.fromTo("#c5-2", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 47.4);
+      tl.to("#c5", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 47.82);
+      tl.fromTo("#rv", {opacity:0, scale:2.2}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 48.120000000000005);
+      tl.fromTo("#rv-sp path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 48.37);
+      tl.set("#rv2", {opacity:1}, 48.02);
+      tl.fromTo("#rv2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.35}, 48.12);
+      tl.to("#rv, #rv-sp, #rv2", {opacity:0, duration:.25}, 50.51);
+      tl.fromTo("#cta", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 50.81);
+      tl.fromTo("#cta-btn", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 51.41);
+      tl.to("#cta-btn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 52.31);
+      tl.to("#cta-btn", {scale:1.06, duration:.35, yoyo:true, repeat:4, ease:"sine.inOut"}, 52.71);
+      tl.to("#cta-2", {opacity:1, duration:0.3}, 52.91);
+      tl.to("#root", {opacity:0, duration:.4}, 55.31);
+      tl.set({}, {}, 55.71);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

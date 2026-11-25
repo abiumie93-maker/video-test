@@ -1,0 +1,751 @@
+[
+{
+"text": "Pia",
+"start": 0.16,
+"end": 0.49,
+"id": "w0",
+"file": "101515"
+},
+{
+"text": "buat",
+"start": 0.68,
+"end": 1.15,
+"id": "w1",
+"file": "101515"
+},
+{
+"text": "apa",
+"start": 1.15,
+"end": 1.64,
+"id": "w2",
+"file": "101515"
+},
+{
+"text": "ni?",
+"start": 1.64,
+"end": 2,
+"id": "w3",
+"file": "101515"
+},
+{
+"text": "Buat",
+"start": 2.23,
+"end": 2.46,
+"id": "w4",
+"file": "101515"
+},
+{
+"text": "pizza",
+"start": 2.67,
+"end": 2.99,
+"id": "w5",
+"file": "101515"
+},
+{
+"text": "Buat",
+"start": 3.24,
+"end": 3.44,
+"id": "w6",
+"file": "101515"
+},
+{
+"text": "pizza?",
+"start": 3.44,
+"end": 4.11,
+"id": "w7",
+"file": "101515"
+},
+{
+"text": "Siapa",
+"start": 4.11,
+"end": 4.36,
+"id": "w8",
+"file": "101515"
+},
+{
+"text": "ajar?",
+"start": 4.36,
+"end": 4.74,
+"id": "w9",
+"file": "101515"
+},
+{
+"text": "Ibu",
+"start": 4.96,
+"end": 5.19,
+"id": "w10",
+"file": "101515"
+},
+{
+"text": "Ibu",
+"start": 5.4,
+"end": 5.57,
+"id": "w11",
+"file": "101515"
+},
+{
+"text": "ajar?",
+"start": 5.63,
+"end": 5.9,
+"id": "w12",
+"file": "101515"
+},
+{
+"text": "Ibu",
+"start": 6.07,
+"end": 6.39,
+"id": "w13",
+"file": "101515"
+},
+{
+"text": "buat",
+"start": 6.45,
+"end": 6.96,
+"id": "w14",
+"file": "101515"
+},
+{
+"text": "apa?",
+"start": 6.96,
+"end": 7.4,
+"id": "w15",
+"file": "101515"
+},
+{
+"text": "Buat",
+"start": 7.68,
+"end": 7.98,
+"id": "w16",
+"file": "101515"
+},
+{
+"text": "pizza",
+"start": 8.08,
+"end": 8.72,
+"id": "w17",
+"file": "101515"
+},
+{
+"text": "Pizza",
+"start": 9,
+"end": 9.22,
+"id": "w18",
+"file": "101515"
+},
+{
+"text": "jugak?",
+"start": 9.39,
+"end": 9.76,
+"id": "w19",
+"file": "101515"
+},
+{
+"text": "Untuk",
+"start": 10.04,
+"end": 10.29,
+"id": "w20",
+"file": "101515"
+},
+{
+"text": "Ayah",
+"start": 10.43,
+"end": 10.72,
+"id": "w21",
+"file": "101515"
+},
+{
+"text": "Untuk",
+"start": 10.88,
+"end": 10.98,
+"id": "w22",
+"file": "101515"
+},
+{
+"text": "ayah?",
+"start": 11,
+"end": 11.38,
+"id": "w23",
+"file": "101515"
+},
+{
+"text": "Ini",
+"start": 11.66,
+"end": 11.68,
+"id": "w24",
+"file": "101515"
+},
+{
+"text": "untuk",
+"start": 11.78,
+"end": 12.17,
+"id": "w25",
+"file": "101515"
+},
+{
+"text": "Ayah",
+"start": 12.17,
+"end": 12.58,
+"id": "w26",
+"file": "101515"
+},
+{
+"text": "kan?",
+"start": 12.58,
+"end": 12.6,
+"id": "w27",
+"file": "101515"
+},
+{
+"text": "MashaAllah",
+"start": 12.6,
+"end": 13.56,
+"id": "w28",
+"file": "101515"
+},
+{
+"text": "sedapnya",
+"start": 13.58,
+"end": 14.77,
+"id": "w29",
+"file": "101515"
+},
+{
+"text": "pizza",
+"start": 14.77,
+"end": 15.56,
+"id": "w30",
+"file": "101515"
+},
+{
+"text": "Ya",
+"start": 15.92,
+"end": 16.44,
+"id": "w31",
+"file": "101515"
+},
+{
+"text": "Pia",
+"start": 16.44,
+"end": 16.83,
+"id": "w32",
+"file": "101515"
+},
+{
+"text": "buat",
+"start": 16.84,
+"end": 17.36,
+"id": "w33",
+"file": "101515"
+},
+{
+"text": "sedap",
+"start": 17.36,
+"end": 18.02,
+"id": "w34",
+"file": "101515"
+},
+{
+"text": "tau",
+"start": 18.02,
+"end": 18.41,
+"id": "w35",
+"file": "101515"
+},
+{
+"text": "Kalau",
+"start": 18.84,
+"end": 19.44,
+"id": "w36",
+"file": "101515"
+},
+{
+"text": "sedap",
+"start": 19.49,
+"end": 20.41,
+"id": "w37",
+"file": "101515"
+},
+{
+"text": "boleh",
+"start": 20.43,
+"end": 21.14,
+"id": "w38",
+"file": "101515"
+},
+{
+"text": "jual",
+"start": 21.14,
+"end": 21.7,
+"id": "w39",
+"file": "101515"
+},
+{
+"text": "tak?",
+"start": 21.7,
+"end": 22.56,
+"id": "w40",
+"file": "101515"
+},
+{
+"text": "Tak",
+"start": 22.84,
+"end": 23.01,
+"id": "w41",
+"file": "101515"
+},
+{
+"text": "boleh",
+"start": 23.24,
+"end": 23.76,
+"id": "w42",
+"file": "101515"
+},
+{
+"text": "Tak",
+"start": 23.76,
+"end": 24.11,
+"id": "w43",
+"file": "101515"
+},
+{
+"text": "boleh",
+"start": 24.11,
+"end": 24.48,
+"id": "w44",
+"file": "101515"
+},
+{
+"text": "kenapa?",
+"start": 24.48,
+"end": 25.04,
+"id": "w45",
+"file": "101515"
+},
+{
+"text": "Sebab",
+"start": 25.32,
+"end": 25.46,
+"id": "w46",
+"file": "101515"
+},
+{
+"text": "ini",
+"start": 25.72,
+"end": 26.1,
+"id": "w47",
+"file": "101515"
+},
+{
+"text": "Pia",
+"start": 26.1,
+"end": 26.49,
+"id": "w48",
+"file": "101515"
+},
+{
+"text": "buat",
+"start": 26.49,
+"end": 27.01,
+"id": "w49",
+"file": "101515"
+},
+{
+"text": "Ya",
+"start": 27.01,
+"end": 27.32,
+"id": "w50",
+"file": "101515"
+},
+{
+"text": "kan?",
+"start": 27.32,
+"end": 27.49,
+"id": "w51",
+"file": "101515"
+},
+{
+"text": "Pia",
+"start": 27.7,
+"end": 27.81,
+"id": "w52",
+"file": "101515"
+},
+{
+"text": "buat",
+"start": 27.81,
+"end": 28.03,
+"id": "w53",
+"file": "101515"
+},
+{
+"text": "untuk",
+"start": 28.09,
+"end": 28.32,
+"id": "w54",
+"file": "101515"
+},
+{
+"text": "Ayah",
+"start": 28.32,
+"end": 28.54,
+"id": "w55",
+"file": "101515"
+},
+{
+"text": "sorang",
+"start": 28.54,
+"end": 28.74,
+"id": "w56",
+"file": "101515"
+},
+{
+"text": "ke?",
+"start": 28.87,
+"end": 29.04,
+"id": "w57",
+"file": "101515"
+},
+{
+"text": "Ushh,",
+"start": 29.32,
+"end": 31.04,
+"id": "w58",
+"file": "101515"
+},
+{
+"text": "dah",
+"start": 31.04,
+"end": 31.13,
+"id": "w59",
+"file": "101515"
+},
+{
+"text": "sedap",
+"start": 31.13,
+"end": 31.22,
+"id": "w60",
+"file": "101515"
+},
+{
+"text": "saja",
+"start": 31.22,
+"end": 31.31,
+"id": "w61",
+"file": "101515"
+},
+{
+"text": "Belum",
+"start": 31.31,
+"end": 31.51,
+"id": "w62",
+"file": "101515"
+},
+{
+"text": "rasa",
+"start": 31.71,
+"end": 31.89,
+"id": "w63",
+"file": "101515"
+},
+{
+"text": "lagi",
+"start": 31.89,
+"end": 32.27,
+"id": "w64",
+"file": "101515"
+},
+{
+"text": "dah",
+"start": 32.27,
+"end": 32.55,
+"id": "w65",
+"file": "101515"
+},
+{
+"text": "sedap",
+"start": 32.55,
+"end": 33.04,
+"id": "w66",
+"file": "101515"
+},
+{
+"text": "ni",
+"start": 33.04,
+"end": 33.28,
+"id": "w67",
+"file": "101515"
+},
+{
+"text": "Ayah",
+"start": 33.28,
+"end": 33.51,
+"id": "w68",
+"file": "101515"
+},
+{
+"text": "tunggu",
+"start": 33.71,
+"end": 34.22,
+"id": "w69",
+"file": "101515"
+},
+{
+"text": "ok?",
+"start": 34.22,
+"end": 34.56,
+"id": "w70",
+"file": "101515"
+},
+{
+"text": "Ayah",
+"start": 34.77,
+"end": 34.97,
+"id": "w71",
+"file": "101515"
+},
+{
+"text": "jadi",
+"start": 34.97,
+"end": 35.39,
+"id": "w72",
+"file": "101515"
+},
+{
+"text": "bos",
+"start": 35.39,
+"end": 35.7,
+"id": "w73",
+"file": "101515"
+},
+{
+"text": "hari",
+"start": 35.7,
+"end": 36.12,
+"id": "w74",
+"file": "101515"
+},
+{
+"text": "ni",
+"start": 36.12,
+"end": 36.26,
+"id": "w75",
+"file": "101515"
+},
+{
+"text": "ok?",
+"start": 36.33,
+"end": 36.56,
+"id": "w76",
+"file": "101515"
+},
+{
+"text": "Hei,",
+"start": 36.76,
+"end": 37.06,
+"id": "w77",
+"file": "101515"
+},
+{
+"text": "digilat",
+"start": 37.23,
+"end": 37.8,
+"id": "w78",
+"file": "101515"
+},
+{
+"text": "lah",
+"start": 37.8,
+"end": 38.26,
+"id": "w79",
+"file": "101515"
+},
+{
+"text": "Aduh,",
+"start": 38.84,
+"end": 40.56,
+"id": "w80",
+"file": "101515"
+},
+{
+"text": "sedapnya",
+"start": 40.56,
+"end": 40.97,
+"id": "w81",
+"file": "101515"
+},
+{
+"text": "Wah",
+"start": 40.97,
+"end": 42.53,
+"id": "w82",
+"file": "101515"
+},
+{
+"text": "Marvelous",
+"start": 43.23,
+"end": 44.26,
+"id": "w83",
+"file": "101515"
+},
+{
+"text": "Oh...",
+"start": 0.25,
+"end": 1.09,
+"id": "w0",
+"file": "102643"
+},
+{
+"text": "Belum",
+"start": 1.67,
+"end": 1.85,
+"id": "w1",
+"file": "102643"
+},
+{
+"text": "siap",
+"start": 1.85,
+"end": 2.21,
+"id": "w2",
+"file": "102643"
+},
+{
+"text": "ni.",
+"start": 2.21,
+"end": 2.6,
+"id": "w3",
+"file": "102643"
+},
+{
+"text": "Ini",
+"start": 2.6,
+"end": 2.97,
+"id": "w4",
+"file": "102643"
+},
+{
+"text": "nak",
+"start": 2.97,
+"end": 2.98,
+"id": "w5",
+"file": "102643"
+},
+{
+"text": "buat",
+"start": 2.99,
+"end": 3.17,
+"id": "w6",
+"file": "102643"
+},
+{
+"text": "apa",
+"start": 3.17,
+"end": 3.31,
+"id": "w7",
+"file": "102643"
+},
+{
+"text": "pula",
+"start": 3.31,
+"end": 3.49,
+"id": "w8",
+"file": "102643"
+},
+{
+"text": "lepas",
+"start": 3.49,
+"end": 3.71,
+"id": "w9",
+"file": "102643"
+},
+{
+"text": "ni?",
+"start": 3.71,
+"end": 3.95,
+"id": "w10",
+"file": "102643"
+},
+{
+"text": "Masuk",
+"start": 4.31,
+"end": 4.64,
+"id": "w11",
+"file": "102643"
+},
+{
+"text": "dalam...",
+"start": 4.64,
+"end": 5.36,
+"id": "w12",
+"file": "102643"
+},
+{
+"text": "Air",
+"start": 5.36,
+"end": 5.66,
+"id": "w13",
+"file": "102643"
+},
+{
+"text": "fryer",
+"start": 5.66,
+"end": 6.05,
+"id": "w14",
+"file": "102643"
+},
+{
+"text": "ni.",
+"start": 6.05,
+"end": 6.24,
+"id": "w15",
+"file": "102643"
+},
+{
+"text": "Masuk",
+"start": 6.39,
+"end": 6.49,
+"id": "w16",
+"file": "102643"
+},
+{
+"text": "dalam",
+"start": 6.53,
+"end": 6.74,
+"id": "w17",
+"file": "102643"
+},
+{
+"text": "ni?",
+"start": 6.74,
+"end": 7,
+"id": "w18",
+"file": "102643"
+},
+{
+"text": "Oven",
+"start": 7,
+"end": 7.33,
+"id": "w19",
+"file": "102643"
+},
+{
+"text": "ni?",
+"start": 7.33,
+"end": 7.8,
+"id": "w20",
+"file": "102643"
+},
+{
+"text": "Wah,",
+"start": 8.07,
+"end": 8.41,
+"id": "w21",
+"file": "102643"
+},
+{
+"text": "okey.",
+"start": 8.41,
+"end": 9.05,
+"id": "w22",
+"file": "102643"
+}
+]
