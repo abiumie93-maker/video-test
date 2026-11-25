@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#F3F3F0; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  body, .jk { font-family:'Plus Jakarta Sans', sans-serif; }
+  .wd { display:inline-block; opacity:0; }
+  #pill { position:absolute; left:0; right:0; margin:0 auto; width:fit-content; top:64px; padding:14px 34px 16px; border-radius:26px;
+          background:rgba(40,40,44,.72); backdrop-filter:blur(14px); color:#fff; text-align:center; opacity:0; z-index:50;
+          box-shadow:0 8px 26px rgba(0,0,0,.25); font-family:'Plus Jakarta Sans'; white-space:nowrap; }
+  #pill .s { font-size:24px; font-weight:600; opacity:.8; } #pill .b { font-size:40px; font-weight:800; letter-spacing:.01em; }
+  .neon { font-family:'Plus Jakarta Sans'; font-weight:800; color:#C8FF2E; letter-spacing:-.03em; line-height:.9;
+          text-shadow:0 0 22px rgba(200,255,46,.85), 0 0 60px rgba(200,255,46,.55), 0 0 120px rgba(200,255,46,.35); }
+  .wt { font-family:'Plus Jakarta Sans'; font-weight:800; color:#fff; line-height:1; text-shadow:0 4px 22px rgba(0,0,0,.45); }
+  .spill { position:absolute; left:0; right:0; margin:0 auto; width:fit-content; padding:12px 26px; border-radius:999px; background:#fff; color:#12131A;
+           font-weight:700; font-size:34px; white-space:nowrap; box-shadow:0 8px 22px rgba(0,0,0,.25); opacity:0; }
+  .spill b { color:#2347FF; font-weight:800; }
+  .glass { position:absolute; background:rgba(255,255,255,.62); border:2px solid rgba(255,255,255,.85); border-radius:34px;
+           box-shadow:0 24px 60px rgba(40,50,90,.18); backdrop-filter:blur(16px); opacity:0; }
+  .dglass { position:absolute; background:rgba(255,255,255,.16); border:2px solid rgba(255,255,255,.4); border-radius:999px;
+            backdrop-filter:blur(12px); color:#fff; font-weight:800; padding:14px 30px; font-size:38px; opacity:0; white-space:nowrap;
+            box-shadow:0 10px 30px rgba(0,0,0,.25); }
+  .canvas { position:absolute; inset:0; opacity:0; overflow:hidden; background:#F3F3F0; }
+  .canvas::before { content:""; position:absolute; inset:0;
+     background:radial-gradient(circle at 22% 38%, rgba(165,180,255,.55), rgba(165,180,255,0) 34%),
+                radial-gradient(circle at 80% 78%, rgba(214,255,120,.6), rgba(214,255,120,0) 32%); }
+  .canvas::after { content:""; position:absolute; inset:0; opacity:.55;
+     background-image:radial-gradient(rgba(30,30,40,.22) 1.6px, transparent 1.8px); background-size:26px 26px; }
+  .badge { position:absolute; left:64px; top:230px; display:flex; align-items:center; gap:18px; z-index:2; font-weight:700;
+           font-size:34px; color:#12131A; }
+  .badge i { font-style:normal; width:56px; height:56px; border-radius:16px; background:#fff; color:#2347FF; display:grid; place-items:center;
+             font-weight:800; font-size:34px; box-shadow:0 6px 18px rgba(40,50,90,.15); }
+  .cap { position:absolute; left:0; right:0; text-align:center; font-weight:800; font-size:66px; color:#12131A; line-height:1.08; z-index:3; }
+  .cap b { color:#2347FF; } .cap .rd { color:#E5383B; }
+  .tile { position:absolute; width:190px; height:190px; border-radius:40px; background:#fff; display:grid; place-items:center; z-index:2;
+          box-shadow:0 14px 40px rgba(40,50,90,.18); font-weight:800; font-size:44px; color:#2347FF; opacity:0; text-align:center; line-height:1.05; }
+  .op { position:absolute; font-weight:800; font-size:70px; color:#12131A; opacity:0; z-index:2; }
+  .ok { position:absolute; padding:10px 22px; border-radius:999px; background:#C8FF2E; color:#12131A; font-weight:800; font-size:30px; opacity:0;
+        box-shadow:0 6px 18px rgba(120,160,0,.35); white-space:nowrap; z-index:4; }
+  .rtag { position:absolute; padding:16px 30px; border-radius:999px; background:rgba(229,56,59,.88); color:#fff; font-weight:800; font-size:40px;
+          opacity:0; white-space:nowrap; box-shadow:0 10px 30px rgba(0,0,0,.35); border:2px solid rgba(255,255,255,.5); }
+
+
+  #car-wrap { position:absolute; left:0; right:0; top:1150px; height:640px; perspective:1500px; opacity:0; }
+  #car { position:absolute; left:50%; top:40px; width:0; height:0; transform-style:preserve-3d; }
+  .cc { position:absolute; left:-140px; top:0; width:280px; height:420px; border-radius:34px; overflow:hidden; backface-visibility:hidden;
+        box-shadow:0 20px 50px rgba(0,0,0,.45); border:4px solid rgba(255,255,255,.9); background:#fff; }
+  .cc img { width:100%; height:100%; object-fit:cover; }
+  #hk-top { position:absolute; left:0; right:0; top:110px; text-align:center; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="35.75" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="3.0" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="3.0" data-duration="1.02" data-track-index="0" src="assets/footage/073827.mp4" muted playsinline data-media-start="0.35" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="4.02" data-duration="2.03" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="4.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="6.05" data-duration="4.64" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="0.05" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="10.69" data-duration="4.45" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="4.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="15.14" data-duration="6.82" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="9.25" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="21.96" data-duration="1.5" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="0.3" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="23.46" data-duration="1.5" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="4.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="24.96" data-duration="1.4" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="9.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="26.36" data-duration="3.97" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="6.53" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="30.33" data-duration="5.42" data-track-index="0" src="assets/footage/073758.mp4" muted playsinline data-media-start="0.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; filter:blur(30px) brightness(.7); transform:scale(1.15)"></video>
+
+      </div>
+      <div id="pill"><div class="s">Tapak kasut dah lama?</div><div class="b">TUKAR YANG BARU</div></div>
+      <div id="hk-top">
+        <div class="wt" id="hk-l1" style="font-size:84px">Tapak kasut</div>
+        <div class="neon" id="hk-l2" style="font-size:150px; margin-top:6px">DAH LAMA?</div>
+      </div>
+      <div id="hk-c" class="neon" style="position:absolute; left:0; right:0; top:1180px; text-align:center; font-size:230px; color:#FF4D4D;
+           text-shadow:0 0 22px rgba(255,77,77,.85), 0 0 70px rgba(255,77,77,.5); opacity:0">CAMPAK!</div>
+      <div id="hk-n" style="position:absolute; left:0; right:0; top:110px; text-align:center; opacity:0">
+        <div class="wt" style="font-size:84px">Dapatkan yang</div>
+        <div class="neon" style="font-size:190px; margin-top:6px">BARU!</div>
+      </div>
+      <div id="car-wrap"><div id="car"><div class="cc" style="transform:rotateY(0.0deg) translateZ(400px)"><img src="assets/img/bottom.jpg"/></div><div class="cc" style="transform:rotateY(51.42857142857143deg) translateZ(400px)"><img src="assets/img/mesh.jpg"/></div><div class="cc" style="transform:rotateY(102.85714285714286deg) translateZ(400px)"><img src="assets/img/arch.jpg"/></div><div class="cc" style="transform:rotateY(154.28571428571428deg) translateZ(400px)"><img src="assets/img/pad.jpg"/></div><div class="cc" style="transform:rotateY(205.71428571428572deg) translateZ(400px)"><img src="assets/img/inshoe.jpg"/></div><div class="cc" style="transform:rotateY(257.14285714285717deg) translateZ(400px)"><img src="assets/img/bottom2.jpg"/></div><div class="cc" style="transform:rotateY(308.57142857142856deg) translateZ(400px)"><img src="assets/img/pair.jpg"/></div></div></div>
+      <div id="sd" class="spill" style="top:1420px">sedap <b>guys</b> &#10003;</div>
+      <div id="bs" class="wt" style="position:absolute; left:0; right:0; top:1280px; text-align:center; font-size:110px; opacity:0">MEMANG <span style="color:#C8FF2E">BEST</span></div>
+      <div id="br-s" class="wt" style="position:absolute; left:0; right:0; top:760px; text-align:center; font-size:42px; font-weight:600; opacity:0">korang dapatkan</div>
+      <div id="br-n" class="neon" style="position:absolute; left:0; right:0; top:830px; text-align:center; font-size:170px; opacity:0">TAPAK<br>BARU</div>
+      <div id="cq" class="canvas">
+        <div class="badge"><i>K</i>Kelebihan</div>
+        <div id="q1" class="tile" style="left:90px; top:400px; font-size:42px">Lawa</div>
+        <div id="qo1" class="op" style="left:308px; top:450px">+</div>
+        <div id="q2" class="tile" style="left:380px; top:400px; font-size:40px">Cantik</div>
+        <div id="qo2" class="op" style="left:598px; top:450px">+</div>
+        <div id="q3" class="tile" style="left:670px; top:400px; font-size:34px">Berkualiti</div>
+        <div id="qc" class="glass" style="left:240px; top:660px; width:600px; height:600px; padding:20px">
+          <img src="assets/img/bottom.jpg" style="width:560px; height:560px; object-fit:cover; border-radius:24px"/></div>
+        <div id="qok" class="ok" style="left:610px; top:635px">&#10003; kualiti</div>
+        <div id="qcap" class="cap" style="top:1340px">memang <b>BERKUALITI</b></div>
+      </div>
+      <div id="cs" class="canvas">
+        <div class="badge"><i>S</i>Struktur</div>
+        <div id="sc1" class="glass" style="left:70px; top:420px; width:450px; height:720px; z-index:2">
+          <img src="assets/img/arch.jpg" style="position:absolute; left:20px; top:20px; width:406px; height:500px; object-fit:cover; border-radius:22px"/>
+          <div style="position:absolute; left:34px; top:548px; font-weight:800; font-size:56px; color:#E5383B">KERAS</div>
+          <div style="position:absolute; left:34px; top:620px; font-weight:600; font-size:32px; color:#556">sokong kaki</div>
+        </div>
+        <div id="sc2" class="glass" style="left:560px; top:420px; width:450px; height:720px; z-index:2">
+          <img src="assets/img/pad.jpg" style="position:absolute; left:20px; top:20px; width:406px; height:500px; object-fit:cover; border-radius:22px"/>
+          <div style="position:absolute; left:34px; top:548px; font-weight:800; font-size:56px; color:#1FA855">LEMBUT</div>
+          <div style="position:absolute; left:34px; top:620px; font-weight:600; font-size:32px; color:#556">empuk di tapak</div>
+        </div>
+        <div id="sok" class="ok" style="left:330px; top:1190px">&#10003; keras + lembut = sedap</div>
+        <div id="scap" class="cap" style="top:1300px">di sini <b>keras</b>,<br>di sini <b>lembut</b></div>
+      </div>
+      <div id="ml0" class="spill" style="top:1450px; font-size:46px">senang pasang</div>
+      <div id="ml1" class="spill" style="top:1450px; font-size:46px">muat elok</div>
+      <div id="ml2" class="spill" style="top:1450px; font-size:46px">terus sedap</div>
+      <div id="ph" class="neon" style="position:absolute; left:0; right:0; top:1420px; text-align:center; font-size:170px; opacity:0">PUAS HATI!</div>
+      <div id="tg1" class="dglass" style="left:70px; top:560px">SEDAP +</div>
+      <div id="tg2" class="dglass" style="left:700px; top:720px">LAWA +</div>
+      <div id="tg3" class="dglass" style="left:110px; top:900px">BERKUALITI +</div>
+      <div id="sk" class="spill" style="top:1620px">InsyaAllah korang <b>sangat suka</b></div>
+      <div id="ec" class="glass" style="left:170px; top:300px; width:740px; height:900px; padding:22px; background:rgba(255,255,255,.85)">
+        <img src="assets/img/bottom2.jpg" style="width:696px; height:640px; object-fit:cover; border-radius:24px"/>
+        <div style="font-weight:800; font-size:58px; color:#12131A; margin-top:22px; text-align:center">Tapak Kasut <span style="color:#FF4D4D">Baru</span></div>
+        <div style="font-weight:600; font-size:30px; color:#556; margin-top:10px; text-align:center">Keras sokong kaki &bull; Lembut empuk di tapak</div>
+      </div>
+      <div id="ebtn" style="position:absolute; left:0; right:0; margin:0 auto; width:fit-content; top:1290px; padding:30px 56px; border-radius:999px; background:#2347FF;
+           color:#fff; font-weight:800; font-size:50px; white-space:nowrap; box-shadow:0 0 0 6px rgba(35,71,255,.25), 0 16px 40px rgba(35,71,255,.55); opacity:0">DAPATKAN DI BEG KUNING</div>
+      <div id="esub" class="wt" style="position:absolute; left:0; right:0; top:1430px; text-align:center; font-size:38px; font-weight:600; opacity:0">klik beg kuning &darr;</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 3.0);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 3.43);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 4.02);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 5.45);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 6.05);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 8.12);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 9.79);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 10.69);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 15.14);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 21.96);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.46, ease:"sine.inOut"}, 21.98);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 23.46);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.46, ease:"sine.inOut"}, 23.48);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 24.96);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 24.98);
+      tl.set("#cam", {scale:1.07, x:10, y:0}, 26.36);
+      tl.to("#cam", {scale:1.24, x:0, y:0, duration:0.22, ease:"expo.out"}, 27.25);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 30.33);
+      tl.from("#hk-l2", {scale:.4, opacity:0, duration:.45, ease:"back.out(1.6)", immediateRender:false}, 0.05);
+      tl.fromTo("#hk-c", {opacity:0, scale:2.2, rotation:-8}, {opacity:1, scale:1, rotation:-4, duration:.3, ease:"back.out(2)"}, 3.46);
+      tl.to("#hk-top, #hk-c", {opacity:0, duration:.2}, 3.9699999999999998);
+      tl.fromTo("#hk-n", {opacity:0, y:30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 4.119999999999999);
+      tl.fromTo("#car-wrap", {opacity:0, y:120}, {opacity:1, y:0, duration:.45, ease:"expo.out"}, 4.17);
+      tl.fromTo("#car", {rotationY:0}, {rotationY:-220, duration:2.33, ease:"power1.inOut"}, 4.17);
+      tl.to("#hk-n", {scale:.25, y:-180, opacity:0, duration:.4, ease:"power3.in", transformOrigin:"50% 0%"}, 5.75);
+      tl.to("#car-wrap", {opacity:0, y:200, duration:.35, ease:"power2.in"}, 5.75);
+      tl.fromTo("#pill", {opacity:0, scale:.8}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 6.0);
+      tl.fromTo("#sd", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 6.29);
+      tl.to("#sd", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 8.11);
+      tl.fromTo("#bs", {opacity:0, scale:1.3, filter:"blur(12px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.3, ease:"expo.out"}, 9.54);
+      tl.to("#bs", {opacity:0, filter:"blur(8px)", duration:0.22, ease:"power2.in"}, 10.54);
+      tl.fromTo("#s5", {filter:"blur(0px) brightness(1)"}, {filter:"blur(36px) brightness(.7)", duration:.45, ease:"power2.out"}, 10.84);
+      tl.fromTo("#br-s", {opacity:0}, {opacity:1, duration:.3}, 11.09);
+      tl.fromTo("#br-n", {opacity:0, scale:.6, filter:"blur(20px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.5, ease:"expo.out"}, 12.84);
+      tl.fromTo("#cq", {opacity:0}, {opacity:1, duration:.3}, 14.99);
+      tl.to("#br-s, #br-n", {opacity:0, duration:.2}, 15.14);
+      tl.from("#cq .badge", {x:-40, opacity:0, duration:.35, ease:"expo.out", immediateRender:false}, 15.24);
+      tl.fromTo("#q1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 15.33);
+      tl.to("#qo1", {opacity:1, duration:0.2}, 15.83);
+      tl.fromTo("#q2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 16.42);
+      tl.to("#qo2", {opacity:1, duration:0.2}, 16.92);
+      tl.fromTo("#q3", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 17.74);
+      tl.fromTo("#qc", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 15.73);
+      tl.set("#qcap", {opacity:0}, 0);
+      tl.fromTo("#qcap", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 17.84);
+      tl.fromTo("#qok", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 18.19);
+      tl.fromTo("#cs", {opacity:0}, {opacity:1, duration:.3}, 18.53);
+      tl.to("#cq", {opacity:0, duration:.2}, 18.88);
+      tl.from("#cs .badge", {x:-40, opacity:0, duration:.35, ease:"expo.out", immediateRender:false}, 18.73);
+      tl.fromTo("#sc1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 19.07);
+      tl.fromTo("#sc2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 20.09);
+      tl.set("#scap", {opacity:0}, 0);
+      tl.fromTo("#scap", {opacity:0, y:24, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.08}, 19.02);
+      tl.fromTo("#sok", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.3, ease:"back.out(2)"}, 20.759999999999998);
+      tl.to("#cs", {opacity:0, duration:.25}, 21.86);
+      tl.fromTo("#ml0", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 22.08);
+      tl.to("#ml0", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 23.31);
+      tl.fromTo("#ml1", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 23.58);
+      tl.to("#ml1", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 24.81);
+      tl.fromTo("#ml2", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 25.08);
+      tl.to("#ml2", {opacity:0, filter:"blur(8px)", duration:0.12, ease:"power2.in"}, 26.21);
+      tl.fromTo("#ph", {opacity:0, scale:2}, {opacity:1, scale:1, duration:.35, ease:"back.out(1.6)"}, 27.25);
+      tl.fromTo("#tg1", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 27.7);
+      tl.to("#tg1", {y:-16, duration:1.2, yoyo:true, repeat:1, ease:"sine.inOut"}, 28.2);
+      tl.fromTo("#tg2", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 28.05);
+      tl.to("#tg2", {y:-16, duration:1.2, yoyo:true, repeat:1, ease:"sine.inOut"}, 28.55);
+      tl.fromTo("#tg3", {opacity:0, y:40, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 28.4);
+      tl.to("#tg3", {y:-16, duration:1.2, yoyo:true, repeat:1, ease:"sine.inOut"}, 28.9);
+      tl.to("#ph", {opacity:0, duration:.2}, 29.01);
+      tl.fromTo("#sk", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 29.16);
+      tl.to("#sk, #tg1, #tg2, #tg3", {opacity:0, duration:.25}, 30.13);
+      tl.fromTo("#ec", {opacity:0, y:90, scale:.92, filter:"blur(10px)"}, {opacity:1, y:0, scale:1, filter:"blur(0px)", duration:0.45, ease:"expo.out", stagger:0}, 30.38);
+      tl.fromTo("#ebtn", {opacity:0, scale:.6}, {opacity:1, scale:1, duration:.32, ease:"back.out(1.8)"}, 32.18);
+      tl.to("#ebtn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 33.18);
+      tl.to("#ebtn", {scale:1.05, duration:.4, yoyo:true, repeat:3, ease:"sine.inOut"}, 33.480000000000004);
+      tl.to("#esub", {opacity:1, duration:0.3}, 32.78);
+      tl.to("#root", {opacity:0, duration:.4}, 35.35);
+      tl.set({}, {}, 35.75);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

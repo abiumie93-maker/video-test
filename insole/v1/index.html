@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  .scrim { position:absolute; left:0; right:0; bottom:0; height:1000px; opacity:0;
+           background:linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.55) 55%, rgba(0,0,0,.72)); }
+  .big { font-family:'Archivo Black',sans-serif; color:#fff; text-transform:uppercase; line-height:1.02;
+         text-shadow:0 6px 24px rgba(0,0,0,.45); }
+  .y { color:#FFC928; } .rd { color:#FF4D4D; } .gr { color:#3DDC84; }
+  .wd { display:inline-block; opacity:0; }
+  .card { position:absolute; left:120px; width:840px; background:rgba(12,18,38,.88); border-radius:28px;
+          padding:30px 38px; box-shadow:0 18px 50px rgba(0,0,0,.4); color:#fff; font-family:'Montserrat',sans-serif; opacity:0; }
+  .eyebrow { font-weight:800; font-size:30px; letter-spacing:.14em; color:#FFC928; text-transform:uppercase; }
+  .row { display:flex; align-items:center; gap:22px; font-weight:800; font-size:44px; margin-top:16px; opacity:.35; }
+  .box { width:48px; height:48px; border-radius:12px; border:4px solid rgba(255,255,255,.55); position:relative; flex:none; }
+  .box svg { position:absolute; left:-4px; top:-8px; }
+  .chip { display:inline-block; padding:14px 26px; border-radius:999px; font-weight:800; font-size:38px;
+          background:rgba(255,255,255,.12); border:3px solid rgba(255,255,255,.3); margin:14px 12px 0 0; position:relative; opacity:0; }
+  .stamp { position:absolute; font-family:'Archivo Black',sans-serif; text-transform:uppercase; padding:14px 30px;
+           border:8px solid #FFC928; color:#FFC928; border-radius:18px; background:rgba(12,18,38,.75); opacity:0; }
+  .paper { position:absolute; left:120px; width:840px; background:#FFF8E7; border-radius:14px; opacity:0;
+           box-shadow:0 18px 44px rgba(0,0,0,.4); color:#1d1d1f; }
+  .paper::before { content:""; position:absolute; left:50%; top:-18px; width:170px; height:38px; margin-left:-85px;
+                   background:rgba(255,201,40,.8); border-radius:3px; }
+  .ink { fill:none; stroke:#1d1d1f; stroke-width:6; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:1; stroke-dashoffset:1; }
+  .ink.r { stroke:#E63434; } .ink.g { stroke:#1FA855; } .ink.y { stroke:#F2B705; } .ink.b { stroke:#1F5FD1; }
+  .ink.p { stroke:#F48FB1; } .ink.thick { stroke-width:12; } .ink.w { stroke:#fff; }
+  .hand { position:absolute; font-family:'Caveat',cursive; font-weight:700; color:#1d1d1f; line-height:1; white-space:nowrap;
+          clip-path:inset(0 100% 0 0); }
+  .mk { font-family:'Permanent Marker',cursive; font-weight:400; }
+  .hand.r { color:#E63434; } .hand.g { color:#1FA855; } .hand.b { color:#1F5FD1; }
+  .lbl { position:absolute; left:0; right:0; text-align:center; font-size:124px; opacity:0; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="34.95" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="3.0" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="3.0" data-duration="1.02" data-track-index="0" src="assets/footage/073827.mp4" muted playsinline data-media-start="0.35" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="4.02" data-duration="2.03" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="4.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="6.05" data-duration="4.64" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="0.05" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="10.69" data-duration="7.99" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="4.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="18.68" data-duration="1.88" data-track-index="0" src="assets/footage/074041.mp4" muted playsinline data-media-start="12.94" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="20.56" data-duration="1.5" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="0.3" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="22.06" data-duration="1.4" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="4.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="23.46" data-duration="1.4" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="9.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="24.86" data-duration="1.3" data-track-index="0" src="assets/footage/073815.mp4" muted playsinline data-media-start="12.2" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="26.16" data-duration="3.97" data-track-index="0" src="assets/footage/073913.mp4" muted playsinline data-media-start="6.53" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s12" class="clip " data-start="30.13" data-duration="4.82" data-track-index="0" src="assets/footage/073758.mp4" muted playsinline data-media-start="0.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+
+      </div>
+      <div id="hk-scrim" class="scrim"></div>
+      <div id="hk-box" class="ov" style="left:60px; right:60px; top:1270px; text-align:center; opacity:1">
+        <div id="hk-l1" class="big" style="font-size:78px"><span class="wd">Tapak</span> <span class="wd">kasut</span> <span class="wd y">dah lama?</span></div>
+        <div id="hk-l3" class="big rd" style="font-size:190px; margin-top:6px"><span class="wd">CAMPAK!</span></div>
+        <svg width="760" height="46" viewBox="0 0 760 46" style="display:block;margin:-8px auto 0"><path id="hk-ul" class="ink r thick" pathLength="1" d="M60 28 C 240 8, 440 40, 700 16"/></svg>
+      </div>
+      <div id="hk2" class="ov" style="left:60px; right:60px; top:1290px; text-align:center">
+        <div class="big" style="font-size:66px"><span class="wd">Dapatkan</span> <span class="wd">yang</span></div>
+        <div class="big y" style="font-size:200px; margin-top:4px"><span class="wd">BARU!</span></div>
+        <svg width="700" height="46" viewBox="0 0 700 46" style="display:block;margin:-8px auto 0"><path id="hk2-ul" class="ink y thick" pathLength="1" d="M40 28 C 220 8, 420 40, 660 16"/></svg>
+      </div>
+      <div id="pa" class="paper" style="top:900px; height:400px">
+        <svg width="840" height="400" viewBox="0 0 840 400" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M70 300 C 70 250, 120 230, 200 232 L 360 240 C 420 244, 450 280, 450 310 L 70 310 Z" id="sh-shoe"/><path class="ink r thick" pathLength="1" d="M90 296 C 180 286, 330 286, 440 296" id="sh-sole"/><path class="ink b" pathLength="1" d="M160 200 C 160 150, 200 120, 230 160 M240 190 C 250 140, 290 120, 310 170" id="sh-wave"/><path class="ink y thick" pathLength="1" d="M520 120 l14 30 l32 4 l-24 22 l8 32 l-30 -16 l-30 16 l8 -32 l-24 -22 l32 -4 z" id="sh-star"/></svg>
+        <div class="hand mk b" id="pa-t1" style="left:470px; top:230px; font-size:78px">Sedap guys!</div>
+        <div class="hand g" id="pa-t2" style="left:210px; top:330px; font-size:60px">Memang BEST!</div>
+      </div>
+      <div id="cb" class="card" style="top:900px">
+        <div class="eyebrow">Tapak kasut baru ni memang&hellip;</div>
+        <div class="row" id="ck0" style="font-size:58px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>LAWA</div></div><div class="row" id="ck1" style="font-size:58px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>CANTIK</div></div><div class="row" id="ck2" style="font-size:58px"><div class="box"><svg width="64" height="60" viewBox="0 0 64 60"><path class="ink g thick" pathLength="1" d="M8 30 L26 48 L58 6"/></svg></div><div>BERKUALITI</div></div>
+      </div>
+      <div id="stamp-q" class="stamp" style="left:520px; top:830px; font-size:58px; transform:rotate(-8deg)">BERKUALITI!</div>
+      <div id="pk" class="paper" style="top:860px; height:460px">
+        <svg width="840" height="460" viewBox="0 0 840 460" style="position:absolute;left:0;top:0"><path class="ink " pathLength="1" d="M250 230 C 250 170, 290 140, 350 140 C 430 140, 480 118, 550 108 C 630 98, 690 140, 690 200 C 690 262, 640 292, 560 292 C 490 292, 450 262, 400 282 C 340 304, 250 300, 250 230 Z" id="ins"/><path class="ink r thick" pathLength="1" d="M370 288 C 400 270, 440 264, 480 280" id="ins-arch"/><path class="ink g thick" pathLength="1" d="M310 222 m-38 0 a38 48 0 1 0 76 0 a38 48 0 1 0 -76 0" id="ins-pad"/><path class="ink r" pathLength="1" d="M215 375 C 280 360, 340 330, 395 292 M372 300 l26 -10 l-6 28" id="ar-k"/><path class="ink g" pathLength="1" d="M215 95 C 255 110, 285 140, 300 168 M278 156 l22 14 l4 -26" id="ar-l"/></svg>
+        <div class="hand mk r" id="pk-t1" style="left:40px; top:330px; font-size:70px">KERAS</div>
+        <div class="hand r" id="pk-t1b" style="left:500px; top:360px; font-size:44px">sokong kaki</div>
+        <div class="hand mk g" id="pk-t2" style="left:30px; top:40px; font-size:70px">LEMBUT</div>
+        <div class="hand g" id="pk-t2b" style="left:400px; top:50px; font-size:44px">empuk</div>
+      </div>
+      <div id="lb1" class="lbl big" style="top:1420px">SENANG<br><span class=y>PASANG</span></div>
+      <div id="lb2" class="lbl big" style="top:1420px">MUAT<br><span class=y>ELOK</span></div>
+      <div id="lb3" class="lbl big" style="top:1420px">TERUS<br><span class=y>SEDAP</span></div>
+      <div id="ph" class="card" style="top:960px; text-align:center">
+        <div class="big" style="font-size:112px"><span class="wd y">PUAS</span> <span class="wd">HATI!</span></div>
+        <svg width="740" height="130" viewBox="0 0 740 130" style="display:block; margin:6px auto 0"><path class="ink y thick" pathLength="1" d="M60 40 l16 34 l36 5 l-26 25 l7 36 l-33 -18 l-33 18 l7 -36 l-26 -25 l36 -5 z" id="st0"/><path class="ink y thick" pathLength="1" d="M190 40 l16 34 l36 5 l-26 25 l7 36 l-33 -18 l-33 18 l7 -36 l-26 -25 l36 -5 z" id="st1"/><path class="ink y thick" pathLength="1" d="M320 40 l16 34 l36 5 l-26 25 l7 36 l-33 -18 l-33 18 l7 -36 l-26 -25 l36 -5 z" id="st2"/><path class="ink y thick" pathLength="1" d="M450 40 l16 34 l36 5 l-26 25 l7 36 l-33 -18 l-33 18 l7 -36 l-26 -25 l36 -5 z" id="st3"/><path class="ink y thick" pathLength="1" d="M580 40 l16 34 l36 5 l-26 25 l7 36 l-33 -18 l-33 18 l7 -36 l-26 -25 l36 -5 z" id="st4"/></svg>
+        <div id="ph-2" style="opacity:0; font-weight:800; font-size:46px; margin-top:4px">InsyaAllah korang <span class="y">sangat suka</span></div>
+      </div>
+      <div id="cta" class="card" style="top:900px; text-align:center; padding:40px 40px 46px">
+        <div class="eyebrow">Tapak kasut baru, kaki terus sedap</div>
+        <div class="big" style="font-size:72px; margin-top:10px">Dapatkan<br>terus dekat</div>
+        <div id="cta-btn" style="opacity:0; display:inline-flex; align-items:center; gap:22px; margin-top:28px; padding:26px 46px; border-radius:999px;
+             background:#FFC928; color:#0C1226; font-family:'Archivo Black'; font-size:56px; white-space:nowrap; box-shadow:0 10px 0 #C99A00">
+          <svg width="74" height="70" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#0C1226"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#0C1226" stroke-width="7"/></svg>
+          BEG KUNING</div>
+        <div id="cta-2" style="opacity:0; font-weight:800; font-size:40px; margin-top:26px">Tekan sekarang &darr;</div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 3.0);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 3.43);
+      tl.set("#cam", {scale:1.04, x:-10, y:0}, 4.02);
+      tl.to("#cam", {scale:1.28, x:0, y:0, duration:0.22, ease:"expo.out"}, 5.45);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 6.05);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:0.7, ease:"power2.inOut"}, 8.12);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 9.79);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 10.69);
+      tl.to("#cam", {scale:1.2, x:0, y:-197.4, duration:0.5, ease:"power2.inOut"}, 11.63);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 15.38);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 16.47);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 17.84);
+      tl.set("#cam", {scale:1.34, x:0, y:-337.8}, 18.58);
+      tl.set("#cam", {scale:1.24, x:12, y:-237.5}, 18.68);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 19.17);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 20.19);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 20.56);
+      tl.to("#cam", {scale:1.27, x:0, y:-267.6, duration:1.41, ease:"sine.inOut"}, 20.58);
+      tl.set("#cam", {scale:1.14, x:0, y:0}, 22.01);
+      tl.set("#cam", {scale:1.1, x:0, y:0}, 22.06);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 22.08);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 23.46);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.36, ease:"sine.inOut"}, 23.479999999999997);
+      tl.set("#cam", {scale:1.08, x:12, y:0}, 24.86);
+      tl.to("#cam", {scale:1.14, x:0, y:0, duration:1.26, ease:"sine.inOut"}, 24.879999999999995);
+      tl.set("#cam", {scale:1.22, x:-10, y:-217.5}, 26.16);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 27.05);
+      tl.set("#cam", {scale:1.25, x:0, y:-247.6}, 30.13);
+      tl.to("#cam", {scale:1.26, x:0, y:-257.6, duration:2.19, ease:"sine.inOut"}, 30.15);
+      tl.to("#cam", {scale:1.34, x:0, y:-337.8, duration:0.22, ease:"expo.out"}, 32.36);
+      tl.set("#cam", {scale:1.28, x:0, y:0}, 34.95);
+      tl.set("#hk-scrim", {opacity:1}, 0);
+      tl.set("#hk-l1 .wd", {opacity:1}, 0);
+      tl.fromTo("#hk-l3 .wd", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 3.46);
+      tl.fromTo("#hk-ul", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 3.66);
+      tl.to("#hk-box", {opacity:0, y:-30, duration:.2}, 3.9199999999999995);
+      tl.set("#hk2", {opacity:1}, 4.069999999999999);
+      tl.fromTo("#hk2 .wd", {opacity:0, y:30, filter:"blur(8px)"}, {opacity:1, y:0, filter:"blur(0px)", duration:.22, ease:"power4.out", stagger:0.12}, 3.92);
+      tl.fromTo("#hk2-ul", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 5.6);
+      tl.to("#hk2, #hk-scrim", {opacity:0, duration:.25}, 5.85);
+      tl.fromTo("#pa", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 6.15);
+      tl.fromTo("#sh-shoe", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 6.35);
+      tl.fromTo("#sh-sole", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.35, ease:"power1.inOut"}, 6.59);
+      tl.fromTo("#pa-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.45, ease:"none"}, 6.39);
+      tl.fromTo("#sh-wave", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.5, ease:"power1.inOut"}, 8.41);
+      tl.fromTo("#pa-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.54, ease:"none"}, 9.74);
+      tl.fromTo("#sh-star", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:"power1.inOut"}, 9.84);
+      tl.to("#pa", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 10.62);
+      tl.fromTo("#cb", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 11.68);
+      tl.to("#ck0", {opacity:1, duration:.2}, 15.43);
+      tl.fromTo("#ck0 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 15.53);
+      tl.to("#ck1", {opacity:1, duration:.2}, 16.52);
+      tl.fromTo("#ck1 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 16.62);
+      tl.to("#ck2", {opacity:1, duration:.2}, 17.89);
+      tl.fromTo("#ck2 path", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 17.99);
+      tl.fromTo("#stamp-q", {opacity:0, scale:1.8, rotation:-14}, {opacity:1, scale:1, rotation:-8, duration:.3, ease:"back.out(2)"}, 18.14);
+      tl.to("#cb", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 18.63);
+      tl.to("#stamp-q", {opacity:0, duration:0.25, ease:"power2.in"}, 18.59);
+      tl.fromTo("#pk", {opacity:0, y:80, rotation:-7, scale:.82, transformOrigin:"50% 0%"}, {opacity:1, y:0, rotation:-1.5, scale:.92, transformOrigin:"50% 0%", duration:.55, ease:"back.out(1.4)"}, 18.63);
+      tl.fromTo("#ins", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:"power1.inOut"}, 18.83);
+      tl.fromTo("#pk-t1", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 19.17);
+      tl.fromTo("#ar-k", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 19.22);
+      tl.fromTo("#ins-arch", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 19.37);
+      tl.fromTo("#pk-t1b", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.45, ease:"none"}, 19.52);
+      tl.fromTo("#pk-t2", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 20.19);
+      tl.fromTo("#ar-l", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 20.24);
+      tl.fromTo("#ins-pad", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.3, ease:"power1.inOut"}, 20.39);
+      tl.fromTo("#pk-t2b", {clipPath:"inset(0 100% 0 0)"}, {clipPath:"inset(0 0% 0 0)", duration:0.3, ease:"none"}, 20.54);
+      tl.to("#pk", {opacity:0, y:-30, rotation:3, filter:"blur(5px)", duration:.28, ease:"power2.in"}, 21.76);
+      tl.fromTo("#lb1", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 22.16);
+      tl.to("#lb1", {opacity:0, duration:.2}, 23.26);
+      tl.fromTo("#lb2", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 23.56);
+      tl.to("#lb2", {opacity:0, duration:.2}, 24.66);
+      tl.fromTo("#lb3", {opacity:0, scale:1.5, filter:"blur(10px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.28, ease:"expo.out"}, 24.96);
+      tl.to("#lb3", {opacity:0, duration:.2}, 25.96);
+      tl.fromTo("#ph", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 26.26);
+      tl.fromTo("#ph .wd", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 27.05);
+      tl.fromTo("#st0", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 27.49);
+      tl.fromTo("#st1", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 27.61);
+      tl.fromTo("#st2", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 27.73);
+      tl.fromTo("#st3", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 27.85);
+      tl.fromTo("#st4", {strokeDashoffset:1}, {strokeDashoffset:0, duration:0.25, ease:"power1.inOut"}, 27.97);
+      tl.to("#ph-2", {opacity:1, duration:0.3}, 29.06);
+      tl.to("#ph", {opacity:0, y:-24, filter:"blur(6px)", duration:.25, ease:"power2.in"}, 29.93);
+      tl.fromTo("#cta", {opacity:0, y:50, scale:.95}, {opacity:1, y:0, scale:1, duration:.45, ease:"expo.out"}, 30.18);
+      tl.fromTo("#cta-btn", {opacity:0, scale:.5}, {opacity:1, scale:1, duration:.38, ease:"back.out(1.8)"}, 32.03);
+      tl.to("#cta-btn", {scale:.93, duration:.09, yoyo:true, repeat:1}, 32.98);
+      tl.to("#cta-btn", {scale:1.06, duration:.35, yoyo:true, repeat:3, ease:"sine.inOut"}, 33.28);
+      tl.to("#cta-2", {opacity:1, duration:0.3}, 32.68);
+      tl.to("#root", {opacity:0, duration:.4}, 34.55);
+      tl.set({}, {}, 34.95);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

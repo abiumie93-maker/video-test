@@ -5,6 +5,10 @@ Bila pengguna sebut **"Versi 1"** atau **"Versi 2"**, ikut gaya di bawah. Kalau 
 Projek rujukan: `promo/` (video promo Set Alooma Premium). Generator: `promo/tools/gen1.py` (Versi 1) dan
 `promo/tools/gen2.py` (Versi 2), helper bersama `promo/tools/common.py`, mixer audio `promo/tools/mix.py`.
 Salin dan sesuaikan generator ini untuk video baru; jangan tulis dari kosong.
+Contoh kedua: `insole/` (promo tapak kasut, suara dari BEBERAPA klip). `insole/tools/common.py` + `mix.py` menyokong
+`E.say(name, a, b, clip="<klip>")` (setiap segmen suara ada klip sendiri, audio `assets/a_<klip>.wav`), dan
+`insole/tools/gen1.py` / `gen2.py` memuatkan rupa + helper terus dari `promo/tools/gen1.py` / `gen2.py` (satu sumber).
+Guna `insole/tools/` sebagai titik mula untuk projek baru.
 
 Cakap dengan pengguna dalam Bahasa Melayu santai ("awak/korang"). Dalam teks skrin, eja **"supplement"**, bukan "suplimen".
 
@@ -29,6 +33,9 @@ Cakap dengan pengguna dalam Bahasa Melayu santai ("awak/korang"). Dalam teks skr
   muzik latar CC0 (FreePD, `assets/music/`) rendah bawah suara (~0.14–0.16) dan naik masa montaj (~0.6), fade di hujung,
   SFX bundel (whoosh, pop, impact, error, notification, click, riser) dengan puncak 1 frame selepas visual.
 - Target −15 LUFS, true peak ≤ −1.5 dBTP (loudnorm dua laluan). Jangan guna audio muzik dari footage sumber.
+- **Muzik mesti selamat untuk komersial** (TikTok Shop / beg kuning dan YouTube — pengguna minta): guna hanya trek
+  public domain / CC0 (FreePD dalam `promo/assets/music/`, `CREDITS.txt`). Jangan guna lagu popular atau muzik "free"
+  yang bersyarat (cth. non-commercial, atau perlu atribusi yang mungkin terlupa).
 
 ---
 
