@@ -65,7 +65,8 @@
   #poll .op b { font-family:'Anton'; font-size:56px; color:#F2B33D; }
 
 
-  #s1, #s2, #s3, #s4 { filter: sepia(.22) saturate(.92) brightness(.86) contrast(1.06); }
+  #s1, #s2, #s3, #s4 { filter: brightness(1.08) saturate(1.22) contrast(1.06); }
+  #vig { background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 60%, rgba(25,12,0,.18) 100%); }
   .pcard { position:absolute; background:#fff; padding:16px 16px 0; border-radius:22px; box-shadow:0 24px 50px rgba(110,70,10,.28); z-index:3; opacity:0; }
   .pcard img { display:block; width:100%; border-radius:12px; object-fit:cover; }
   .pcard .cap { font-family:'Anton'; font-size:46px; color:#3A2414; text-align:center; padding:14px 6px 18px; line-height:1.05; }
@@ -90,13 +91,15 @@
       <div id="hk-g" class="goldt" style="top:215px; font-size:180px">WIFE SAYA<br>MARAH?!</div>
       <div id="hk-c" class="glass" style="top:1060px"><span class="k">SEBAB APA?</span>Pokok dia saya letak <span style="color:#F7C24A">kat atas</span>&hellip;</div>
       <div id="hk-g2" class="goldt" style="top:215px; font-size:160px">DIA BELI<br>POKOK SENDIRI!</div>
+      <div id="hk-p" class="pcard" style="left:250px; top:250px; width:580px; transform:rotate(-3deg); z-index:7"><img src="assets/img/pokok_atas.jpg" style="height:640px; object-position:50% 60%"/>
+        <div class="cap">POKOK DIA<small>dah pindah letak kat atas</small></div></div>
       <div id="c1" class="canvas">
         <div class="hd"><span class="l1">Pokok olive</span><br><span class="hl">tapi design lain</span></div>
         <div id="c1-p" class="pcard" style="left:150px; top:430px; width:420px; transform:rotate(-4deg)"><img src="assets/img/tree.jpg" style="height:720px"/>
           <div class="cap">POKOK OLIVE<small>tinggi &amp; lebat</small></div></div>
         <div id="c1-q" class="pcard" style="left:560px; top:560px; width:380px; transform:rotate(4deg)"><img src="assets/img/trunk.jpg" style="height:470px"/>
-          <div class="cap">BATANG<small>lengkok-lengkok</small></div></div>
-        <div id="c1-st" class="stamp2" style="left:420px; top:1260px; font-size:66px; transform:rotate(-6deg)">LENGKOK-LENGKOK!</div>
+          <div class="cap">BATANG<small>melengkor</small></div></div>
+        <div id="c1-st" class="stamp2" style="left:420px; top:1260px; font-size:66px; transform:rotate(-6deg)">MELENGKOR!</div>
       </div>
       <div id="g-bz" class="goldt" style="top:200px; font-size:170px">ADA BUAH<br>ZAITUN!</div>
       <div id="bz-c" class="glass" style="top:1060px"><span class="k">PADANLAH&hellip;</span>Dia memang minum <span style="color:#F7C24A">minyak zaitun</span> &#128516;</div>
@@ -127,18 +130,20 @@
         <div class="lbl2" id="c4-l" style="left:600px; top:520px; opacity:0">The best part:</div>
         <div id="q0" class="wcard or" style="left:590px; top:580px; width:440px; font-size:44px"><span class="ic">&#9878;</span>Sangat berat</div>
         <div id="q1" class="wcard or" style="left:590px; top:770px; width:440px; font-size:44px"><span class="ic">&#9875;</span>Sangat steady</div>
-        <div id="q2" class="wcard" style="left:590px; top:960px; width:440px; font-size:44px"><span class="ic">&#10024;</span>Lengkok cantik</div>
+        <div id="q2" class="wcard" style="left:590px; top:960px; width:440px; font-size:44px"><span class="ic">&#10024;</span>Melengkor cantik</div>
       </div>
       <div id="tp1" class="glass" style="top:1060px"><span class="k">TIPS 1</span>Bila dah dapat, <span style="color:#F7C24A">kembangkan</span> dahan dia sikit</div>
       <div id="tp2" class="glass" style="top:1060px"><span class="k">ADA WIRE DALAM DAHAN</span>Senang bentukkan ikut suka</div>
       <div id="c5" class="canvas">
         <div class="hd"><span class="l1">Tips 2: cari pasu</span><br><span class="hl">lagi tinggi &amp; besar</span></div>
-        <div id="t0" class="wcard" style="left:240px; top:500px; width:600px"><span class="ic">&#9651;</span>Pasu tinggi &amp; besar</div>
-        <div id="t1" class="wcard" style="left:240px; top:680px; width:600px"><span class="ic">&#8593;</span>Pokok nampak tinggi</div>
-        <div id="t2" class="wcard or" style="left:240px; top:860px; width:600px"><span class="ic">&#10024;</span>Lebih cantik!</div>
+        <div id="t0" class="wcard" style="left:60px; top:520px; width:470px; font-size:44px"><span class="ic">&#9651;</span>Pasu besar</div>
+        <div id="t1" class="wcard" style="left:60px; top:700px; width:470px; font-size:44px"><span class="ic">&#8593;</span>Nampak tinggi</div>
+        <div id="t3" class="pcard" style="left:560px; top:440px; width:440px; transform:rotate(3deg)"><img src="assets/img/pasu_besar.jpg" style="height:600px; object-position:50% 75%"/>
+          <div class="cap">PASU LEBIH BESAR<small>contoh macam ni</small></div></div>
+        <div id="t2" class="wcard or" style="left:60px; top:880px; width:470px; font-size:44px"><span class="ic">&#10024;</span>Lebih cantik!</div>
       </div>
       <div id="g-ex" class="goldt" style="top:190px; font-size:210px">EXCLUSIVE!</div>
-      <div id="ex-c" class="glass" style="top:1060px"><span class="k">LAIN DARI POKOK OLIVE DI LUAR</span>Batang dia <span style="color:#F7C24A">melengkok</span>, design sangat cantik</div>
+      <div id="ex-c" class="glass" style="top:1060px"><span class="k">LAIN DARI POKOK OLIVE DI LUAR</span>Batang dia <span style="color:#F7C24A">melengkor</span>, design sangat cantik</div>
       <div id="cta" style="position:absolute; left:110px; right:110px; top:1480px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.86);
            border:2px solid rgba(247,194,74,.45); opacity:0; z-index:9; text-align:center">
         <div style="font-family:Montserrat; font-weight:800; font-size:38px; color:#fff; letter-spacing:.06em">DAH ADA DI BEG KUNING</div>
@@ -168,8 +173,8 @@
       <div id="sb13" class="sub">dia?</div>
       <div id="sb14" class="sub dk"><i>olive</i> jugak tapi <i>design</i></div>
       <div id="sb15" class="sub dk">dia lain what saya</div>
-      <div id="sb16" class="sub dk">panggil <i>lengkok-lengkok</i> apa?</div>
-      <div id="sb17" class="sub dk"><i>lengkok-lengkok</i> dia ada buah</div>
+      <div id="sb16" class="sub dk">panggil <i>melengkor</i> apa?</div>
+      <div id="sb17" class="sub dk"><i>melengkor</i> dia ada buah</div>
       <div id="sb18" class="sub"><i>zaitun</i> pun boleh lah</div>
       <div id="sb19" class="sub">semenjak dia minum minyak</div>
       <div id="sb20" class="sub"><i>zaitun</i> kan so boleh</div>
@@ -199,7 +204,7 @@
       <div id="sb44" class="sub dk">part adalah quality wise</div>
       <div id="sb45" class="sub dk">memang rasa sangat <i>berat</i></div>
       <div id="sb46" class="sub dk">sangat <i>steady</i> dan <i>berat</i></div>
-      <div id="sb47" class="sub dk">dia punya <i>lengkok</i> ni</div>
+      <div id="sb47" class="sub dk">dia punya <i>melengkor</i> ni</div>
       <div id="sb48" class="sub dk"><i>cantik</i> jom kita letak</div>
       <div id="sb49" class="sub">dekat kita punya ruang</div>
       <div id="sb50" class="sub">dah dapat korang just</div>
@@ -220,7 +225,7 @@
       <div id="sb65" class="sub">macam <i>pokok</i> <i>olive</i> oil</div>
       <div id="sb66" class="sub">yang korang tengok dekat</div>
       <div id="sb67" class="sub">luar tu sebab dia</div>
-      <div id="sb68" class="sub">ni <i>melengkok</i> macam ni</div>
+      <div id="sb68" class="sub">ni <i>melengkor</i> macam ni</div>
       <div id="sb69" class="sub">so <i>design</i> ni memang</div>
       <div id="sb70" class="sub">ni <i>design</i> yang sangat</div>
       <div id="sb71" class="sub"><i>cantik</i> lah so kalau</div>
@@ -249,7 +254,9 @@
       tl.set("#hk-s", {opacity:1}, 0); tl.set("#hk-g", {opacity:1}, 0);
       tl.fromTo("#hk-g", {x:-10}, {x:10, duration:.05, yoyo:true, repeat:5}, 6.21);
       tl.fromTo("#hk-c", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 7.79);
-      tl.to("#hk-s, #hk-g", {opacity:0, y:-20, duration:.25}, 10.05);
+      tl.to("#hk-s, #hk-g", {opacity:0, y:-20, duration:.25}, 7.89);
+      tl.fromTo("#hk-p", {opacity:0, y:80, rotation:-10, scale:.85}, {opacity:1, y:0, rotation:-3, scale:1, duration:.45, ease:"back.out(1.6)"}, 8.04);
+      tl.to("#hk-p", {opacity:0, y:-40, duration:.25, ease:"power2.in"}, 10.49);
       tl.fromTo("#hk-g2", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 10.69);
       tl.to("#hk-g2", {opacity:0, y:-20, duration:.25}, 17.29);
       tl.to("#hk-c", {opacity:0, duration:.25}, 12.66);
@@ -300,7 +307,8 @@
       tl.to("#c5", {opacity:0, duration:.25, ease:"power2.in"}, 80.37);
       tl.fromTo("#c5 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 72.84);
       tl.fromTo("#c5 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 73.09);
-      tl.fromTo("#t0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 73.75);
+      tl.fromTo("#t3", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 73.55);
+      tl.fromTo("#t0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 75.1);
       tl.fromTo("#t1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 77.6);
       tl.fromTo("#t2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 79.89);
       tl.fromTo("#g-ex", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 80.5);

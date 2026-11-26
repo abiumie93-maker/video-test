@@ -54,7 +54,8 @@ E.zoom.append((T_END + .02, "slow", 1.12, 0))
 src = open(os.path.join(ROOT, "..", "tiktokshop", "tools", "gen_ref.py")).read()
 exec(src[src.index("# ---------------- look"):src.index("# ---------------- HOOK")])
 E.css.append(f"""
-  #s1, #s2, #s3, #s4 {{ filter: sepia(.22) saturate(.92) brightness(.86) contrast(1.06); }}
+  #s1, #s2, #s3, #s4 {{ filter: brightness(1.08) saturate(1.22) contrast(1.06); }}
+  #vig {{ background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 60%, rgba(25,12,0,.18) 100%); }}
   .pcard {{ position:absolute; background:#fff; padding:16px 16px 0; border-radius:22px; box-shadow:0 24px 50px rgba(110,70,10,.28); z-index:3; opacity:0; }}
   .pcard img {{ display:block; width:100%; border-radius:12px; object-fit:cover; }}
   .pcard .cap {{ font-family:'Anton'; font-size:46px; color:{BR}; text-align:center; padding:14px 6px 18px; line-height:1.05; }}
@@ -73,19 +74,24 @@ A('tl.set("#hk-s", {opacity:1}, 0); tl.set("#hk-g", {opacity:1}, 0);')
 E.fx("impact-bass-1", .05, .45)
 A(f'tl.fromTo("#hk-g", {{x:-10}}, {{x:10, duration:.05, yoyo:true, repeat:5}}, {w("marah", 6.2)});'); E.fx("impact-bass-1", w("marah", 6.2), .5)
 rise("#hk-c", w("sebab", 7.9) - .1, sfx="pop")
-A(f'tl.to("#hk-s, #hk-g", {{opacity:0, y:-20, duration:.25}}, {r3(w("jadi", 10.2) - .1)});')
+E.html.append('''      <div id="hk-p" class="pcard" style="left:250px; top:250px; width:580px; transform:rotate(-3deg); z-index:7"><img src="assets/img/pokok_atas.jpg" style="height:640px; object-position:50% 60%"/>
+        <div class="cap">POKOK DIA<small>dah pindah letak kat atas</small></div></div>''')
+A(f'tl.to("#hk-s, #hk-g", {{opacity:0, y:-20, duration:.25}}, {r3(w("pokok", 8.2) - .25)});')
+A(f'tl.fromTo("#hk-p", {{opacity:0, y:80, rotation:-10, scale:.85}}, {{opacity:1, y:0, rotation:-3, scale:1, duration:.45, ease:"back.out(1.6)"}}, {r3(w("pokok", 8.2) - .1)});')
+E.fx("whoosh-short", w("pokok", 8.2) - .05, .4)
+A(f'tl.to("#hk-p", {{opacity:0, y:-40, duration:.25, ease:"power2.in"}}, {r3(w("beli", 10.8) - .3)});')
 gold("#hk-g2", w("beli", 10.8) - .1, w("olive", 17.7) - .4)
 A(f'tl.to("#hk-c", {{opacity:0, duration:.25}}, {r3(w("so", 12.7))});')
 
-# ---------------- C1: pokok olive, design lain (lengkok-lengkok)
+# ---------------- C1: pokok olive, design lain (melengkor)
 c1a, c1b = CAN["c1"]
 E.html.append('''      <div id="c1" class="canvas">
         <div class="hd"><span class="l1">Pokok olive</span><br><span class="hl">tapi design lain</span></div>
         <div id="c1-p" class="pcard" style="left:150px; top:430px; width:420px; transform:rotate(-4deg)"><img src="assets/img/tree.jpg" style="height:720px"/>
           <div class="cap">POKOK OLIVE<small>tinggi &amp; lebat</small></div></div>
         <div id="c1-q" class="pcard" style="left:560px; top:560px; width:380px; transform:rotate(4deg)"><img src="assets/img/trunk.jpg" style="height:470px"/>
-          <div class="cap">BATANG<small>lengkok-lengkok</small></div></div>
-        <div id="c1-st" class="stamp2" style="left:420px; top:1260px; font-size:66px; transform:rotate(-6deg)">LENGKOK-LENGKOK!</div>
+          <div class="cap">BATANG<small>melengkor</small></div></div>
+        <div id="c1-st" class="stamp2" style="left:420px; top:1260px; font-size:66px; transform:rotate(-6deg)">MELENGKOR!</div>
       </div>''')
 show_canvas("c1", c1a, c1b); head_in("#c1", c1a)
 rise("#c1-p", c1a + .25); rise("#c1-q", w("lengkor-lengkor", 19.9) - .2)
@@ -137,7 +143,7 @@ E.html.append(f'''      <div id="c4" class="canvas">
         <div class="lbl2" id="c4-l" style="left:600px; top:520px; opacity:0">The best part:</div>
         <div id="q0" class="wcard or" style="left:590px; top:580px; width:440px; font-size:44px"><span class="ic">&#9878;</span>Sangat berat</div>
         <div id="q1" class="wcard or" style="left:590px; top:770px; width:440px; font-size:44px"><span class="ic">&#9875;</span>Sangat steady</div>
-        <div id="q2" class="wcard" style="left:590px; top:960px; width:440px; font-size:44px"><span class="ic">&#10024;</span>Lengkok cantik</div>
+        <div id="q2" class="wcard" style="left:590px; top:960px; width:440px; font-size:44px"><span class="ic">&#10024;</span>Melengkor cantik</div>
       </div>''')
 show_canvas("c4", c4a, c4b); head_in("#c4", c4a)
 rise("#c4-p", c4a + .25)
@@ -157,15 +163,17 @@ A(f'tl.to("#tp2", {{opacity:0, duration:.2}}, {r3(CAN["c5"][0] - .2)});')
 c5a, c5b = CAN["c5"]
 E.html.append('''      <div id="c5" class="canvas">
         <div class="hd"><span class="l1">Tips 2: cari pasu</span><br><span class="hl">lagi tinggi &amp; besar</span></div>
-        <div id="t0" class="wcard" style="left:240px; top:500px; width:600px"><span class="ic">&#9651;</span>Pasu tinggi &amp; besar</div>
-        <div id="t1" class="wcard" style="left:240px; top:680px; width:600px"><span class="ic">&#8593;</span>Pokok nampak tinggi</div>
-        <div id="t2" class="wcard or" style="left:240px; top:860px; width:600px"><span class="ic">&#10024;</span>Lebih cantik!</div>
+        <div id="t0" class="wcard" style="left:60px; top:520px; width:470px; font-size:44px"><span class="ic">&#9651;</span>Pasu besar</div>
+        <div id="t1" class="wcard" style="left:60px; top:700px; width:470px; font-size:44px"><span class="ic">&#8593;</span>Nampak tinggi</div>
+        <div id="t3" class="pcard" style="left:560px; top:440px; width:440px; transform:rotate(3deg)"><img src="assets/img/pasu_besar.jpg" style="height:600px; object-position:50% 75%"/>
+          <div class="cap">PASU LEBIH BESAR<small>contoh macam ni</small></div></div>
+        <div id="t2" class="wcard or" style="left:60px; top:880px; width:470px; font-size:44px"><span class="ic">&#10024;</span>Lebih cantik!</div>
       </div>''')
 show_canvas("c5", c5a, c5b); head_in("#c5", c5a)
-rise("#t0", w("pasu", 80.3) - .1); rise("#t1", w("nampak", 84.1) - .1); rise("#t2", w("cantik", 86.6) - .3)
+rise("#t3", w("pasu", 80.3) - .3); rise("#t0", w("besar", 81.7) - .2); rise("#t1", w("nampak", 84.1) - .1); rise("#t2", w("cantik", 86.6) - .3)
 # ---------------- footage: EXCLUSIVE + CTA bar
 E.html.append('''      <div id="g-ex" class="goldt" style="top:190px; font-size:210px">EXCLUSIVE!</div>
-      <div id="ex-c" class="glass" style="top:1060px"><span class="k">LAIN DARI POKOK OLIVE DI LUAR</span>Batang dia <span style="color:#F7C24A">melengkok</span>, design sangat cantik</div>
+      <div id="ex-c" class="glass" style="top:1060px"><span class="k">LAIN DARI POKOK OLIVE DI LUAR</span>Batang dia <span style="color:#F7C24A">melengkor</span>, design sangat cantik</div>
       <div id="cta" style="position:absolute; left:110px; right:110px; top:1480px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.86);
            border:2px solid rgba(247,194,74,.45); opacity:0; z-index:9; text-align:center">
         <div style="font-family:Montserrat; font-weight:800; font-size:38px; color:#fff; letter-spacing:.06em">DAH ADA DI BEG KUNING</div>
@@ -198,7 +206,7 @@ A(f'tl.to("#end-tx", {{width:"440px", duration:1.0, ease:"steps(12)"}}, {r3(T_H 
 # ---------------- subtitles
 KEY = re.compile(r"(?i)^(wife|marah|pokok|olive|desain|design|lengk|melengk|zaitun|tinggi|cantum|pasu|kotor|cantik|meter|berat|steady|best|"
                  r"wire|kembang|exclusive|kuning|checkout|sendiri)")
-FIX = {"zaitut": "zaitun", "lengkor": "lengkok", "melengkor": "melengkok", "desain": "design", "kuring": "kuning", "beli kuning": "beg kuning",
+FIX = {"zaitut": "zaitun", "lengkor-lengkor": "melengkor", "melengkor": "melengkor", "desain": "design", "kuring": "kuning", "beli kuning": "beg kuning",
        "isyak": "insya", "umur": "Allah", "dulu tanya": "duduknya", "andai": "andai"}
 words = []
 for x in WORDS:
@@ -208,7 +216,7 @@ for x in WORDS:
         continue
     txt = x["text"]
     for k_, v_ in FIX.items(): txt = txt.replace(k_, v_)
-    if txt.lower().startswith("beli") and words and False: pass
+    if txt.lower().startswith("lengkor"): txt = "me" + txt
     words.append([t0, txt])
 # whisper sometimes stacks several words on one timestamp: spread them evenly up to the next distinct time
 i = 0

@@ -5,6 +5,8 @@ Sumber (folder Drive, 26 Nov 2026): `lv_0_20261105164437.mp4` (rakaman asal, 1:4
 
 Gaya sama dengan `tiktokshop/` (rupa + helper dimuat dari `tiktokshop/tools/gen_ref.py`).
 Hook: "Guys tengoklah wife saya beli apa... dia tengah marah... sebab pokok dia saya letak kat atas, jadi dia beli pokok sendiri".
+Warna: cerah & berseri (brightness 1.08, saturate 1.22). Ayat "melengkor" (bukan "lengkok").
+Gambar tambahan pengguna: `assets/img/pokok_atas.jpg` (pokok asal dah dipindah ke atas, dalam hook) dan `assets/img/pasu_besar.jpg` (tips pasu besar).
 CTA: "...saya letak dekat beg kuning, korang terus checkout dekat beg kuning sekarang". Muzik: "Be Chillin" (FreePD, CC0).
 Potongan: 0:35.9-0:38.7 ("boleh satu ha? sekali sekali ya?"), 1:04.3-1:07.9 (senyap, jalan ke dinding).
 
