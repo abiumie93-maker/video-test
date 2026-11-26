@@ -1,0 +1,489 @@
+{
+ "total": 74.52,
+ "vo": [
+  {
+   "name": "h",
+   "src_in": 0.0,
+   "src_out": 7.45,
+   "out": 0.0,
+   "dur": 7.45,
+   "clip": "b192646",
+   "audio": "assets/a_b192646.wav",
+   "video": "assets/footage/b192646.mp4"
+  },
+  {
+   "name": "s1",
+   "src_in": 7.8,
+   "src_out": 21.07,
+   "out": 7.45,
+   "dur": 13.27,
+   "clip": "a184402",
+   "audio": "assets/a_a184402.wav",
+   "video": "assets/footage/a184402.mp4"
+  },
+  {
+   "name": "s2",
+   "src_in": 7.45,
+   "src_out": 26.31,
+   "out": 20.72,
+   "dur": 18.86,
+   "clip": "b192646",
+   "audio": "assets/a_b192646.wav",
+   "video": "assets/footage/b192646.mp4"
+  },
+  {
+   "name": "s3",
+   "src_in": 57.67,
+   "src_out": 72.84,
+   "out": 39.58,
+   "dur": 15.17,
+   "clip": "b192254",
+   "audio": "assets/a_b192254.wav",
+   "video": "assets/footage/b192254.mp4"
+  },
+  {
+   "name": "s4",
+   "src_in": 24.49,
+   "src_out": 35.05,
+   "out": 54.75,
+   "dur": 10.56,
+   "clip": "b192506",
+   "audio": "assets/a_b192506.wav",
+   "video": "assets/footage/b192506.mp4"
+  },
+  {
+   "name": "s5",
+   "src_in": 26.31,
+   "src_out": 32.52,
+   "out": 65.31,
+   "dur": 6.21,
+   "clip": "b192646",
+   "audio": "assets/a_b192646.wav",
+   "video": "assets/footage/b192646.mp4"
+  }
+ ],
+ "shots": [
+  {
+   "id": "s1",
+   "start": 0.0,
+   "dur": 7.45,
+   "src": "assets/footage/b192646.mp4",
+   "ms": 0.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s2",
+   "start": 7.45,
+   "dur": 13.27,
+   "src": "assets/footage/a184402.mp4",
+   "ms": 7.8,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s3",
+   "start": 20.72,
+   "dur": 2.4,
+   "src": "assets/footage/a184541.mp4",
+   "ms": 0.8,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s4",
+   "start": 23.12,
+   "dur": 2.2,
+   "src": "assets/footage/a184523.mp4",
+   "ms": 0.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s5",
+   "start": 25.32,
+   "dur": 2.0,
+   "src": "assets/footage/a184532.mp4",
+   "ms": 0.6,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s6",
+   "start": 27.32,
+   "dur": 3.0,
+   "src": "assets/footage/a184402.mp4",
+   "ms": 110.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s7",
+   "start": 30.32,
+   "dur": 2.6,
+   "src": "assets/footage/a184402.mp4",
+   "ms": 152.5,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s8",
+   "start": 32.92,
+   "dur": 2.8,
+   "src": "assets/footage/a184402.mp4",
+   "ms": 200.0,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s9",
+   "start": 35.72,
+   "dur": 3.86,
+   "src": "assets/footage/b192727.mp4",
+   "ms": 0.5,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s10",
+   "start": 39.58,
+   "dur": 15.17,
+   "src": "assets/footage/b192254.mp4",
+   "ms": 57.67,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s11",
+   "start": 54.75,
+   "dur": 10.56,
+   "src": "assets/footage/b192506.mp4",
+   "ms": 24.49,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s12",
+   "start": 65.31,
+   "dur": 6.21,
+   "src": "assets/footage/b192646.mp4",
+   "ms": 26.31,
+   "kind": "video",
+   "cls": "",
+   "style": ""
+  },
+  {
+   "id": "s13",
+   "start": 71.52,
+   "dur": 3.0,
+   "src": "assets/footage/b192727.mp4",
+   "ms": 1.0,
+   "kind": "video",
+   "cls": "",
+   "style": "filter:blur(24px) brightness(.75)"
+  }
+ ],
+ "sfx": [
+  [
+   "pop",
+   2.03,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   5.41,
+   0.4
+  ],
+  [
+   "impact-bass-1",
+   0.05,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   7.78,
+   0.4
+  ],
+  [
+   "impact-bass-1",
+   18.08,
+   0.4
+  ],
+  [
+   "pop",
+   21.0,
+   0.45
+  ],
+  [
+   "whoosh",
+   30.47,
+   0.4
+  ],
+  [
+   "pop",
+   30.75,
+   0.45
+  ],
+  [
+   "pop",
+   33.25,
+   0.45
+  ],
+  [
+   "pop",
+   34.45,
+   0.45
+  ],
+  [
+   "impact-bass-1",
+   35.7,
+   0.4
+  ],
+  [
+   "impact-bass-1",
+   42.41,
+   0.4
+  ],
+  [
+   "impact-bass-1",
+   51.94,
+   0.4
+  ],
+  [
+   "pop",
+   55.13,
+   0.45
+  ],
+  [
+   "whoosh",
+   65.16,
+   0.4
+  ],
+  [
+   "pop",
+   65.49,
+   0.45
+  ],
+  [
+   "pop",
+   65.79,
+   0.45
+  ],
+  [
+   "pop",
+   67.02,
+   0.45
+  ],
+  [
+   "whoosh-short",
+   68.47,
+   0.4
+  ],
+  [
+   "impact-bass-1",
+   69.76,
+   0.45
+  ],
+  [
+   "click-soft",
+   70.62,
+   0.6
+  ],
+  [
+   "whoosh",
+   71.52,
+   0.4
+  ],
+  [
+   "click-soft",
+   73.37,
+   0.5
+  ]
+ ],
+ "music": [
+  [
+   0,
+   0.12
+  ],
+  [
+   71.22,
+   0.12
+  ],
+  [
+   71.82,
+   0.5
+  ],
+  [
+   74.11999999999999,
+   0
+  ],
+  [
+   74.52,
+   0
+  ]
+ ],
+ "zoom": [
+  [
+   20.74,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   23.14,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   25.34,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   27.34,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   30.34,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   32.94,
+   "slow",
+   1.1,
+   0
+  ],
+  [
+   0.0,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   7.45,
+   "set",
+   1.06,
+   10
+  ],
+  [
+   20.72,
+   "set",
+   1.03,
+   -8
+  ],
+  [
+   23.12,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   25.32,
+   "set",
+   1.06,
+   10
+  ],
+  [
+   27.32,
+   "set",
+   1.03,
+   -8
+  ],
+  [
+   30.32,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   32.92,
+   "set",
+   1.06,
+   10
+  ],
+  [
+   35.72,
+   "set",
+   1.03,
+   -8
+  ],
+  [
+   39.58,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   54.75,
+   "set",
+   1.06,
+   10
+  ],
+  [
+   65.31,
+   "set",
+   1.03,
+   -8
+  ],
+  [
+   71.52,
+   "set",
+   1.0,
+   0
+  ],
+  [
+   3.725,
+   "ease",
+   1.1,
+   0
+  ],
+  [
+   14.085,
+   "ease",
+   1.1,
+   0
+  ],
+  [
+   30.15,
+   "ease",
+   1.1,
+   0
+  ],
+  [
+   47.165,
+   "ease",
+   1.1,
+   0
+  ],
+  [
+   60.03,
+   "ease",
+   1.1,
+   0
+  ],
+  [
+   68.415,
+   "ease",
+   1.1,
+   0
+  ]
+ ],
+ "music_file": "assets/music/be-chillin.mp3"
+}

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  @font-face { font-family:'Anton'; src:url('assets/fonts/anton.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-style:italic; font-weight:800; src:url('assets/fonts/montserrat-italic.woff2') format('woff2'); }
+  @font-face { font-family:'Playfair Display'; font-weight:500; src:url('assets/fonts/playfair-display.woff2') format('woff2'); }
+  @font-face { font-family:'Playfair Display'; font-style:italic; font-weight:500; src:url('assets/fonts/playfair-display-italic.woff2') format('woff2'); }
+
+
+  #s1, #s2 { filter: sepia(.22) saturate(.92) brightness(.86) contrast(1.06); }
+  #vig { position:absolute; inset:0; pointer-events:none; z-index:2;
+          background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 45%, rgba(25,12,0,.55) 100%); }
+  .goldt { position:absolute; left:0; right:0; text-align:center; font-family:'Anton',sans-serif; text-transform:uppercase; line-height:.95;
+           background:linear-gradient(180deg,#FFE9A8 0%,#F7C24A 45%,#C9861C 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+           filter:drop-shadow(0 4px 18px rgba(0,0,0,.55)) drop-shadow(0 0 30px rgba(247,194,74,.35)); opacity:0; z-index:5; }
+  .script { position:absolute; left:0; right:0; text-align:center; font-family:'Caveat',cursive; font-weight:700; color:#FFE9B0; opacity:0; z-index:5;
+            text-shadow:0 2px 10px rgba(0,0,0,.6); }
+  .canvas { position:absolute; inset:0; opacity:0; z-index:4; overflow:hidden;
+            background:radial-gradient(ellipse at 50% 38%, #FBEFC9 0%, #F3DC9C 55%, #E6C276 100%); }
+  .canvas::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 80%, rgba(255,255,255,.35), rgba(255,255,255,0) 40%); }
+  .hd { position:absolute; left:0; right:0; top:150px; text-align:center; font-family:'Montserrat',sans-serif; font-style:italic; font-weight:800;
+        font-size:76px; line-height:1.02; color:#3A2414; text-transform:uppercase; letter-spacing:-.01em; z-index:3; }
+  .hd .hl { display:inline-block; background:#F2B33D; padding:0 18px; margin-top:6px; box-shadow:0 6px 0 rgba(58,36,20,.12); }
+  .phone { position:absolute; width:440px; height:930px; border-radius:64px; background:#1B1410; padding:16px; z-index:3;
+           box-shadow:0 40px 80px rgba(80,50,10,.35), inset 0 0 0 3px #3a2e26; }
+  .phone .scr { position:relative; width:100%; height:100%; border-radius:50px; overflow:hidden; background:#000; }
+  .phone .notch { position:absolute; left:50%; top:26px; width:120px; height:30px; margin-left:-60px; border-radius:20px; background:#1B1410; z-index:2; }
+  .wcard { position:absolute; display:flex; align-items:center; gap:22px; padding:26px 34px; border-radius:26px; background:#fff; z-index:3;
+           box-shadow:0 16px 36px rgba(110,70,10,.22); font-family:'Anton'; font-size:54px; color:#3A2414; opacity:0; }
+  .wcard.or { background:linear-gradient(180deg,#F5AE45,#E08A22); color:#fff; }
+  .wcard .ic { width:70px; height:70px; border-radius:18px; background:#FBEFD5; display:grid; place-items:center; font-size:40px; }
+  .wcard.or .ic { background:rgba(255,255,255,.25); }
+  .stamp2 { position:absolute; font-family:'Anton'; text-transform:uppercase; color:#E8922A; border:7px solid #E8922A; border-radius:14px; padding:10px 26px;
+            background:rgba(255,248,230,.92); opacity:0; z-index:6; box-shadow:0 10px 24px rgba(110,70,10,.25); }
+  .arrow { position:absolute; font-family:'Anton'; color:#3A2414; font-size:60px; z-index:3; opacity:0; }
+  .lbl2 { position:absolute; font-family:'Montserrat'; font-weight:800; font-size:30px; letter-spacing:.12em; color:#3A2414; opacity:.6; z-index:3; text-transform:uppercase; }
+  .sub { position:absolute; left:80px; right:80px; top:1310px; text-align:center; font-family:'Playfair Display',serif; font-weight:500; font-size:54px;
+         color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.75); opacity:0; z-index:8; line-height:1.15; }
+  .sub i { font-family:'Playfair Display',serif; font-style:italic; color:#F7C24A; }
+  .sub.dk { color:#3A2414; text-shadow:none; top:1600px; } .sub.dk i { color:#E8922A; }
+  #poll { position:absolute; left:110px; right:110px; top:1430px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.82);
+          border:2px solid rgba(247,194,74,.35); backdrop-filter:blur(10px); opacity:0; z-index:9; text-align:center; }
+  #poll .q { font-family:'Montserrat'; font-weight:800; font-size:40px; color:#fff; letter-spacing:.06em; }
+  #poll .opts { display:flex; gap:18px; margin-top:22px; }
+  #poll .op { flex:1; display:flex; align-items:center; gap:14px; padding:20px 22px; border-radius:18px; background:rgba(255,255,255,.1);
+              font-family:'Montserrat'; font-weight:800; font-size:36px; color:#fff; text-align:left; line-height:1.05; }
+  #poll .op b { font-family:'Anton'; font-size:56px; color:#F2B33D; }
+
+
+  #cam video { filter: brightness(1.07) saturate(1.2) contrast(1.06); }
+  #vig { background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 60%, rgba(25,12,0,.18) 100%); }
+  .pcard { position:absolute; background:#fff; padding:16px 16px 0; border-radius:22px; box-shadow:0 24px 50px rgba(110,70,10,.28); z-index:3; opacity:0; }
+  .pcard img { display:block; width:100%; border-radius:12px; object-fit:cover; }
+  .pcard .cap { font-family:'Anton'; font-size:46px; color:#3A2414; text-align:center; padding:14px 6px 18px; line-height:1.05; }
+  .pcard .cap small { display:block; font-family:'Montserrat'; font-weight:800; font-size:28px; color:#E8922A; letter-spacing:.04em; margin-top:4px; }
+  .glass { position:absolute; left:120px; width:840px; padding:26px 34px; border-radius:26px; background:rgba(28,18,10,.82); border:2px solid rgba(247,194,74,.35);
+           font-family:'Montserrat'; font-weight:800; font-size:42px; color:#fff; opacity:0; z-index:6; line-height:1.15; }
+  .glass .k { display:block; font-size:28px; letter-spacing:.12em; color:#F7C24A; margin-bottom:6px; }
+  .glass b { color:#F7C24A; }
+  .tag { position:absolute; left:60px; top:110px; z-index:9; padding:12px 26px; border-radius:999px; font-family:'Anton'; font-size:44px; letter-spacing:.04em;
+         color:#2A1A0C; background:linear-gradient(180deg,#FFD873,#F2B33D); box-shadow:0 8px 24px rgba(0,0,0,.3); opacity:0; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="74.52" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="7.45" data-track-index="0" src="assets/footage/b192646.mp4" muted playsinline data-media-start="0.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="7.45" data-duration="13.27" data-track-index="0" src="assets/footage/a184402.mp4" muted playsinline data-media-start="7.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="20.72" data-duration="2.4" data-track-index="0" src="assets/footage/a184541.mp4" muted playsinline data-media-start="0.8" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="23.12" data-duration="2.2" data-track-index="0" src="assets/footage/a184523.mp4" muted playsinline data-media-start="0.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s5" class="clip " data-start="25.32" data-duration="2.0" data-track-index="0" src="assets/footage/a184532.mp4" muted playsinline data-media-start="0.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s6" class="clip " data-start="27.32" data-duration="3.0" data-track-index="0" src="assets/footage/a184402.mp4" muted playsinline data-media-start="110.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s7" class="clip " data-start="30.32" data-duration="2.6" data-track-index="0" src="assets/footage/a184402.mp4" muted playsinline data-media-start="152.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s8" class="clip " data-start="32.92" data-duration="2.8" data-track-index="0" src="assets/footage/a184402.mp4" muted playsinline data-media-start="200.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s9" class="clip " data-start="35.72" data-duration="3.86" data-track-index="0" src="assets/footage/b192727.mp4" muted playsinline data-media-start="0.5" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s10" class="clip " data-start="39.58" data-duration="15.17" data-track-index="0" src="assets/footage/b192254.mp4" muted playsinline data-media-start="57.67" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s11" class="clip " data-start="54.75" data-duration="10.56" data-track-index="0" src="assets/footage/b192506.mp4" muted playsinline data-media-start="24.49" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s12" class="clip " data-start="65.31" data-duration="6.21" data-track-index="0" src="assets/footage/b192646.mp4" muted playsinline data-media-start="26.31" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s13" class="clip " data-start="71.52" data-duration="3.0" data-track-index="0" src="assets/footage/b192727.mp4" muted playsinline data-media-start="1.0" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; filter:blur(24px) brightness(.75)"></video>
+
+      </div>
+      <div id="vig"></div>
+      <div id="cv3" class="canvas"><div class="hd"><span class="l1">Sebelum vs</span><br><span class="hl">selepas 10 minit</span></div><div id="pc1" class="pcard" style="left:80px; top:420px; width:440px; transform:rotate(-4deg)"><img src="assets/img/nose_before.jpg" style="height:520px; object-position:50% 50%"/><div class="cap">SEBELUM<small>nampak okey je&hellip;</small></div></div><div id="pc2" class="pcard" style="left:560px; top:460px; width:440px; transform:rotate(4deg)"><img src="assets/img/strip.jpg" style="height:480px; object-position:50% 50%"/><div class="cap">SELEPAS<small>ya Allah, banyaknya!</small></div></div><div id="cv3s0" class="stamp2" style="left:230px; top:1150px; font-size:72px; transform:rotate(-6deg)">SEKALI PAKAI JE!</div></div>
+      <div id="tg4" class="tag">SEBELUM</div>
+      <div id="g5" class="goldt" style="top:210px; font-size:180px">NAMPAK<br>OKEY KAN?</div>
+      <div id="g6" class="goldt" style="top:210px; font-size:190px">PENUH<br>BLACKHEAD!</div>
+      <div id="gl7" class="glass" style="top:1060px"><span class="k">RTOPR MANGO BLACKHEAD MASK</span>Dapat <b>mask</b> + <b>kertas</b> sekali</div>
+      <div id="cv11" class="canvas"><div class="hd"><span class="l1">Cara guna</span><br><span class="hl">senang je</span></div><div id="wc8" class="wcard" style="left:220px; top:470px; width:640px; font-size:46px"><span class="ic">1</span>Sapu kat hidung</div><div id="wc9" class="wcard" style="left:220px; top:650px; width:640px; font-size:46px"><span class="ic">2</span>Tampal kertas</div><div id="wc10" class="wcard or" style="left:220px; top:830px; width:640px; font-size:46px"><span class="ic">3</span>Tunggu 5-10 minit</div><div id="cv11s0" class="stamp2" style="left:380px; top:1060px; font-size:80px; transform:rotate(-6deg)">SELESAI!</div></div>
+      <div id="tg12" class="tag">SELEPAS</div>
+      <div id="g13" class="goldt" style="top:200px; font-size:200px">NAMPAK<br>TAK?!</div>
+      <div id="g14" class="goldt" style="top:220px; font-size:240px">WOW!</div>
+      <div id="gl15" class="glass" style="top:1060px"><span class="k">KALI PERTAMA CABUT</span>Memang <b>banyak gila</b>, ada <b>warna hitam</b>!</div>
+      <div id="cv18" class="canvas"><div class="hd"><span class="l1">Sebelum</span><br><span class="hl">vs selepas</span></div><div id="pc16" class="pcard" style="left:80px; top:420px; width:430px; transform:rotate(-4deg)"><img src="assets/img/nose_before.jpg" style="height:520px; object-position:50% 50%"/><div class="cap">SEBELUM</div></div><div id="pc17" class="pcard" style="left:560px; top:450px; width:430px; transform:rotate(4deg)"><img src="assets/img/strip2.jpg" style="height:500px; object-position:50% 50%"/><div class="cap">SELEPAS</div></div></div>
+      <div id="gl19" class="glass" style="top:1180px"><span class="k">PALING BEST</span><b>Tak sakit langsung!</b></div>
+      <div id="cta" style="position:absolute; left:110px; right:110px; top:1480px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.86);
+           border:2px solid rgba(247,194,74,.45); opacity:0; z-index:9; text-align:center">
+        <div style="font-family:Montserrat; font-weight:800; font-size:38px; color:#fff; letter-spacing:.06em">DAH ADA DI BEG KUNING</div>
+        <div id="cta-b" style="margin:20px auto 0; width:fit-content; display:flex; align-items:center; gap:18px; padding:22px 44px; border-radius:999px;
+             background:linear-gradient(180deg,#FFD873,#F2B33D); color:#2A1A0C; font-family:Anton; font-size:58px; box-shadow:0 10px 30px rgba(242,179,61,.45)">
+          <svg width="64" height="60" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#2A1A0C"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#2A1A0C" stroke-width="7"/></svg>
+          CHECKOUT SEKARANG</div></div>
+      <div id="end" style="position:absolute; inset:0; opacity:0; z-index:10; background:radial-gradient(ellipse at 50% 45%, rgba(42,29,18,.92), rgba(14,10,7,.97))">
+        <div style="position:absolute; left:0; right:0; top:690px; text-align:center; font-family:Montserrat; font-weight:800; font-size:44px; letter-spacing:.14em; color:#F7C24A">FOLLOW UNTUK REVIEW JUJUR</div>
+        <div id="end-sb" style="position:absolute; left:170px; right:170px; top:800px; height:120px; border-radius:24px; background:#fff; display:flex; align-items:center; gap:22px; padding:0 34px;
+             box-shadow:-6px 0 0 #25F4EE, 6px 0 0 #FE2C55, 0 20px 50px rgba(0,0,0,.5)">
+          <span style="font-size:52px">&#128269;</span><span id="end-tx" style="font-family:Montserrat; font-weight:700; font-size:52px; color:#161616; display:inline-block; overflow:hidden; white-space:nowrap; width:0">@khalidkacak</span></div>
+      </div>
+      <div id="sb0" class="sub dk">Tengoklah,</div>
+      <div id="sb1" class="sub dk">Ya Allah,</div>
+      <div id="sb2" class="sub dk">biar betul <i>Blackhead</i> dengan</div>
+      <div id="sb3" class="sub dk"><i>whitehead</i> saya Wuuu,</div>
+      <div id="sb4" class="sub dk">sekali pakai je <i>banyak</i></div>
+      <div id="sb5" class="sub dk">macam ni Guys,</div>
+      <div id="sb6" class="sub">kalau korang tengok muka</div>
+      <div id="sb7" class="sub">saya nampak macam <i>okey</i></div>
+      <div id="sb8" class="sub">kan?</div>
+      <div id="sb9" class="sub">Tapi sebenarnya korang tengok</div>
+      <div id="sb10" class="sub">dah..</div>
+      <div id="sb11" class="sub"><i>Banyak</i> gila <i>white</i> head</div>
+      <div id="sb12" class="sub">dengan <i>black</i> head.</div>
+      <div id="sb13" class="sub">Dan</div>
+      <div id="sb14" class="sub">Saya gunakan daripada <i>RtopR</i></div>
+      <div id="sb15" class="sub"><i>Mango</i> <i>Blackhead</i> Mask Dapat</div>
+      <div id="sb16" class="sub">sekali dengan <i>kertas</i> dia</div>
+      <div id="sb17" class="sub">dan juga korang dapat</div>
+      <div id="sb18" class="sub">Dia punya apa?</div>
+      <div id="sb19" class="sub">Dia punya mask ni</div>
+      <div id="sb20" class="sub">So <i>sapu</i> sahaja dekat</div>
+      <div id="sb21" class="sub dk"><i>hidung</i> korang ataupun mana-mana</div>
+      <div id="sb22" class="sub dk">tempat Lepas tu korang</div>
+      <div id="sb23" class="sub dk">letak benda ni Tunggu</div>
+      <div id="sb24" class="sub dk">lima ke <i>sepuluh</i> <i>minit</i>,</div>
+      <div id="sb25" class="sub dk">selesai Dapat dah hasil</div>
+      <div id="sb26" class="sub">yang macam ni Memang</div>
+      <div id="sb27" class="sub"><i>fungsi</i> guys</div>
+      <div id="sb28" class="sub">Korang tengok sendiri.</div>
+      <div id="sb29" class="sub">Nampak tak?</div>
+      <div id="sb30" class="sub"><i>Wow</i>.</div>
+      <div id="sb31" class="sub">Korang tengok ni.</div>
+      <div id="sb32" class="sub">Ni apa yang besar</div>
+      <div id="sb33" class="sub">macam ni.</div>
+      <div id="sb34" class="sub">Tengok ni.</div>
+      <div id="sb35" class="sub"><i>Wow</i>.</div>
+      <div id="sb36" class="sub">Nampak?</div>
+      <div id="sb37" class="sub">So yang ni adalah</div>
+      <div id="sb38" class="sub">kali pertama,</div>
+      <div id="sb39" class="sub">baru pertama kali saya</div>
+      <div id="sb40" class="sub"><i>cabut</i> <i>blackhead</i> dengan <i>whitehead</i></div>
+      <div id="sb41" class="sub">dekat <i>hidung</i> saya memang</div>
+      <div id="sb42" class="sub"><i>banyak</i> guys Memang <i>banyak</i></div>
+      <div id="sb43" class="sub">gila,</div>
+      <div id="sb44" class="sub">dia ada warna headam</div>
+      <div id="sb45" class="sub">ni,</div>
+      <div id="sb46" class="sub">saya pun pertama kali</div>
+      <div id="sb47" class="sub">tengok.</div>
+      <div id="sb48" class="sub dk">Dan paling-paling best,</div>
+      <div id="sb49" class="sub dk">tak <i>sakit</i> langsung korang</div>
+      <div id="sb50" class="sub">dapatkan terus dekat <i>beg</i></div>
+      <div id="sb51" class="sub"><i>Kuning</i>.</div>
+      <div id="sb52" class="sub"><i>Approved</i>!</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 3.725);
+      tl.set("#cam", {scale:1.06, x:10, y:0}, 7.45);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 14.085);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 20.72);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.36, ease:"sine.inOut"}, 20.74);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 23.12);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.16, ease:"sine.inOut"}, 23.14);
+      tl.set("#cam", {scale:1.06, x:10, y:0}, 25.32);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:1.96, ease:"sine.inOut"}, 25.34);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 27.32);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.79, ease:"sine.inOut"}, 27.34);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.15, ease:"power2.inOut"}, 30.15);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 30.32);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.56, ease:"sine.inOut"}, 30.34);
+      tl.set("#cam", {scale:1.06, x:10, y:0}, 32.92);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:2.76, ease:"sine.inOut"}, 32.94);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 35.72);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 39.58);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 47.165);
+      tl.set("#cam", {scale:1.06, x:10, y:0}, 54.75);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 60.03);
+      tl.set("#cam", {scale:1.03, x:-8, y:0}, 65.31);
+      tl.to("#cam", {scale:1.1, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 68.415);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 71.52);
+      tl.set("#cv3", {opacity:1}, 0); tl.to("#cv3", {opacity:0, duration:.25, ease:"power2.in"}, 7.28);
+      tl.set("#cv3 .l1, #cv3 .hl", {opacity:1}, 0);
+      tl.set("#pc1", {opacity:1}, 0);
+      tl.fromTo("#pc2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 1.95);
+      tl.fromTo("#cv3s0", {opacity:0, scale:2, rotation:-15}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 5.38);
+      tl.fromTo("#tg4", {opacity:0, x:-40}, {opacity:1, x:0, duration:.35, ease:"expo.out"}, 7.55);
+      tl.to("#tg4", {opacity:0, duration:.2}, 20.52);
+      tl.fromTo("#g5", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 7.75);
+      tl.to("#g5", {opacity:0, y:-20, duration:.25}, 16.05);
+      tl.fromTo("#g6", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 18.05);
+      tl.to("#g6", {opacity:0, y:-20, duration:.25}, 20.52);
+      tl.fromTo("#gl7", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 20.92);
+      tl.to("#gl7", {opacity:0, duration:.2}, 30.47);
+      tl.fromTo("#cv11", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 30.42);
+      tl.to("#cv11", {opacity:0, duration:.25, ease:"power2.in"}, 36.15);
+      tl.fromTo("#cv11 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 30.57);
+      tl.fromTo("#cv11 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 30.82);
+      tl.fromTo("#wc8", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 30.67);
+      tl.fromTo("#wc9", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 33.17);
+      tl.fromTo("#wc10", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 34.37);
+      tl.fromTo("#cv11s0", {opacity:0, scale:2, rotation:-15}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 35.67);
+      tl.fromTo("#tg12", {opacity:0, x:-40}, {opacity:1, x:0, duration:.35, ease:"expo.out"}, 36.27);
+      tl.to("#tg12", {opacity:0, duration:.2}, 65.11);
+      tl.fromTo("#g13", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 42.38);
+      tl.to("#g13", {opacity:0, y:-20, duration:.25}, 47.96);
+      tl.fromTo("#g14", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 51.91);
+      tl.to("#g14", {opacity:0, y:-20, duration:.25}, 54.55);
+      tl.fromTo("#gl15", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 55.05);
+      tl.to("#gl15", {opacity:0, duration:.2}, 65.11);
+      tl.fromTo("#cv18", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 65.11);
+      tl.to("#cv18", {opacity:0, duration:.25, ease:"power2.in"}, 67.79);
+      tl.fromTo("#cv18 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 65.26);
+      tl.fromTo("#cv18 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 65.51);
+      tl.fromTo("#pc16", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 65.41);
+      tl.fromTo("#pc17", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 65.71);
+      tl.fromTo("#gl19", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 66.94);
+      tl.to("#gl19", {opacity:0, duration:.2}, 68.42);
+      tl.fromTo("#cta", {opacity:0, y:80}, {opacity:1, y:0, duration:.45, ease:"expo.out"}, 68.42);
+      tl.fromTo("#cta-b", {scale:.6}, {scale:1, duration:.35, ease:"back.out(2)"}, 69.66);
+      tl.to("#cta-b", {scale:.93, duration:.09, yoyo:true, repeat:1}, 70.62);
+      tl.to("#cta-b", {scale:1.06, duration:.35, yoyo:true, repeat:3, ease:"sine.inOut"}, 71.02);
+      tl.to("#cta", {opacity:0, duration:.25}, 71.82);
+      tl.to("#end", {opacity:1, duration:.4}, 71.52);
+      tl.fromTo("#end-sb", {scale:.8, opacity:0}, {scale:1, opacity:1, duration:.4, ease:"back.out(1.6)"}, 71.82);
+      tl.to("#end-tx", {width:"440px", duration:1.0, ease:"steps(12)"}, 72.32);
+      tl.fromTo("#sb0", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 0);
+      tl.to("#sb0", {opacity:0, duration:.08}, 1.25);
+      tl.fromTo("#sb1", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 1.26);
+      tl.to("#sb1", {opacity:0, duration:.08}, 2.09);
+      tl.fromTo("#sb2", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 2.1);
+      tl.to("#sb2", {opacity:0, duration:.08}, 3.59);
+      tl.fromTo("#sb3", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 3.6);
+      tl.to("#sb3", {opacity:0, duration:.08}, 5.42);
+      tl.fromTo("#sb4", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 5.43);
+      tl.to("#sb4", {opacity:0, duration:.08}, 6.76);
+      tl.fromTo("#sb5", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 6.77);
+      tl.to("#sb5", {opacity:0, duration:.08}, 7.39);
+      tl.fromTo("#sb6", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 8.383);
+      tl.to("#sb6", {opacity:0, duration:.08}, 10.973);
+      tl.fromTo("#sb7", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 12.357);
+      tl.to("#sb7", {opacity:0, duration:.08}, 14.947);
+      tl.fromTo("#sb8", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 15.73);
+      tl.to("#sb8", {opacity:0, duration:.08}, 16.08);
+      tl.fromTo("#sb9", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 16.09);
+      tl.to("#sb9", {opacity:0, duration:.08}, 17.86);
+      tl.fromTo("#sb10", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 17.87);
+      tl.to("#sb10", {opacity:0, duration:.08}, 18.21);
+      tl.fromTo("#sb11", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 18.12);
+      tl.to("#sb11", {opacity:0, duration:.08}, 19.62);
+      tl.fromTo("#sb12", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 19.63);
+      tl.to("#sb12", {opacity:0, duration:.08}, 20.59);
+      tl.fromTo("#sb13", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 20.6);
+      tl.to("#sb13", {opacity:0, duration:.08}, 20.94);
+      tl.fromTo("#sb14", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 20.74);
+      tl.to("#sb14", {opacity:0, duration:.08}, 23.33);
+      tl.fromTo("#sb15", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 23.63);
+      tl.to("#sb15", {opacity:0, duration:.08}, 25.28);
+      tl.fromTo("#sb16", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 25.29);
+      tl.to("#sb16", {opacity:0, duration:.08}, 26.26);
+      tl.fromTo("#sb17", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 26.27);
+      tl.to("#sb17", {opacity:0, duration:.08}, 27.74);
+      tl.fromTo("#sb18", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 27.75);
+      tl.to("#sb18", {opacity:0, duration:.08}, 29.11);
+      tl.fromTo("#sb19", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 29.12);
+      tl.to("#sb19", {opacity:0, duration:.08}, 30.29);
+      tl.fromTo("#sb20", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 30.3);
+      tl.to("#sb20", {opacity:0, duration:.08}, 31.41);
+      tl.fromTo("#sb21", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 31.42);
+      tl.to("#sb21", {opacity:0, duration:.08}, 32.83);
+      tl.fromTo("#sb22", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 32.84);
+      tl.to("#sb22", {opacity:0, duration:.08}, 33.74);
+      tl.fromTo("#sb23", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 33.75);
+      tl.to("#sb23", {opacity:0, duration:.08}, 34.68);
+      tl.fromTo("#sb24", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 34.69);
+      tl.to("#sb24", {opacity:0, duration:.08}, 35.69);
+      tl.fromTo("#sb25", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 35.7);
+      tl.to("#sb25", {opacity:0, duration:.08}, 36.26);
+      tl.fromTo("#sb26", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 37.43);
+      tl.to("#sb26", {opacity:0, duration:.08}, 38.79);
+      tl.fromTo("#sb27", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 38.8);
+      tl.to("#sb27", {opacity:0, duration:.08}, 39.62);
+      tl.fromTo("#sb28", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 39.64);
+      tl.to("#sb28", {opacity:0, duration:.08}, 42.23);
+      tl.fromTo("#sb29", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 42.43);
+      tl.to("#sb29", {opacity:0, duration:.08}, 43.87);
+      tl.fromTo("#sb30", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 43.88);
+      tl.to("#sb30", {opacity:0, duration:.08}, 45.99);
+      tl.fromTo("#sb31", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 46.0);
+      tl.to("#sb31", {opacity:0, duration:.08}, 48.1);
+      tl.fromTo("#sb32", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 48.11);
+      tl.to("#sb32", {opacity:0, duration:.08}, 49.67);
+      tl.fromTo("#sb33", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 49.68);
+      tl.to("#sb33", {opacity:0, duration:.08}, 50.78);
+      tl.fromTo("#sb34", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 50.79);
+      tl.to("#sb34", {opacity:0, duration:.08}, 51.95);
+      tl.fromTo("#sb35", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 51.96);
+      tl.to("#sb35", {opacity:0, duration:.08}, 54.19);
+      tl.fromTo("#sb36", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 54.2);
+      tl.to("#sb36", {opacity:0, duration:.08}, 54.79);
+      tl.fromTo("#sb37", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 54.85);
+      tl.to("#sb37", {opacity:0, duration:.08}, 55.64);
+      tl.fromTo("#sb38", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 55.65);
+      tl.to("#sb38", {opacity:0, duration:.08}, 56.39);
+      tl.fromTo("#sb39", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 56.4);
+      tl.to("#sb39", {opacity:0, duration:.08}, 57.49);
+      tl.fromTo("#sb40", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 57.5);
+      tl.to("#sb40", {opacity:0, duration:.08}, 59.25);
+      tl.fromTo("#sb41", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 59.26);
+      tl.to("#sb41", {opacity:0, duration:.08}, 60.86);
+      tl.fromTo("#sb42", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 60.87);
+      tl.to("#sb42", {opacity:0, duration:.08}, 62.16);
+      tl.fromTo("#sb43", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 62.17);
+      tl.to("#sb43", {opacity:0, duration:.08}, 62.53);
+      tl.fromTo("#sb44", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 62.54);
+      tl.to("#sb44", {opacity:0, duration:.08}, 63.54);
+      tl.fromTo("#sb45", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 63.55);
+      tl.to("#sb45", {opacity:0, duration:.08}, 63.89);
+      tl.fromTo("#sb46", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 63.84);
+      tl.to("#sb46", {opacity:0, duration:.08}, 64.81);
+      tl.fromTo("#sb47", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 64.82);
+      tl.to("#sb47", {opacity:0, duration:.08}, 65.28);
+      tl.fromTo("#sb48", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 65.29);
+      tl.to("#sb48", {opacity:0, duration:.08}, 67.08);
+      tl.fromTo("#sb49", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 67.09);
+      tl.to("#sb49", {opacity:0, duration:.08}, 67.9);
+      tl.fromTo("#sb50", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 68.57);
+      tl.to("#sb50", {opacity:0, duration:.08}, 69.8);
+      tl.fromTo("#sb51", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 69.81);
+      tl.to("#sb51", {opacity:0, duration:.08}, 70.71);
+      tl.fromTo("#sb52", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 70.72);
+      tl.to("#sb52", {opacity:0, duration:.08}, 71.56);
+      tl.set({}, {}, 74.52);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
