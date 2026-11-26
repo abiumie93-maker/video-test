@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="ms">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+
+  @font-face { font-family:'Caveat'; font-weight:700; src:url('assets/fonts/caveat-700.woff2') format('woff2'); }
+  @font-face { font-family:'Permanent Marker'; src:url('assets/fonts/permanent-marker.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-weight:100 900; src:url('assets/fonts/montserrat.woff2') format('woff2'); }
+  @font-face { font-family:'Archivo Black'; src:url('assets/fonts/archivo-black.woff2') format('woff2'); }
+  @font-face { font-family:'Plus Jakarta Sans'; font-weight:200 800; src:url('assets/fonts/plus-jakarta-sans.woff2') format('woff2'); }
+
+      * { margin:0; padding:0; box-sizing:border-box; }
+      html, body { margin:0; width:1080px; height:1920px; overflow:hidden; background:#000; }
+      body { font-family:"Montserrat", sans-serif; }
+      #cam { position:absolute; inset:0; transform-origin:50% 42%; }
+      .ov { position:absolute; opacity:0; }
+
+
+  @font-face { font-family:'Anton'; src:url('assets/fonts/anton.woff2') format('woff2'); }
+  @font-face { font-family:'Montserrat'; font-style:italic; font-weight:800; src:url('assets/fonts/montserrat-italic.woff2') format('woff2'); }
+  @font-face { font-family:'Playfair Display'; font-weight:500; src:url('assets/fonts/playfair-display.woff2') format('woff2'); }
+  @font-face { font-family:'Playfair Display'; font-style:italic; font-weight:500; src:url('assets/fonts/playfair-display-italic.woff2') format('woff2'); }
+
+
+  #s1, #s2 { filter: sepia(.22) saturate(.92) brightness(.86) contrast(1.06); }
+  #vig { position:absolute; inset:0; pointer-events:none; z-index:2;
+          background:radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 45%, rgba(25,12,0,.55) 100%); }
+  .goldt { position:absolute; left:0; right:0; text-align:center; font-family:'Anton',sans-serif; text-transform:uppercase; line-height:.95;
+           background:linear-gradient(180deg,#FFE9A8 0%,#F7C24A 45%,#C9861C 100%); -webkit-background-clip:text; background-clip:text; color:transparent;
+           filter:drop-shadow(0 4px 18px rgba(0,0,0,.55)) drop-shadow(0 0 30px rgba(247,194,74,.35)); opacity:0; z-index:5; }
+  .script { position:absolute; left:0; right:0; text-align:center; font-family:'Caveat',cursive; font-weight:700; color:#FFE9B0; opacity:0; z-index:5;
+            text-shadow:0 2px 10px rgba(0,0,0,.6); }
+  .canvas { position:absolute; inset:0; opacity:0; z-index:4; overflow:hidden;
+            background:radial-gradient(ellipse at 50% 38%, #FBEFC9 0%, #F3DC9C 55%, #E6C276 100%); }
+  .canvas::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 20% 80%, rgba(255,255,255,.35), rgba(255,255,255,0) 40%); }
+  .hd { position:absolute; left:0; right:0; top:150px; text-align:center; font-family:'Montserrat',sans-serif; font-style:italic; font-weight:800;
+        font-size:76px; line-height:1.02; color:#3A2414; text-transform:uppercase; letter-spacing:-.01em; z-index:3; }
+  .hd .hl { display:inline-block; background:#F2B33D; padding:0 18px; margin-top:6px; box-shadow:0 6px 0 rgba(58,36,20,.12); }
+  .phone { position:absolute; width:440px; height:930px; border-radius:64px; background:#1B1410; padding:16px; z-index:3;
+           box-shadow:0 40px 80px rgba(80,50,10,.35), inset 0 0 0 3px #3a2e26; }
+  .phone .scr { position:relative; width:100%; height:100%; border-radius:50px; overflow:hidden; background:#000; }
+  .phone .notch { position:absolute; left:50%; top:26px; width:120px; height:30px; margin-left:-60px; border-radius:20px; background:#1B1410; z-index:2; }
+  .wcard { position:absolute; display:flex; align-items:center; gap:22px; padding:26px 34px; border-radius:26px; background:#fff; z-index:3;
+           box-shadow:0 16px 36px rgba(110,70,10,.22); font-family:'Anton'; font-size:54px; color:#3A2414; opacity:0; }
+  .wcard.or { background:linear-gradient(180deg,#F5AE45,#E08A22); color:#fff; }
+  .wcard .ic { width:70px; height:70px; border-radius:18px; background:#FBEFD5; display:grid; place-items:center; font-size:40px; }
+  .wcard.or .ic { background:rgba(255,255,255,.25); }
+  .stamp2 { position:absolute; font-family:'Anton'; text-transform:uppercase; color:#E8922A; border:7px solid #E8922A; border-radius:14px; padding:10px 26px;
+            background:rgba(255,248,230,.92); opacity:0; z-index:6; box-shadow:0 10px 24px rgba(110,70,10,.25); }
+  .arrow { position:absolute; font-family:'Anton'; color:#3A2414; font-size:60px; z-index:3; opacity:0; }
+  .lbl2 { position:absolute; font-family:'Montserrat'; font-weight:800; font-size:30px; letter-spacing:.12em; color:#3A2414; opacity:.6; z-index:3; text-transform:uppercase; }
+  .sub { position:absolute; left:80px; right:80px; top:1310px; text-align:center; font-family:'Playfair Display',serif; font-weight:500; font-size:54px;
+         color:#fff; text-shadow:0 2px 14px rgba(0,0,0,.75); opacity:0; z-index:8; line-height:1.15; }
+  .sub i { font-family:'Playfair Display',serif; font-style:italic; color:#F7C24A; }
+  .sub.dk { color:#3A2414; text-shadow:none; top:1600px; } .sub.dk i { color:#E8922A; }
+  #poll { position:absolute; left:110px; right:110px; top:1430px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.82);
+          border:2px solid rgba(247,194,74,.35); backdrop-filter:blur(10px); opacity:0; z-index:9; text-align:center; }
+  #poll .q { font-family:'Montserrat'; font-weight:800; font-size:40px; color:#fff; letter-spacing:.06em; }
+  #poll .opts { display:flex; gap:18px; margin-top:22px; }
+  #poll .op { flex:1; display:flex; align-items:center; gap:14px; padding:20px 22px; border-radius:18px; background:rgba(255,255,255,.1);
+              font-family:'Montserrat'; font-weight:800; font-size:36px; color:#fff; text-align:left; line-height:1.05; }
+  #poll .op b { font-family:'Anton'; font-size:56px; color:#F2B33D; }
+
+
+  #s1, #s2, #s3, #s4 { filter: sepia(.22) saturate(.92) brightness(.86) contrast(1.06); }
+  .pcard { position:absolute; background:#fff; padding:16px 16px 0; border-radius:22px; box-shadow:0 24px 50px rgba(110,70,10,.28); z-index:3; opacity:0; }
+  .pcard img { display:block; width:100%; border-radius:12px; object-fit:cover; }
+  .pcard .cap { font-family:'Anton'; font-size:46px; color:#3A2414; text-align:center; padding:14px 6px 18px; line-height:1.05; }
+  .pcard .cap small { display:block; font-family:'Montserrat'; font-weight:800; font-size:28px; color:#E8922A; letter-spacing:.04em; margin-top:4px; }
+  .glass { position:absolute; left:120px; width:840px; padding:26px 34px; border-radius:26px; background:rgba(28,18,10,.82); border:2px solid rgba(247,194,74,.35);
+           font-family:'Montserrat'; font-weight:800; font-size:42px; color:#fff; opacity:0; z-index:6; line-height:1.15; }
+  .glass .k { display:block; font-size:28px; letter-spacing:.12em; color:#F7C24A; margin-bottom:6px; }
+
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="97.71" data-width="1080" data-height="1920">
+      <div id="cam">
+        <video id="s1" class="clip " data-start="0.0" data-duration="35.91" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="0.02" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s2" class="clip " data-start="35.91" data-duration="25.58" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="38.68" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s3" class="clip " data-start="61.49" data-duration="30.82" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="67.9" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+        <video id="s4" class="clip " data-start="92.31" data-duration="5.4" data-track-index="0" src="assets/footage/main.mp4" muted playsinline data-media-start="99.6" style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover; "></video>
+
+      </div>
+      <div id="vig"></div>
+      <div id="hk-s" class="script" style="top:140px; font-size:62px">Guys, tengoklah wife saya beli apa&hellip;</div>
+      <div id="hk-g" class="goldt" style="top:215px; font-size:180px">WIFE SAYA<br>MARAH?!</div>
+      <div id="hk-c" class="glass" style="top:1060px"><span class="k">SEBAB APA?</span>Pokok dia saya letak <span style="color:#F7C24A">kat atas</span>&hellip;</div>
+      <div id="hk-g2" class="goldt" style="top:215px; font-size:160px">DIA BELI<br>POKOK SENDIRI!</div>
+      <div id="c1" class="canvas">
+        <div class="hd"><span class="l1">Pokok olive</span><br><span class="hl">tapi design lain</span></div>
+        <div id="c1-p" class="pcard" style="left:150px; top:430px; width:420px; transform:rotate(-4deg)"><img src="assets/img/tree.jpg" style="height:720px"/>
+          <div class="cap">POKOK OLIVE<small>tinggi &amp; lebat</small></div></div>
+        <div id="c1-q" class="pcard" style="left:560px; top:560px; width:380px; transform:rotate(4deg)"><img src="assets/img/trunk.jpg" style="height:470px"/>
+          <div class="cap">BATANG<small>lengkok-lengkok</small></div></div>
+        <div id="c1-st" class="stamp2" style="left:420px; top:1260px; font-size:66px; transform:rotate(-6deg)">LENGKOK-LENGKOK!</div>
+      </div>
+      <div id="g-bz" class="goldt" style="top:200px; font-size:170px">ADA BUAH<br>ZAITUN!</div>
+      <div id="bz-c" class="glass" style="top:1060px"><span class="k">PADANLAH&hellip;</span>Dia memang minum <span style="color:#F7C24A">minyak zaitun</span> &#128516;</div>
+      <div id="c2" class="canvas">
+        <div class="hd"><span class="l1">Cantum je</span><br><span class="hl">terus jadi tinggi</span></div>
+        <div id="j0" class="wcard" style="left:90px; top:520px; width:430px"><span class="ic">1</span>Bahagian 1</div>
+        <div id="j1" class="wcard" style="left:90px; top:700px; width:430px"><span class="ic">2</span>Bahagian 2</div>
+        <div id="j-ar" class="arrow" style="left:530px; top:640px">&rarr;</div>
+        <div id="j2" class="pcard" style="left:600px; top:430px; width:390px; transform:rotate(3deg)"><img src="assets/img/join.jpg" style="height:560px"/>
+          <div class="cap">TERUS TINGGI</div></div>
+        <div id="c2-st" class="stamp2" style="left:150px; top:930px; font-size:70px; transform:rotate(-6deg)">SENANG!</div>
+      </div>
+      <div id="c3" class="canvas">
+        <div class="hd"><span class="l1">Pasu boleh</span><br><span class="hl">2 cara letak</span></div>
+        <div id="p0" class="pcard" style="left:90px; top:450px; width:430px; transform:rotate(-3deg)"><img src="assets/img/pot_in.jpg" style="height:430px"/>
+          <div class="cap">A: TUTUP<small>masuk dalam pasu</small></div></div>
+        <div id="p1" class="pcard" style="left:560px; top:450px; width:430px; transform:rotate(3deg)"><img src="assets/img/pot_top.jpg" style="height:430px"/>
+          <div class="cap">B: ATAS PASU<small>bawah tak kotor &#10003;</small></div></div>
+        <div id="c3-st" class="stamp2" style="left:340px; top:1180px; font-size:72px; transform:rotate(-6deg)">DUA-DUA CANTIK!</div>
+      </div>
+      <div id="c4" class="canvas">
+        <div class="hd"><span class="l1">Ketinggian</span><br><span class="hl">1.5 meter</span></div>
+        <div id="c4-p" class="pcard" style="left:90px; top:420px; width:400px; transform:rotate(-3deg)"><img src="assets/img/tree.jpg" style="height:760px"/></div>
+        <svg id="c4-m" width="80" height="780" viewBox="0 0 80 780" style="position:absolute; left:500px; top:430px; z-index:3; opacity:0">
+          <path d="M40 10 V770 M15 10 H65 M15 770 H65" stroke="#3A2414" stroke-width="6" fill="none"/></svg>
+        <div id="c4-n" style="position:absolute; left:470px; top:740px; font-family:Anton; font-size:64px; color:#3A2414; background:#F2B33D; padding:4px 14px;
+             transform:rotate(-90deg); transform-origin:50% 50%; z-index:4; opacity:0">1.5 M</div>
+        <div class="lbl2" id="c4-l" style="left:600px; top:520px; opacity:0">The best part:</div>
+        <div id="q0" class="wcard or" style="left:590px; top:580px; width:440px; font-size:44px"><span class="ic">&#9878;</span>Sangat berat</div>
+        <div id="q1" class="wcard or" style="left:590px; top:770px; width:440px; font-size:44px"><span class="ic">&#9875;</span>Sangat steady</div>
+        <div id="q2" class="wcard" style="left:590px; top:960px; width:440px; font-size:44px"><span class="ic">&#10024;</span>Lengkok cantik</div>
+      </div>
+      <div id="tp1" class="glass" style="top:1060px"><span class="k">TIPS 1</span>Bila dah dapat, <span style="color:#F7C24A">kembangkan</span> dahan dia sikit</div>
+      <div id="tp2" class="glass" style="top:1060px"><span class="k">ADA WIRE DALAM DAHAN</span>Senang bentukkan ikut suka</div>
+      <div id="c5" class="canvas">
+        <div class="hd"><span class="l1">Tips 2: cari pasu</span><br><span class="hl">lagi tinggi &amp; besar</span></div>
+        <div id="t0" class="wcard" style="left:240px; top:500px; width:600px"><span class="ic">&#9651;</span>Pasu tinggi &amp; besar</div>
+        <div id="t1" class="wcard" style="left:240px; top:680px; width:600px"><span class="ic">&#8593;</span>Pokok nampak tinggi</div>
+        <div id="t2" class="wcard or" style="left:240px; top:860px; width:600px"><span class="ic">&#10024;</span>Lebih cantik!</div>
+      </div>
+      <div id="g-ex" class="goldt" style="top:190px; font-size:210px">EXCLUSIVE!</div>
+      <div id="ex-c" class="glass" style="top:1060px"><span class="k">LAIN DARI POKOK OLIVE DI LUAR</span>Batang dia <span style="color:#F7C24A">melengkok</span>, design sangat cantik</div>
+      <div id="cta" style="position:absolute; left:110px; right:110px; top:1480px; padding:30px 30px 34px; border-radius:30px; background:rgba(28,18,10,.86);
+           border:2px solid rgba(247,194,74,.45); opacity:0; z-index:9; text-align:center">
+        <div style="font-family:Montserrat; font-weight:800; font-size:38px; color:#fff; letter-spacing:.06em">DAH ADA DI BEG KUNING</div>
+        <div id="cta-b" style="margin:20px auto 0; width:fit-content; display:flex; align-items:center; gap:18px; padding:22px 44px; border-radius:999px;
+             background:linear-gradient(180deg,#FFD873,#F2B33D); color:#2A1A0C; font-family:Anton; font-size:58px; box-shadow:0 10px 30px rgba(242,179,61,.45)">
+          <svg width="64" height="60" viewBox="0 0 74 70"><path d="M6 22 H68 L60 64 H14 Z" fill="#2A1A0C"/><path d="M22 24 C 22 2, 52 2, 52 24" fill="none" stroke="#2A1A0C" stroke-width="7"/></svg>
+          CHECKOUT SEKARANG</div></div>
+      <div id="end" style="position:absolute; inset:0; opacity:0; z-index:10; background:radial-gradient(ellipse at 50% 45%, rgba(42,29,18,.92), rgba(14,10,7,.97))">
+        <div style="position:absolute; left:0; right:0; top:690px; text-align:center; font-family:Montserrat; font-weight:800; font-size:44px; letter-spacing:.14em; color:#F7C24A">FOLLOW UNTUK REVIEW JUJUR</div>
+        <div id="end-sb" style="position:absolute; left:170px; right:170px; top:800px; height:120px; border-radius:24px; background:#fff; display:flex; align-items:center; gap:22px; padding:0 34px;
+             box-shadow:-6px 0 0 #25F4EE, 6px 0 0 #FE2C55, 0 20px 50px rgba(0,0,0,.5)">
+          <span style="font-size:52px">&#128269;</span><span id="end-tx" style="font-family:Montserrat; font-weight:700; font-size:52px; color:#161616; display:inline-block; overflow:hidden; white-space:nowrap; width:0">@khalidkacak</span></div>
+      </div>
+      <div id="sb0" class="sub">guys tengoklah <i>wife</i> saya</div>
+      <div id="sb1" class="sub">beli apa pula ni</div>
+      <div id="sb2" class="sub">muka dia sebalik orang</div>
+      <div id="sb3" class="sub">ni yang rakamnya adalah</div>
+      <div id="sb4" class="sub"><i>wife</i> saya dia tengah</div>
+      <div id="sb5" class="sub"><i>marah</i> sebab apa?</div>
+      <div id="sb6" class="sub">sebab <i>pokok</i> dia saya</div>
+      <div id="sb7" class="sub">letak kat atas jadi</div>
+      <div id="sb8" class="sub">dia beli <i>pokok</i> <i>sendiri</i></div>
+      <div id="sb9" class="sub">so wow dia beli</div>
+      <div id="sb10" class="sub"><i>pokok</i> yang kita beli</div>
+      <div id="sb11" class="sub">apa <i>pokok</i>?</div>
+      <div id="sb12" class="sub"><i>olive</i> jugak kan nama</div>
+      <div id="sb13" class="sub">dia?</div>
+      <div id="sb14" class="sub dk"><i>olive</i> jugak tapi <i>design</i></div>
+      <div id="sb15" class="sub dk">dia lain what saya</div>
+      <div id="sb16" class="sub dk">panggil <i>lengkok-lengkok</i> apa?</div>
+      <div id="sb17" class="sub dk"><i>lengkok-lengkok</i> dia ada buah</div>
+      <div id="sb18" class="sub"><i>zaitun</i> pun boleh lah</div>
+      <div id="sb19" class="sub">semenjak dia minum minyak</div>
+      <div id="sb20" class="sub"><i>zaitun</i> kan so boleh</div>
+      <div id="sb21" class="sub">campurkan bila dia gabungkan</div>
+      <div id="sb22" class="sub dk">dia akan jadi <i>tinggi</i></div>
+      <div id="sb23" class="sub dk">kan ni guys so</div>
+      <div id="sb24" class="sub dk">korang just <i>cantumkan</i> nak</div>
+      <div id="sb25" class="sub dk">panah ni kepada nak</div>
+      <div id="sb26" class="sub dk">panah satu lagi macam</div>
+      <div id="sb27" class="sub dk">tu so yang ni</div>
+      <div id="sb28" class="sub">bukannya asing ke boleh</div>
+      <div id="sb29" class="sub">sekali?</div>
+      <div id="sb30" class="sub dk">yang ni <i>pasu</i> pun</div>
+      <div id="sb31" class="sub dk">dia akan so kalau</div>
+      <div id="sb32" class="sub dk">contoh korang nak tutup</div>
+      <div id="sb33" class="sub dk">macam ni boleh kalau</div>
+      <div id="sb34" class="sub dk">nak letak macam ni</div>
+      <div id="sb35" class="sub dk">pun boleh selalunya kita</div>
+      <div id="sb36" class="sub dk">tengok orang letak macam</div>
+      <div id="sb37" class="sub dk">ni sebab bawah dia</div>
+      <div id="sb38" class="sub dk">tak nak pergi <i>kotor</i></div>
+      <div id="sb39" class="sub dk">pun boleh macam ni</div>
+      <div id="sb40" class="sub dk">insya Allah <i>cantik</i> lah</div>
+      <div id="sb41" class="sub">ya andai saya boleh</div>
+      <div id="sb42" class="sub dk">nah ketinggian ni 1.5</div>
+      <div id="sb43" class="sub dk"><i>meter</i> tapi the <i>best</i></div>
+      <div id="sb44" class="sub dk">part adalah quality wise</div>
+      <div id="sb45" class="sub dk">memang rasa sangat <i>berat</i></div>
+      <div id="sb46" class="sub dk">sangat <i>steady</i> dan <i>berat</i></div>
+      <div id="sb47" class="sub dk">dia punya <i>lengkok</i> ni</div>
+      <div id="sb48" class="sub dk"><i>cantik</i> jom kita letak</div>
+      <div id="sb49" class="sub">dekat kita punya ruang</div>
+      <div id="sb50" class="sub">dah dapat korang just</div>
+      <div id="sb51" class="sub"><i>kembang-kembangkan</i> dia sikit so</div>
+      <div id="sb52" class="sub">ni dia punya <i>wire</i></div>
+      <div id="sb53" class="sub">ni so dia akan</div>
+      <div id="sb54" class="sub">jadi macam ni lah</div>
+      <div id="sb55" class="sub">ke dulu tanya lebih</div>
+      <div id="sb56" class="sub">so kalau tanya saya</div>
+      <div id="sb57" class="sub dk">saya akan cari <i>pasu</i></div>
+      <div id="sb58" class="sub dk">yang lagi <i>tinggi</i> dan</div>
+      <div id="sb59" class="sub dk">lagi besar so bila</div>
+      <div id="sb60" class="sub dk"><i>pasu</i> tu lagi <i>tinggi</i></div>
+      <div id="sb61" class="sub dk">dia akan nampak <i>tinggi</i></div>
+      <div id="sb62" class="sub dk">sikit dan dia nampak</div>
+      <div id="sb63" class="sub dk">lebih <i>cantik</i> <i>exclusive</i>,</div>
+      <div id="sb64" class="sub"><i>pokok</i> dia tak sama</div>
+      <div id="sb65" class="sub">macam <i>pokok</i> <i>olive</i> oil</div>
+      <div id="sb66" class="sub">yang korang tengok dekat</div>
+      <div id="sb67" class="sub">luar tu sebab dia</div>
+      <div id="sb68" class="sub">ni <i>melengkok</i> macam ni</div>
+      <div id="sb69" class="sub">so <i>design</i> ni memang</div>
+      <div id="sb70" class="sub">ni <i>design</i> yang sangat</div>
+      <div id="sb71" class="sub"><i>cantik</i> lah so kalau</div>
+      <div id="sb72" class="sub">korang nak nampak kan</div>
+      <div id="sb73" class="sub">saya letak dekat beg</div>
+      <div id="sb74" class="sub"><i>kuning</i> korang terus cek</div>
+      <div id="sb75" class="sub">out dekat beg <i>kuning</i></div>
+      <div id="sb76" class="sub">sekarang approve!</div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 0.0);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.22, ease:"expo.out"}, 6.16);
+      tl.to("#cam", {scale:1.08, x:0, y:0, duration:0.7, ease:"power2.inOut"}, 7.89);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.22, ease:"expo.out"}, 11.69);
+      tl.to("#cam", {scale:1.0, x:-0.0, y:0, duration:0.7, ease:"power2.inOut"}, 16.49);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.22, ease:"expo.out"}, 22.72);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 35.91);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 61.49);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.22, ease:"expo.out"}, 80.55);
+      tl.to("#cam", {scale:1.12, x:-10, y:0, duration:0.7, ease:"power2.inOut"}, 82.51);
+      tl.to("#cam", {scale:1.16, x:0, y:0, duration:0.22, ease:"expo.out"}, 90.03);
+      tl.set("#cam", {scale:1.0, x:-0.0, y:0}, 92.31);
+      tl.to("#cam", {scale:1.12, x:0, y:0, duration:5.36, ease:"sine.inOut"}, 92.33);
+      tl.set("#hk-s", {opacity:1}, 0); tl.set("#hk-g", {opacity:1}, 0);
+      tl.fromTo("#hk-g", {x:-10}, {x:10, duration:.05, yoyo:true, repeat:5}, 6.21);
+      tl.fromTo("#hk-c", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 7.79);
+      tl.to("#hk-s, #hk-g", {opacity:0, y:-20, duration:.25}, 10.05);
+      tl.fromTo("#hk-g2", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 10.69);
+      tl.to("#hk-g2", {opacity:0, y:-20, duration:.25}, 17.29);
+      tl.to("#hk-c", {opacity:0, duration:.25}, 12.66);
+      tl.fromTo("#c1", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 17.44);
+      tl.to("#c1", {opacity:0, duration:.25, ease:"power2.in"}, 21.88);
+      tl.fromTo("#c1 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 17.59);
+      tl.fromTo("#c1 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 17.84);
+      tl.fromTo("#c1-p", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 17.84);
+      tl.fromTo("#c1-q", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 19.67);
+      tl.fromTo("#c1-st", {opacity:0, scale:2, rotation:-15}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 21.1);
+      tl.fromTo("#g-bz", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 22.31);
+      tl.to("#g-bz", {opacity:0, y:-20, duration:.25}, 27.06);
+      tl.fromTo("#bz-c", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 24.14);
+      tl.to("#bz-c", {opacity:0, duration:.2}, 27.16);
+      tl.fromTo("#c2", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 27.31);
+      tl.to("#c2", {opacity:0, duration:.25, ease:"power2.in"}, 33.93);
+      tl.fromTo("#c2 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 27.46);
+      tl.fromTo("#c2 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 27.71);
+      tl.fromTo("#j0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 27.78);
+      tl.fromTo("#j1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 28.13);
+      tl.fromTo("#j-ar", {opacity:0, x:-30}, {opacity:1, x:0, duration:.3}, 28.84);
+      tl.fromTo("#j2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 29.04);
+      tl.fromTo("#c2-st", {opacity:0, scale:2, rotation:-15}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 30.35);
+      tl.fromTo("#c3", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 35.76);
+      tl.to("#c3", {opacity:0, duration:.25, ease:"power2.in"}, 48.49);
+      tl.fromTo("#c3 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 35.91);
+      tl.fromTo("#c3 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 36.16);
+      tl.fromTo("#p0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 39.24);
+      tl.fromTo("#p1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 40.94);
+      tl.to("#p1", {scale:1.05, duration:.3, ease:"back.out(2)"}, 45.75);
+      tl.fromTo("#c3-st", {opacity:0, scale:2, rotation:-15}, {opacity:1, scale:1, rotation:-7, duration:.3, ease:"back.out(2)"}, 47.91);
+      tl.fromTo("#c4", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 49.84);
+      tl.to("#c4", {opacity:0, duration:.25, ease:"power2.in"}, 59.48);
+      tl.fromTo("#c4 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 49.99);
+      tl.fromTo("#c4 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 50.24);
+      tl.fromTo("#c4-p", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 50.24);
+      tl.to("#c4-m", {opacity:1, duration:.3}, 51.31);
+      tl.fromTo("#c4-n", {opacity:0, scale:.4}, {opacity:1, scale:1, duration:.35, ease:"back.out(2)"}, 51.51);
+      tl.to("#c4-l", {opacity:.6, duration:.3}, 52.62);
+      tl.fromTo("#q0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 55.5);
+      tl.fromTo("#q1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 56.57);
+      tl.fromTo("#q2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 58.9);
+      tl.fromTo("#tp1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 64.24);
+      tl.to("#tp1", {opacity:0, duration:.2}, 67.36);
+      tl.fromTo("#tp2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 67.56);
+      tl.to("#tp2", {opacity:0, duration:.2}, 72.64);
+      tl.fromTo("#c5", {opacity:0, scale:1.04}, {opacity:1, scale:1, duration:.35, ease:"power2.out"}, 72.69);
+      tl.to("#c5", {opacity:0, duration:.25, ease:"power2.in"}, 80.37);
+      tl.fromTo("#c5 .l1", {opacity:0, y:-30}, {opacity:1, y:0, duration:.35, ease:"expo.out"}, 72.84);
+      tl.fromTo("#c5 .hl", {opacity:0, scaleX:0, transformOrigin:"0% 50%"}, {opacity:1, scaleX:1, duration:.4, ease:"expo.out"}, 73.09);
+      tl.fromTo("#t0", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 73.75);
+      tl.fromTo("#t1", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 77.6);
+      tl.fromTo("#t2", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 79.89);
+      tl.fromTo("#g-ex", {opacity:0, scale:1.5, filter:"blur(14px)"}, {opacity:1, scale:1, filter:"blur(0px)", duration:.4, ease:"expo.out"}, 80.5);
+      tl.to("#g-ex", {opacity:0, y:-20, duration:.25}, 88.16);
+      tl.fromTo("#ex-c", {opacity:0, y:60, scale:.94}, {opacity:1, y:0, scale:1, duration:.45, ease:"back.out(1.5)", stagger:0}, 82.31);
+      tl.to("#ex-c", {opacity:0, duration:.2}, 88.16);
+      tl.fromTo("#cta", {opacity:0, y:80}, {opacity:1, y:0, duration:.45, ease:"expo.out"}, 88.36);
+      tl.fromTo("#cta-b", {scale:.6}, {scale:1, duration:.35, ease:"back.out(2)"}, 89.98);
+      tl.to("#cta-b", {scale:.93, duration:.09, yoyo:true, repeat:1}, 90.7);
+      tl.to("#cta-b", {scale:1.06, duration:.35, yoyo:true, repeat:3, ease:"sine.inOut"}, 92.41);
+      tl.to("#cta", {opacity:0, duration:.25}, 94.71);
+      tl.to("#end", {opacity:1, duration:.4}, 94.91);
+      tl.fromTo("#end-sb", {scale:.8, opacity:0}, {scale:1, opacity:1, duration:.4, ease:"back.out(1.6)"}, 95.21);
+      tl.to("#end-tx", {width:"440px", duration:1.0, ease:"steps(12)"}, 95.71);
+      tl.fromTo("#sb0", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 0.02);
+      tl.to("#sb0", {opacity:0, duration:.08}, 1.6);
+      tl.fromTo("#sb1", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 1.61);
+      tl.to("#sb1", {opacity:0, duration:.08}, 2.77);
+      tl.fromTo("#sb2", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 2.78);
+      tl.to("#sb2", {opacity:0, duration:.08}, 3.78);
+      tl.fromTo("#sb3", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 3.79);
+      tl.to("#sb3", {opacity:0, duration:.08}, 5.01);
+      tl.fromTo("#sb4", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 5.02);
+      tl.to("#sb4", {opacity:0, duration:.08}, 6.15);
+      tl.fromTo("#sb5", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 6.16);
+      tl.to("#sb5", {opacity:0, duration:.08}, 7.83);
+      tl.fromTo("#sb6", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 7.84);
+      tl.to("#sb6", {opacity:0, duration:.08}, 8.88);
+      tl.fromTo("#sb7", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 8.89);
+      tl.to("#sb7", {opacity:0, duration:.08}, 10.47);
+      tl.fromTo("#sb8", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 10.48);
+      tl.to("#sb8", {opacity:0, duration:.08}, 12.6);
+      tl.fromTo("#sb9", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 12.61);
+      tl.to("#sb9", {opacity:0, duration:.08}, 14.54);
+      tl.fromTo("#sb10", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 14.55);
+      tl.to("#sb10", {opacity:0, duration:.08}, 15.88);
+      tl.fromTo("#sb11", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 15.89);
+      tl.to("#sb11", {opacity:0, duration:.08}, 16.43);
+      tl.fromTo("#sb12", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 16.44);
+      tl.to("#sb12", {opacity:0, duration:.08}, 17.29);
+      tl.fromTo("#sb13", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 17.3);
+      tl.to("#sb13", {opacity:0, duration:.08}, 17.64);
+      tl.fromTo("#sb14", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 17.64);
+      tl.to("#sb14", {opacity:0, duration:.08}, 18.58);
+      tl.fromTo("#sb15", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 18.59);
+      tl.to("#sb15", {opacity:0, duration:.08}, 19.49);
+      tl.fromTo("#sb16", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 19.5);
+      tl.to("#sb16", {opacity:0, duration:.08}, 21.04);
+      tl.fromTo("#sb17", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 21.05);
+      tl.to("#sb17", {opacity:0, duration:.08}, 22.71);
+      tl.fromTo("#sb18", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 22.72);
+      tl.to("#sb18", {opacity:0, duration:.08}, 24.18);
+      tl.fromTo("#sb19", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 24.19);
+      tl.to("#sb19", {opacity:0, duration:.08}, 25.53);
+      tl.fromTo("#sb20", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 25.54);
+      tl.to("#sb20", {opacity:0, duration:.08}, 26.72);
+      tl.fromTo("#sb21", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 26.73);
+      tl.to("#sb21", {opacity:0, duration:.08}, 28.3);
+      tl.fromTo("#sb22", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 28.31);
+      tl.to("#sb22", {opacity:0, duration:.08}, 29.24);
+      tl.fromTo("#sb23", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 29.25);
+      tl.to("#sb23", {opacity:0, duration:.08}, 29.66);
+      tl.fromTo("#sb24", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 29.67);
+      tl.to("#sb24", {opacity:0, duration:.08}, 31.04);
+      tl.fromTo("#sb25", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 31.05);
+      tl.to("#sb25", {opacity:0, duration:.08}, 32.35);
+      tl.fromTo("#sb26", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 32.36);
+      tl.to("#sb26", {opacity:0, duration:.08}, 33.72);
+      tl.fromTo("#sb27", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 33.73);
+      tl.to("#sb27", {opacity:0, duration:.08}, 34.29);
+      tl.fromTo("#sb28", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 34.3);
+      tl.to("#sb28", {opacity:0, duration:.08}, 35.42);
+      tl.fromTo("#sb29", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 35.43);
+      tl.to("#sb29", {opacity:0, duration:.08}, 35.99);
+      tl.fromTo("#sb30", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 36.0);
+      tl.to("#sb30", {opacity:0, duration:.08}, 36.88);
+      tl.fromTo("#sb31", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 36.89);
+      tl.to("#sb31", {opacity:0, duration:.08}, 38.2);
+      tl.fromTo("#sb32", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 38.21);
+      tl.to("#sb32", {opacity:0, duration:.08}, 39.79);
+      tl.fromTo("#sb33", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 39.8);
+      tl.to("#sb33", {opacity:0, duration:.08}, 40.89);
+      tl.fromTo("#sb34", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 40.9);
+      tl.to("#sb34", {opacity:0, duration:.08}, 41.79);
+      tl.fromTo("#sb35", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 41.8);
+      tl.to("#sb35", {opacity:0, duration:.08}, 42.99);
+      tl.fromTo("#sb36", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 43.0);
+      tl.to("#sb36", {opacity:0, duration:.08}, 44.09);
+      tl.fromTo("#sb37", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 44.1);
+      tl.to("#sb37", {opacity:0, duration:.08}, 45.03);
+      tl.fromTo("#sb38", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 45.04);
+      tl.to("#sb38", {opacity:0, duration:.08}, 46.03);
+      tl.fromTo("#sb39", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 46.04);
+      tl.to("#sb39", {opacity:0, duration:.08}, 47.16);
+      tl.fromTo("#sb40", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 47.17);
+      tl.to("#sb40", {opacity:0, duration:.08}, 48.85);
+      tl.fromTo("#sb41", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 48.86);
+      tl.to("#sb41", {opacity:0, duration:.08}, 50.04);
+      tl.fromTo("#sb42", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 50.05);
+      tl.to("#sb42", {opacity:0, duration:.08}, 51.55);
+      tl.fromTo("#sb43", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 51.56);
+      tl.to("#sb43", {opacity:0, duration:.08}, 52.91);
+      tl.fromTo("#sb44", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 52.92);
+      tl.to("#sb44", {opacity:0, duration:.08}, 54.53);
+      tl.fromTo("#sb45", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 54.54);
+      tl.to("#sb45", {opacity:0, duration:.08}, 56.06);
+      tl.fromTo("#sb46", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 56.07);
+      tl.to("#sb46", {opacity:0, duration:.08}, 57.94);
+      tl.fromTo("#sb47", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 57.95);
+      tl.to("#sb47", {opacity:0, duration:.08}, 59.14);
+      tl.fromTo("#sb48", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 59.15);
+      tl.to("#sb48", {opacity:0, duration:.08}, 60.31);
+      tl.fromTo("#sb49", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 60.32);
+      tl.to("#sb49", {opacity:0, duration:.08}, 61.95);
+      tl.fromTo("#sb50", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 61.96);
+      tl.to("#sb50", {opacity:0, duration:.08}, 64.55);
+      tl.fromTo("#sb51", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 64.59);
+      tl.to("#sb51", {opacity:0, duration:.08}, 66.62);
+      tl.fromTo("#sb52", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 66.63);
+      tl.to("#sb52", {opacity:0, duration:.08}, 68.62);
+      tl.fromTo("#sb53", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 68.63);
+      tl.to("#sb53", {opacity:0, duration:.08}, 69.64);
+      tl.fromTo("#sb54", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 69.65);
+      tl.to("#sb54", {opacity:0, duration:.08}, 70.45);
+      tl.fromTo("#sb55", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 70.46);
+      tl.to("#sb55", {opacity:0, duration:.08}, 71.67);
+      tl.fromTo("#sb56", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 71.68);
+      tl.to("#sb56", {opacity:0, duration:.08}, 72.88);
+      tl.fromTo("#sb57", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 72.89);
+      tl.to("#sb57", {opacity:0, duration:.08}, 74.0);
+      tl.fromTo("#sb58", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 74.01);
+      tl.to("#sb58", {opacity:0, duration:.08}, 74.99);
+      tl.fromTo("#sb59", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 75.0);
+      tl.to("#sb59", {opacity:0, duration:.08}, 76.08);
+      tl.fromTo("#sb60", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 76.09);
+      tl.to("#sb60", {opacity:0, duration:.08}, 77.41);
+      tl.fromTo("#sb61", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 77.42);
+      tl.to("#sb61", {opacity:0, duration:.08}, 78.19);
+      tl.fromTo("#sb62", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 78.2);
+      tl.to("#sb62", {opacity:0, duration:.08}, 79.57);
+      tl.fromTo("#sb63", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 79.58);
+      tl.to("#sb63", {opacity:0, duration:.08}, 82.17);
+      tl.fromTo("#sb64", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 82.46);
+      tl.to("#sb64", {opacity:0, duration:.08}, 82.8);
+      tl.fromTo("#sb65", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 82.517);
+      tl.to("#sb65", {opacity:0, duration:.08}, 82.857);
+      tl.fromTo("#sb66", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 82.7);
+      tl.to("#sb66", {opacity:0, duration:.08}, 83.85);
+      tl.fromTo("#sb67", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 83.86);
+      tl.to("#sb67", {opacity:0, duration:.08}, 84.74);
+      tl.fromTo("#sb68", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 84.75);
+      tl.to("#sb68", {opacity:0, duration:.08}, 85.97);
+      tl.fromTo("#sb69", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 85.98);
+      tl.to("#sb69", {opacity:0, duration:.08}, 87.04);
+      tl.fromTo("#sb70", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 87.05);
+      tl.to("#sb70", {opacity:0, duration:.08}, 87.88);
+      tl.fromTo("#sb71", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 87.89);
+      tl.to("#sb71", {opacity:0, duration:.08}, 88.56);
+      tl.fromTo("#sb72", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 88.57);
+      tl.to("#sb72", {opacity:0, duration:.08}, 89.29);
+      tl.fromTo("#sb73", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 89.3);
+      tl.to("#sb73", {opacity:0, duration:.08}, 90.02);
+      tl.fromTo("#sb74", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 90.03);
+      tl.to("#sb74", {opacity:0, duration:.08}, 90.73);
+      tl.fromTo("#sb75", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 90.74);
+      tl.to("#sb75", {opacity:0, duration:.08}, 91.33);
+      tl.fromTo("#sb76", {opacity:0, y:12}, {opacity:1, y:0, duration:.12}, 91.34);
+      tl.to("#sb76", {opacity:0, duration:.08}, 92.25);
+      tl.set({}, {}, 97.71);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
